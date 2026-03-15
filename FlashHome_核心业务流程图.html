@@ -5,164 +5,292 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlashHome 核心业务流程图</title>
 <style>
-  :root { --brand:#FF6B35; --navy:#1A2B4A; --blue:#3182CE; --green:#38A169; --purple:#805AD5; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:-apple-system,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
-    background:#fff; color:#1e293b; padding:32px; line-height:1.6; }
-  h1 { font-size:22px; color:var(--navy); margin-bottom:6px; }
-  .subtitle { font-size:13px; color:#6b7280; margin-bottom:28px; }
-  .flow-section { margin-bottom:24px; }
-  .flow-title { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:10px;
-    display:flex; align-items:center; gap:8px; }
-  .flow-title .num { background:var(--navy); color:#fff; width:22px; height:22px; border-radius:50%;
-    display:inline-flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
-  .flow-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:10px 0 10px 30px; }
-  .node { padding:8px 14px; border-radius:8px; font-size:11.5px; font-weight:600; white-space:nowrap; }
-  .start { background:var(--brand); color:#fff; border-radius:20px; }
-  .process { background:#EBF8FF; color:var(--navy); border:1px solid #bee3f8; }
-  .decision { background:#FFF5F0; color:#c05621; border:1px solid #fbd38d; }
-  .end { background:#F0FFF4; color:#276749; border:1px solid #c6f6d5; border-radius:20px; }
-  .alt { background:#F5F3FF; color:#553c9a; border:1px solid #d6bcfa; }
-  .arrow { color:#9ca3af; font-size:15px; flex-shrink:0; }
-  .divider { border:none; border-top:1px dashed #e5e7eb; margin:4px 0; }
+  body { font-family:'Noto Sans SC','Inter',sans-serif; background:linear-gradient(180deg,#f8fafc 0%,#edf2f7 100%); min-height:100vh; padding:28px 20px; color:#1e293b; }
+  .page-title { text-align:center; font-size:24px; font-weight:800; margin-bottom:4px; color:#1a2b4a; }
+  .page-sub { text-align:center; color:#64748b; font-size:12px; margin-bottom:28px; }
+  .container { max-width:1100px; margin:0 auto; }
+
+  /* ── Section divider ── */
+  .section-divider { text-align:center; margin:28px 0 20px; position:relative; }
+  .section-divider::before { content:''; position:absolute; left:0; right:0; top:50%; height:1px; background:linear-gradient(90deg,transparent,rgba(0,0,0,.1),transparent); }
+  .section-label { display:inline-block; position:relative; background:#edf2f7; padding:0 16px; font-size:15px; font-weight:800; letter-spacing:.5px; color:#1a2b4a; }
+  .section-label span { font-size:11px; font-weight:500; color:#64748b; display:block; margin-top:1px; letter-spacing:0; }
+
+  /* ── Phase row (main flow) ── */
+  .phase { margin-bottom:6px; }
+  .phase-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .phase-num { width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:#fff; flex-shrink:0; }
+  .phase-name { font-size:14px; font-weight:700; }
+  .phase-desc { font-size:11px; color:#64748b; }
+
+  .steps { display:flex; align-items:center; gap:0; overflow-x:auto; }
+  .step { background:#fff; backdrop-filter:blur(8px); border:1px solid #e2e8f0; border-radius:12px; padding:10px 10px; min-width:120px; max-width:155px; flex-shrink:0; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+  .step-icon { font-size:20px; margin-bottom:3px; }
+  .step-title { font-size:11px; font-weight:600; margin-bottom:2px; line-height:1.3; }
+  .step-detail { font-size:10px; color:#718096; line-height:1.4; }
+  .arrow { color:#a0aec0; font-size:18px; margin:0 4px; flex-shrink:0; }
+  .arrow.highlight { color:#FF6B35; font-weight:bold; }
+
+  .step.decision { border-style:dashed; border-width:2px; }
+
+  /* ── Connector ── */
+  .phase-connector { display:flex; justify-content:center; margin:2px 0; }
+  .phase-connector .vert-arrow { color:#a0aec0; font-size:18px; }
+
+  /* ── Color coding ── */
+  .p1 .phase-num { background:linear-gradient(135deg,#F59E0B,#FBBF24); }
+  .p1 .phase-name { color:#D97706; }
+  .p2 .phase-num { background:linear-gradient(135deg,#FF5757,#FF7A7A); }
+  .p2 .phase-name { color:#E53E3E; }
+  .p3 .phase-num { background:linear-gradient(135deg,#10B981,#34D399); }
+  .p3 .phase-name { color:#059669; }
+  .p4 .phase-num { background:linear-gradient(135deg,#6366F1,#818CF8); }
+  .p4 .phase-name { color:#5B21B6; }
+  .p5 .phase-num { background:linear-gradient(135deg,#FF5757,#F59E0B); }
+  .p5 .phase-name { color:#C05621; }
+
+  .step.glow-red { border-left:3px solid #FF5757; }
+  .step.glow-green { border-left:3px solid #10B981; }
+  .step.glow-purple { border-left:3px solid #6366F1; }
+  .step.glow-amber { border-left:3px solid #F59E0B; }
+  .step.glow-cyan { border-left:3px solid #06B6D4; }
+  .step.glow-pink { border-left:3px solid #EC4899; }
+  .step.glow-violet { border-left:3px solid #8B5CF6; }
+  .step.glow-rose { border-left:3px solid #EF4444; }
+
+  /* ══════ 2×2 Grid for secondary flows ══════ */
+  .sub-flows-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px; }
+  .sub-flow-card { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:16px 14px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+  .sub-flow-card .flow-tag { font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; margin-bottom:8px; display:inline-block; padding:2px 8px; border-radius:4px; }
+  .sub-flow-card .flow-title { font-size:14px; font-weight:700; margin-bottom:4px; }
+  .sub-flow-card .flow-desc { font-size:10px; color:#64748b; margin-bottom:12px; }
+  .sub-flow-card .mini-steps { display:flex; align-items:center; gap:0; flex-wrap:wrap; }
+  .mini-step { background:#f7fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px 8px; text-align:center; min-width:0; flex:1; }
+  .mini-step .ms-icon { font-size:16px; }
+  .mini-step .ms-label { font-size:9px; font-weight:600; line-height:1.3; margin-top:2px; color:#2d3748; }
+  .mini-arrow { color:#a0aec0; font-size:14px; margin:0 2px; flex-shrink:0; }
+  .mini-arrow.hl { color:#FF6B35; }
+
+  /* Card accent colors */
+  .sub-flow-card.cyan .flow-tag { background:rgba(6,182,212,.1); color:#0891B2; }
+  .sub-flow-card.cyan .flow-title { color:#0891B2; }
+  .sub-flow-card.cyan { border-top:3px solid #06B6D4; }
+  .sub-flow-card.pink .flow-tag { background:rgba(236,72,153,.1); color:#DB2777; }
+  .sub-flow-card.pink .flow-title { color:#DB2777; }
+  .sub-flow-card.pink { border-top:3px solid #EC4899; }
+  .sub-flow-card.violet .flow-tag { background:rgba(139,92,246,.1); color:#7C3AED; }
+  .sub-flow-card.violet .flow-title { color:#7C3AED; }
+  .sub-flow-card.violet { border-top:3px solid #8B5CF6; }
+  .sub-flow-card.rose .flow-tag { background:rgba(239,68,68,.1); color:#DC2626; }
+  .sub-flow-card.rose .flow-title { color:#DC2626; }
+  .sub-flow-card.rose { border-top:3px solid #EF4444; }
+
+  /* ── Legend ── */
+  .legend { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:24px; padding-top:16px; border-top:1px solid #e2e8f0; }
+  .legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:#64748b; }
+  .legend-dot { width:8px; height:8px; border-radius:3px; }
 </style>
 </head>
 <body>
-<h1>FlashHome 核心业务流程图</h1>
-<p class="subtitle">主线流程 + 商家入驻 / 网点注册 / 商品审核 / 售后退款 共9条业务流</p>
+  <h1 class="page-title">FlashHome 核心业务流程图</h1>
+  <p class="page-sub">9 条核心流程 · 覆盖平台全业务场景</p>
 
-<div class="flow-section">
-  <div class="flow-title"><span class="num">1</span> 主线交易流程</div>
-  <div class="flow-row">
-    <span class="node start">买家点击推广链接</span>
-    <span class="arrow">→</span>
-    <span class="node process">商品详情页</span>
-    <span class="arrow">→</span>
-    <span class="node process">下单（COD / PromptPay）</span>
-    <span class="arrow">→</span>
-    <span class="node process">卖家发货</span>
-    <span class="arrow">→</span>
-    <span class="node process">Flash物流配送</span>
-    <span class="arrow">→</span>
-    <span class="node end">买家确认收货</span>
+  <div class="container">
+
+    <!-- ═══════════ SECTION A: 主线流程 (5 phases, compact) ═══════════ -->
+    <div class="section-divider">
+      <div class="section-label">FLOW A · 推广成交主线<span>后台配置 → 网点推广 → 买家下单 → 卖家履约 → 佣金结算</span></div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase p1">
+      <div class="phase-header">
+        <div class="phase-num">1</div>
+        <div><div class="phase-name">后台运营配置</div><div class="phase-desc">FH运营配置推广内容与推送计划</div></div>
+      </div>
+      <div class="steps">
+        <div class="step glow-amber"><div class="step-icon">📋</div><div class="step-title">配置今日推荐</div><div class="step-detail">选品+算法权重</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-amber"><div class="step-icon">📅</div><div class="step-title">编排推送计划</div><div class="step-detail">08:00/12:00/19:00</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-amber"><div class="step-icon">🎨</div><div class="step-title">准备分享素材</div><div class="step-detail">文案+海报模板</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-amber"><div class="step-icon">🔔</div><div class="step-title">推送到网点</div><div class="step-detail">定时触发推送</div></div>
+      </div>
+    </div>
+    <div class="phase-connector"><div class="vert-arrow">⬇</div></div>
+
+    <!-- Phase 2 -->
+    <div class="phase p2">
+      <div class="phase-header">
+        <div class="phase-num">2</div>
+        <div><div class="phase-name">网点社交推广</div><div class="phase-desc">网点通过社交渠道分发到客户群</div></div>
+      </div>
+      <div class="steps">
+        <div class="step glow-red"><div class="step-icon">📲</div><div class="step-title">收到推送通知</div><div class="step-detail">查看今日推广任务</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-red"><div class="step-icon">👀</div><div class="step-title">浏览选品</div><div class="step-detail">查看佣金率+详情</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-red"><div class="step-icon">✨</div><div class="step-title">一键分享</div><div class="step-detail">文案/海报/直接分享</div></div>
+        <div class="arrow highlight">→</div>
+        <div class="step glow-red"><div class="step-icon">📤</div><div class="step-title">发送到社交渠道</div><div class="step-detail">LINE OA / Facebook</div></div>
+      </div>
+    </div>
+    <div class="phase-connector"><div class="vert-arrow">⬇</div></div>
+
+    <!-- Phase 3 -->
+    <div class="phase p3">
+      <div class="phase-header">
+        <div class="phase-num">3</div>
+        <div><div class="phase-name">买家浏览下单</div><div class="phase-desc">社交渠道引流到买家端完成购买</div></div>
+      </div>
+      <div class="steps">
+        <div class="step glow-green"><div class="step-icon">🔗</div><div class="step-title">点击推广链接</div><div class="step-detail">含网点绑定码</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-green"><div class="step-icon">🛍️</div><div class="step-title">浏览商品</div><div class="step-detail">商品详情+评价</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-green"><div class="step-icon">🛒</div><div class="step-title">加入购物车</div><div class="step-detail">选规格+填地址</div></div>
+        <div class="arrow highlight">→</div>
+        <div class="step glow-green"><div class="step-icon">💳</div><div class="step-title">下单支付</div><div class="step-detail">自动绑定网点</div></div>
+      </div>
+    </div>
+    <div class="phase-connector"><div class="vert-arrow">⬇</div></div>
+
+    <!-- Phase 4 -->
+    <div class="phase p4">
+      <div class="phase-header">
+        <div class="phase-num">4</div>
+        <div><div class="phase-name">卖家订单履约</div><div class="phase-desc">商家处理订单、打包发货</div></div>
+      </div>
+      <div class="steps">
+        <div class="step glow-purple"><div class="step-icon">📦</div><div class="step-title">接收订单</div><div class="step-detail">查看订单详情</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-purple"><div class="step-icon">🏭</div><div class="step-title">打包发货</div><div class="step-detail">填写物流单号</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-purple"><div class="step-icon">🚚</div><div class="step-title">物流配送</div><div class="step-detail">Flash Express</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-purple"><div class="step-icon">✅</div><div class="step-title">确认收货</div><div class="step-detail">触发结算倒计时</div></div>
+      </div>
+    </div>
+    <div class="phase-connector"><div class="vert-arrow">⬇</div></div>
+
+    <!-- Phase 5 -->
+    <div class="phase p5">
+      <div class="phase-header">
+        <div class="phase-num">5</div>
+        <div><div class="phase-name">佣金结算提现</div><div class="phase-desc">T+7自动结算，网点申请提现</div></div>
+      </div>
+      <div class="steps">
+        <div class="step glow-amber"><div class="step-icon">⏳</div><div class="step-title">T+7 等待期</div><div class="step-detail">无售后争议</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-amber"><div class="step-icon">💰</div><div class="step-title">佣金结算</div><div class="step-detail">计入可提现余额</div></div>
+        <div class="arrow">→</div>
+        <div class="step glow-red"><div class="step-icon">🏦</div><div class="step-title">网点申请提现</div><div class="step-detail">最低100泰铢</div></div>
+        <div class="arrow highlight">→</div>
+        <div class="step glow-red"><div class="step-icon">🎉</div><div class="step-title">到账</div><div class="step-detail">1-3工作日</div></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ SECTION B-E: 辅助流程 2×2 Grid ═══════════ -->
+    <div class="section-divider">
+      <div class="section-label">FLOW B-E · 辅助业务流程<span>商家入驻 · 网点注册 · 商品审核 · 售后退款</span></div>
+    </div>
+
+    <div class="sub-flows-grid">
+
+      <!-- FLOW B: 商家入驻 -->
+      <div class="sub-flow-card cyan">
+        <div class="flow-tag">FLOW B</div>
+        <div class="flow-title">商家入驻</div>
+        <div class="flow-desc">商家申请 → 资质审核 → 开店上架</div>
+        <div class="mini-steps">
+          <div class="mini-step"><div class="ms-icon">📝</div><div class="ms-label">提交申请</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">🔍</div><div class="ms-label">后台审核</div></div>
+          <div class="mini-arrow hl">→</div>
+          <div class="mini-step"><div class="ms-icon">🏪</div><div class="ms-label">开通店铺</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">📦</div><div class="ms-label">上架商品</div></div>
+        </div>
+      </div>
+
+      <!-- FLOW C: 网点注册 -->
+      <div class="sub-flow-card pink">
+        <div class="flow-tag">FLOW C</div>
+        <div class="flow-title">网点注册</div>
+        <div class="flow-desc">网点申请 → 审核 → 绑定渠道 → 开始推广</div>
+        <div class="mini-steps">
+          <div class="mini-step"><div class="ms-icon">📱</div><div class="ms-label">注册申请</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">🔍</div><div class="ms-label">后台审核</div></div>
+          <div class="mini-arrow hl">→</div>
+          <div class="mini-step"><div class="ms-icon">🔗</div><div class="ms-label">绑定渠道</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">🚀</div><div class="ms-label">开始推广</div></div>
+        </div>
+      </div>
+
+      <!-- FLOW D: 商品审核 -->
+      <div class="sub-flow-card violet">
+        <div class="flow-tag">FLOW D</div>
+        <div class="flow-title">商品上架审核</div>
+        <div class="flow-desc">卖家提交 → 平台审核 → 上架到推荐池</div>
+        <div class="mini-steps">
+          <div class="mini-step"><div class="ms-icon">📝</div><div class="ms-label">提交商品</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">💰</div><div class="ms-label">设置佣金</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">🔍</div><div class="ms-label">后台审核</div></div>
+          <div class="mini-arrow hl">→</div>
+          <div class="mini-step"><div class="ms-icon">🌟</div><div class="ms-label">进入推荐池</div></div>
+        </div>
+      </div>
+
+      <!-- FLOW E: 售后退款 -->
+      <div class="sub-flow-card rose">
+        <div class="flow-tag">FLOW E</div>
+        <div class="flow-title">售后退款</div>
+        <div class="flow-desc">两条路径：仅退款 / 退货退款 · 卖家超时自动同意 · 拒绝可申诉</div>
+        <div style="font-size:10px;font-weight:600;color:#DC2626;margin:8px 0 4px;">仅退款</div>
+        <div class="mini-steps">
+          <div class="mini-step"><div class="ms-icon">🙋</div><div class="ms-label">买家申请</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">👨‍💼</div><div class="ms-label">卖家审核<br><span style="font-size:8px;color:#a0aec0">24h超时自动同意</span></div></div>
+          <div class="mini-arrow hl">→</div>
+          <div class="mini-step"><div class="ms-icon">💸</div><div class="ms-label">退款</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">📉</div><div class="ms-label">佣金回退</div></div>
+        </div>
+        <div style="font-size:10px;font-weight:600;color:#DC2626;margin:8px 0 4px;">退货退款</div>
+        <div class="mini-steps">
+          <div class="mini-step"><div class="ms-icon">🙋</div><div class="ms-label">买家申请</div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">👨‍💼</div><div class="ms-label">卖家审核<br><span style="font-size:8px;color:#a0aec0">24h</span></div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">📦</div><div class="ms-label">买家退货<br><span style="font-size:8px;color:#a0aec0">7天内寄回</span></div></div>
+          <div class="mini-arrow">→</div>
+          <div class="mini-step"><div class="ms-icon">✅</div><div class="ms-label">卖家确认<br><span style="font-size:8px;color:#a0aec0">3天内</span></div></div>
+          <div class="mini-arrow hl">→</div>
+          <div class="mini-step"><div class="ms-icon">💸</div><div class="ms-label">退款+佣金回退</div></div>
+        </div>
+        <div style="font-size:9px;color:#a0aec0;margin-top:6px;">拒绝 → 买家申诉 → 平台仲裁</div>
+      </div>
+
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>FH后台</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FF5757"></div>网点端</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#10B981"></div>买家端</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6366F1"></div>卖家端</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#06B6D4"></div>商家入驻</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#EC4899"></div>网点注册</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8B5CF6"></div>商品审核</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div>售后退款</div>
+    </div>
+
   </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">2</span> 网点推广流程</div>
-  <div class="flow-row">
-    <span class="node start">网点登录H5</span>
-    <span class="arrow">→</span>
-    <span class="node process">查看今日推荐</span>
-    <span class="arrow">→</span>
-    <span class="node process">一键分享（LINE / FB / 海报）</span>
-    <span class="arrow">→</span>
-    <span class="node process">买家通过链接下单</span>
-    <span class="arrow">→</span>
-    <span class="node end">网点获得佣金</span>
-  </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">3</span> 推广日历流程</div>
-  <div class="flow-row">
-    <span class="node start">FH后台配置日历</span>
-    <span class="arrow">→</span>
-    <span class="node process">定时推送（10 / 13 / 18点）</span>
-    <span class="arrow">→</span>
-    <span class="node process">网点收到提醒</span>
-    <span class="arrow">→</span>
-    <span class="node process">一键转发至社群</span>
-    <span class="arrow">→</span>
-    <span class="node end">触达买家</span>
-  </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">4</span> 商家入驻流程</div>
-  <div class="flow-row">
-    <span class="node start">商家提交入驻申请</span>
-    <span class="arrow">→</span>
-    <span class="node decision">FH后台审核资质</span>
-    <span class="arrow">→</span>
-    <span class="node process">通过 → 开通卖家后台</span>
-    <span class="arrow">→</span>
-    <span class="node process">上架商品</span>
-    <span class="arrow">→</span>
-    <span class="node end">商品进入推荐池</span>
-  </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">5</span> 网点注册流程</div>
-  <div class="flow-row">
-    <span class="node start">FH后台生成邀请链接</span>
-    <span class="arrow">→</span>
-    <span class="node process">定向发给目标网点</span>
-    <span class="arrow">→</span>
-    <span class="node process">网点填写信息</span>
-    <span class="arrow">→</span>
-    <span class="node end">账号激活</span>
-  </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">6</span> 商品审核流程</div>
-  <div class="flow-row">
-    <span class="node start">卖家上传商品</span>
-    <span class="arrow">→</span>
-    <span class="node decision">FH后台审核</span>
-    <span class="arrow">→</span>
-    <span class="node process">通过 → 上架</span>
-    <span class="arrow"> / </span>
-    <span class="node alt">驳回 → 卖家修改重新提交</span>
-  </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">7</span> 结算流程</div>
-  <div class="flow-row">
-    <span class="node start">订单确认收货</span>
-    <span class="arrow">→</span>
-    <span class="node process">T+7 生成结算单</span>
-    <span class="arrow">→</span>
-    <span class="node decision">人工审批</span>
-    <span class="arrow">→</span>
-    <span class="node process">打款至卖家 / 网点</span>
-    <span class="arrow">→</span>
-    <span class="node end">完成结算</span>
-  </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">8</span> 售后退款流程</div>
-  <div class="flow-row">
-    <span class="node start">买家发起售后</span>
-    <span class="arrow">→</span>
-    <span class="node process">LINE群通知客服</span>
-    <span class="arrow">→</span>
-    <span class="node decision">审核（仅退款 / 退货退款）</span>
-    <span class="arrow">→</span>
-    <span class="node process">退货走Flash物流</span>
-    <span class="arrow">→</span>
-    <span class="node end">退款到买家</span>
-  </div>
-</div><hr class="divider">
-
-<div class="flow-section">
-  <div class="flow-title"><span class="num">9</span> 支付流程</div>
-  <div class="flow-row">
-    <span class="node start">买家提交订单</span>
-    <span class="arrow">→</span>
-    <span class="node decision">选择支付方式</span>
-    <span class="arrow">→</span>
-    <span class="node process">PromptPay QR扫码</span>
-    <span class="arrow"> / </span>
-    <span class="node alt">COD 货到付款</span>
-    <span class="arrow">→</span>
-    <span class="node end">支付完成</span>
-  </div>
-</div>
-
 </body>
 </html>

@@ -5,149 +5,188 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlashHome 产品功能框架图</title>
 <style>
-  :root { --brand:#FF6B35; --navy:#1A2B4A; --blue:#3182CE; --green:#38A169; --purple:#805AD5; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:-apple-system,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
-    background:#fff; color:#1e293b; padding:32px; line-height:1.6; }
-  h1 { font-size:22px; color:var(--navy); margin-bottom:6px; }
-  .subtitle { font-size:13px; color:#6b7280; margin-bottom:28px; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans SC','Inter',sans-serif;background:linear-gradient(180deg,#f8fafc 0%,#edf2f7 100%);color:#1e293b;padding:32px 20px}
+  .container{max-width:1200px;margin:0 auto}
 
-  .layer-label { font-size:12px; font-weight:700; color:#fff; padding:6px 16px;
-    border-radius:6px 6px 0 0; display:inline-block; }
-  .layer-box { border:2px solid #e2e8f0; border-radius:0 12px 12px 12px; padding:20px; margin-bottom:24px; }
+  /* Header */
+  .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hd-left{display:flex;align-items:center;gap:14px}
+  .hd-logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#FF5757,#FF9500);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff;box-shadow:0 2px 8px rgba(255,87,87,.15)}
+  .hd h1{font-size:22px;font-weight:800;color:#1a2b4a}
+  .hd p{font-size:11px;color:#64748b}
+  .hd-legend{display:flex;gap:14px;align-items:center}
+  .hd-legend span{font-size:10px;display:flex;align-items:center;gap:4px;color:#64748b}
+  .hd-legend .dot{width:7px;height:7px;border-radius:3px}
+  .tag{font-size:8px;padding:2px 5px;border-radius:3px;font-weight:700}
+  .t-mvp{background:rgba(255,87,87,.12);color:#E53E3E}
+  .t-p2{background:rgba(100,116,139,.12);color:#64748b}
 
-  /* 四端 grid */
-  .quad-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-  .quad-col { background:#f8fafc; border-radius:10px; overflow:hidden; border:1px solid #e2e8f0; }
-  .quad-header { padding:10px 14px; color:#fff; font-size:13px; font-weight:700; text-align:center; }
-  .quad-body { padding:10px; }
-  .func-item { display:flex; align-items:center; gap:6px; padding:5px 8px; margin:3px 0;
-    border-radius:6px; font-size:11px; border:1px solid #e2e8f0; background:#fff; }
-  .badge { font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; flex-shrink:0; color:#fff; }
-  .badge-mvp { background:var(--brand); }
-  .badge-p2 { background:var(--purple); }
-  .func-name { font-weight:600; }
+  /* Layer strip */
+  .layer-strip{display:flex;align-items:center;gap:8px;margin:20px 0 10px}
+  .layer-strip .bar{width:3px;height:18px;border-radius:2px}
+  .layer-strip .label{font-size:11px;font-weight:700;letter-spacing:.5px}
+  .layer-strip .desc{font-size:10px;color:#718096;margin-left:4px}
 
-  /* 服务层 */
-  .service-grid { display:flex; flex-wrap:wrap; gap:8px; }
-  .service-item { padding:8px 14px; background:#f8fafc; border-radius:8px; font-size:11.5px;
-    border:1px solid #e2e8f0; font-weight:500; }
-  .service-item strong { color:var(--navy); }
+  /* ═══ LAYER 1: Users ═══ */
+  .users{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:6px}
+  .user{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .user-ava{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+  .user .nm{font-size:12px;font-weight:700;color:#1a2b4a}
+  .user .rl{font-size:9px;color:#64748b}
 
-  /* 基础设施 */
-  .infra-grid { display:flex; flex-wrap:wrap; gap:8px; }
-  .infra-item { padding:8px 14px; background:#f0f2f5; border-radius:8px; font-size:11.5px;
-    border:1px solid #d1d5db; font-weight:500; }
+  /* ═══ LAYER 2: 2x2 business modules ═══ */
+  .biz{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px}
+  .ep{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .ep::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+  .ep.c1::before{background:linear-gradient(90deg,#FF5757,#FF7A7A)}
+  .ep.c2::before{background:linear-gradient(90deg,#6366F1,#818CF8)}
+  .ep.c3::before{background:linear-gradient(90deg,#10B981,#34D399)}
+  .ep.c4::before{background:linear-gradient(90deg,#F59E0B,#FBBF24)}
+  .ep-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .ep-top .title{font-size:13px;font-weight:700;color:#1a2b4a}
+  .ep-top .kpi{font-size:8px;color:#718096;background:#f7fafc;padding:2px 6px;border-radius:4px;border:1px solid #e2e8f0}
+  .mods{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+  .m{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;background:#f7fafc;border:1px solid #edf2f7;font-size:11px}
+  .m .fn{font-weight:600;white-space:nowrap;min-width:60px;color:#1a2b4a}
+  .m .ds{color:#718096;font-size:9px;flex:1}
+  .m .tg{flex-shrink:0}
 
-  @media (max-width:768px) {
-    .quad-grid { grid-template-columns:repeat(2,1fr); }
-  }
+  /* ═══ Data flow row ═══ */
+  .flow-bar{display:flex;align-items:center;justify-content:center;gap:0;margin:14px 0 6px;padding:10px 0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .fb-item{font-size:10px;color:#718096;padding:0 12px;text-align:center;border-right:1px solid #e2e8f0}
+  .fb-item:last-child{border-right:none}
+  .fb-item strong{display:block;font-size:11px;color:#1a2b4a;font-weight:600;margin-bottom:1px}
+
+  /* ═══ LAYER 3: Infra ═══ */
+  .infra{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+  .inf{padding:10px;border-radius:8px;background:#fff;border:1px solid #e2e8f0;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .inf .ic{font-size:18px;margin-bottom:3px}
+  .inf .nm{font-size:10px;font-weight:600;color:#1a2b4a;margin-bottom:1px}
+  .inf .ds{font-size:8px;color:#718096;line-height:1.3}
 </style>
 </head>
 <body>
-<h1>产品功能框架图</h1>
-<p class="subtitle">四端协同架构 · 三层系统设计 · MVP / P2 优先级标注</p>
+<div class="container">
 
-<!-- 第一层：前端展示层 -->
-<div style="margin-bottom:24px;">
-  <span class="layer-label" style="background:var(--navy);">第一层 · 前端展示层 — 四端架构</span>
-  <div class="layer-box" style="border-color:var(--navy);">
-    <div class="quad-grid">
-      <!-- 网点端 -->
-      <div class="quad-col">
-        <div class="quad-header" style="background:var(--brand);">网点端 · H5 Mobile</div>
-        <div class="quad-body">
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">今日推荐</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">一键分享</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">推广日历</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">我的订单</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">佣金收入</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">个人中心</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">数据看板</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">客户管理</span></div>
-        </div>
+  <!-- Header -->
+  <div class="hd">
+    <div class="hd-left">
+      <div class="hd-logo">FH</div>
+      <div><h1>FlashHome 产品功能框架图</h1><p>泰国社交电商分销平台 · 四端协同 · 三层架构 · MVP v1.0</p></div>
+    </div>
+    <div class="hd-legend">
+      <span><div class="dot" style="background:#FF5757"></div>网点</span>
+      <span><div class="dot" style="background:#6366F1"></div>卖家</span>
+      <span><div class="dot" style="background:#10B981"></div>买家</span>
+      <span><div class="dot" style="background:#F59E0B"></div>后台</span>
+      <span class="tag t-mvp">MVP</span>
+      <span class="tag t-p2">P2</span>
+    </div>
+  </div>
+
+  <!-- LAYER 1: Users -->
+  <div class="layer-strip">
+    <div class="bar" style="background:#FF9500"></div>
+    <div class="label" style="color:#C05621">LAYER 1 · 用户层</div>
+    <div class="desc">四种角色 · 各有专属终端</div>
+  </div>
+  <div class="users">
+    <div class="user"><div class="user-ava" style="background:linear-gradient(135deg,#FF5757,#FF7A7A)">👩‍💼</div><div><div class="nm">网点 Agent</div><div class="rl">社区推广人 · 移动端APP</div></div></div>
+    <div class="user"><div class="user-ava" style="background:linear-gradient(135deg,#6366F1,#818CF8)">🏪</div><div><div class="nm">卖家 Seller</div><div class="rl">入驻商家 · PC Web端</div></div></div>
+    <div class="user"><div class="user-ava" style="background:linear-gradient(135deg,#10B981,#34D399)">🛒</div><div><div class="nm">买家 Buyer</div><div class="rl">终端消费者 · H5 + LIFF</div></div></div>
+    <div class="user"><div class="user-ava" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">⚙️</div><div><div class="nm">运营 Admin</div><div class="rl">FH运营团队 · PC Web端</div></div></div>
+  </div>
+
+  <!-- LAYER 2: Business - 2x2 -->
+  <div class="layer-strip">
+    <div class="bar" style="background:#818CF8"></div>
+    <div class="label" style="color:#5B21B6">LAYER 2 · 业务功能层</div>
+    <div class="desc">四端功能模块 · 28个功能点</div>
+  </div>
+  <div class="biz">
+    <!-- 网点端 -->
+    <div class="ep c1">
+      <div class="ep-top"><div class="title">📱 网点端 Agent App</div><div class="kpi">日均分享数 / 转化率</div></div>
+      <div class="mods">
+        <div class="m"><span class="fn">今日推荐</span><span class="ds">AI选品+佣金排序</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">一键分享</span><span class="ds">文案/海报/直接分享</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">推广日历</span><span class="ds">定时推送+日历视图</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">每日战报</span><span class="ds">数据汇总+Top3</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">社交绑定</span><span class="ds">LINE OA+FB Page API</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">我的订单</span><span class="ds">关联订单+状态追踪</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">佣金收入</span><span class="ds">佣金明细+提现管理</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">我的客户</span><span class="ds">客户标签+CRM分析</span><span class="tg tag t-p2">P2</span></div>
       </div>
-      <!-- FH后台 -->
-      <div class="quad-col">
-        <div class="quad-header" style="background:var(--blue);">FH后台 · PC Web</div>
-        <div class="quad-body">
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">推荐配置</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">日历管理</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">商家审核</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">网点管理</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">商品审核</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">订单中心</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">结算管理</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">售后工单</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">数据分析</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">营销活动</span></div>
-        </div>
+    </div>
+    <!-- 卖家端 -->
+    <div class="ep c2">
+      <div class="ep-top"><div class="title">🏪 卖家端 Seller Web</div><div class="kpi">发货时效 / 退货率</div></div>
+      <div class="mods">
+        <div class="m"><span class="fn">商品管理</span><span class="ds">上架/编辑/下架+SKU</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">订单处理</span><span class="ds">接单/发货/物流填写</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">库存管理</span><span class="ds">预警+批量更新</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">佣金设置</span><span class="ds">按商品设佣金率10-20%</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">财务中心</span><span class="ds">收入/支出/结算对账</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">销售数据</span><span class="ds">GMV/订单量/退货分析</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">营销工具</span><span class="ds">优惠券/限时折扣/满减</span><span class="tg tag t-p2">P2</span></div>
+        <div class="m"><span class="fn">售后处理</span><span class="ds">审核/退货确认/24h时效</span><span class="tg tag t-mvp">MVP</span></div>
       </div>
-      <!-- 卖家端 -->
-      <div class="quad-col">
-        <div class="quad-header" style="background:var(--green);">卖家端 · PC Web</div>
-        <div class="quad-body">
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">商品管理</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">订单管理</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">财务中心</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">店铺信息</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">佣金设置</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">营销工具</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">数据报表</span></div>
-        </div>
+    </div>
+    <!-- 买家端 -->
+    <div class="ep c3">
+      <div class="ep-top"><div class="title">🛒 买家端 H5 + LIFF</div><div class="kpi">客单价 / 复购率</div></div>
+      <div class="mods">
+        <div class="m"><span class="fn">商品浏览</span><span class="ds">推广落地页+详情</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">下单支付</span><span class="ds">PromptPay/COD</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">购物车</span><span class="ds">多商品合并下单</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">地址管理</span><span class="ds">多地址+默认地址</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">订单追踪</span><span class="ds">物流状态+确认收货</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">售后服务</span><span class="ds">仅退款/退货退款+申诉</span><span class="tg tag t-mvp">MVP</span></div>
       </div>
-      <!-- 买家端 -->
-      <div class="quad-col">
-        <div class="quad-header" style="background:var(--purple);">买家端 · H5 + LIFF</div>
-        <div class="quad-body">
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">商品详情页</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">购物车</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">下单支付</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">订单管理</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">售后申请</span></div>
-          <div class="func-item"><span class="badge badge-mvp">MVP</span><span class="func-name">个人中心</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">收藏夹</span></div>
-          <div class="func-item"><span class="badge badge-p2">P2</span><span class="func-name">评价系统</span></div>
-        </div>
+    </div>
+    <!-- 后台 -->
+    <div class="ep c4">
+      <div class="ep-top"><div class="title">⚙️ FH后台 Admin Web</div><div class="kpi">平台GMV / 活跃率</div></div>
+      <div class="mods">
+        <div class="m"><span class="fn">推广运营</span><span class="ds">选品/推送/素材/看板</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">商家管理</span><span class="ds">入驻审核/启用/禁用</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">网点管理</span><span class="ds">注册审核/绩效追踪</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">商品管理</span><span class="ds">上架审核/分类管理</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">订单中心</span><span class="ds">全平台订单监控</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">财务结算</span><span class="ds">佣金计算/提现审批</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">售后管理</span><span class="ds">工单列表/介入仲裁</span><span class="tg tag t-mvp">MVP</span></div>
+        <div class="m"><span class="fn">运营总览</span><span class="ds">GMV/目标达成/财务概览</span><span class="tg tag t-mvp">MVP</span></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- 第二层：业务服务层 -->
-<div style="margin-bottom:24px;">
-  <span class="layer-label" style="background:var(--blue);">第二层 · 业务服务层</span>
-  <div class="layer-box" style="border-color:var(--blue);">
-    <div class="service-grid">
-      <div class="service-item"><strong>推荐引擎</strong> — 品类 / 销量 / 毛利权重</div>
-      <div class="service-item"><strong>佣金计算</strong> — 默认5% + 单品覆盖</div>
-      <div class="service-item"><strong>T+7 结算</strong> — 人工审批流</div>
-      <div class="service-item"><strong>分享链路追踪</strong> — 网点ID绑定</div>
-      <div class="service-item"><strong>推广日历调度</strong> — 三时段推送</div>
-      <div class="service-item"><strong>订单状态机</strong> — 全生命周期</div>
-      <div class="service-item"><strong>售后工单</strong> — LINE群 + 后台</div>
-      <div class="service-item"><strong>素材生成</strong> — 文案 / 海报 / 链接</div>
-    </div>
+  <!-- Data Flow Bar -->
+  <div class="flow-bar">
+    <div class="fb-item"><strong>推送内容</strong>后台 → 网点</div>
+    <div class="fb-item"><strong>分享链接</strong>网点 → 买家</div>
+    <div class="fb-item"><strong>订单数据</strong>买家 → 卖家</div>
+    <div class="fb-item"><strong>商品同步</strong>卖家 → 全端</div>
+    <div class="fb-item"><strong>佣金结算</strong>后台 → 网点</div>
+    <div class="fb-item"><strong>售后工单</strong>买家 ↔ 后台</div>
   </div>
-</div>
 
-<!-- 第三层：基础设施 -->
-<div style="margin-bottom:24px;">
-  <span class="layer-label" style="background:#6b7280;">第三层 · 基础设施 & 外部对接</span>
-  <div class="layer-box" style="border-color:#9ca3af;">
-    <div class="infra-grid">
-      <div class="infra-item">Flash Express 物流API</div>
-      <div class="infra-item">PromptPay 支付网关</div>
-      <div class="infra-item">COD 代收服务</div>
-      <div class="infra-item">LINE Login OAuth 2.0</div>
-      <div class="infra-item">LINE Messaging API</div>
-      <div class="infra-item">Facebook Graph API v18.0</div>
-      <div class="infra-item">阿里云 ECS / RDS</div>
-      <div class="infra-item">阿里云 OSS / CDN</div>
-      <div class="infra-item">Redis 缓存</div>
-    </div>
+  <!-- LAYER 3: Infra -->
+  <div class="layer-strip">
+    <div class="bar" style="background:#34D399"></div>
+    <div class="label" style="color:#059669">LAYER 3 · 平台支撑层</div>
+    <div class="desc">通用技术能力 · 支撑全业务运转</div>
   </div>
-</div>
+  <div class="infra">
+    <div class="inf"><div class="ic">🔐</div><div class="nm">用户认证</div><div class="ds">手机号OTP<br>LINE/FB OAuth</div></div>
+    <div class="inf"><div class="ic">💳</div><div class="nm">支付网关</div><div class="ds">PromptPay<br>银行转账</div></div>
+    <div class="inf"><div class="ic">📨</div><div class="nm">消息服务</div><div class="ds">APP Push<br>LINE Messaging</div></div>
+    <div class="inf"><div class="ic">📊</div><div class="nm">数据分析</div><div class="ds">推广归因<br>UTM+Webhook</div></div>
+    <div class="inf"><div class="ic">🔑</div><div class="nm">Token管理</div><div class="ds">AES-256加密<br>自动刷新</div></div>
+    <div class="inf"><div class="ic">📬</div><div class="nm">消息队列</div><div class="ds">异步推送<br>防API超限</div></div>
+  </div>
 
+</div>
 </body>
 </html>
