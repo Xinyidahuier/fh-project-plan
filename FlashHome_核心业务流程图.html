@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashHome 核心业务流程图</title>
+<style>
+  :root { --brand:#FF6B35; --navy:#1A2B4A; --blue:#3182CE; --green:#38A169; --purple:#805AD5; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+    background:#fff; color:#1e293b; padding:32px; line-height:1.6; }
+  h1 { font-size:22px; color:var(--navy); margin-bottom:6px; }
+  .subtitle { font-size:13px; color:#6b7280; margin-bottom:28px; }
+  .flow-section { margin-bottom:24px; }
+  .flow-title { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:10px;
+    display:flex; align-items:center; gap:8px; }
+  .flow-title .num { background:var(--navy); color:#fff; width:22px; height:22px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+  .flow-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:10px 0 10px 30px; }
+  .node { padding:8px 14px; border-radius:8px; font-size:11.5px; font-weight:600; white-space:nowrap; }
+  .start { background:var(--brand); color:#fff; border-radius:20px; }
+  .process { background:#EBF8FF; color:var(--navy); border:1px solid #bee3f8; }
+  .decision { background:#FFF5F0; color:#c05621; border:1px solid #fbd38d; }
+  .end { background:#F0FFF4; color:#276749; border:1px solid #c6f6d5; border-radius:20px; }
+  .alt { background:#F5F3FF; color:#553c9a; border:1px solid #d6bcfa; }
+  .arrow { color:#9ca3af; font-size:15px; flex-shrink:0; }
+  .divider { border:none; border-top:1px dashed #e5e7eb; margin:4px 0; }
+</style>
+</head>
+<body>
+<h1>FlashHome 核心业务流程图</h1>
+<p class="subtitle">主线流程 + 商家入驻 / 网点注册 / 商品审核 / 售后退款 共9条业务流</p>
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">1</span> 主线交易流程</div>
+  <div class="flow-row">
+    <span class="node start">买家点击推广链接</span>
+    <span class="arrow">→</span>
+    <span class="node process">商品详情页</span>
+    <span class="arrow">→</span>
+    <span class="node process">下单（COD / PromptPay）</span>
+    <span class="arrow">→</span>
+    <span class="node process">卖家发货</span>
+    <span class="arrow">→</span>
+    <span class="node process">Flash物流配送</span>
+    <span class="arrow">→</span>
+    <span class="node end">买家确认收货</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">2</span> 网点推广流程</div>
+  <div class="flow-row">
+    <span class="node start">网点登录H5</span>
+    <span class="arrow">→</span>
+    <span class="node process">查看今日推荐</span>
+    <span class="arrow">→</span>
+    <span class="node process">一键分享（LINE / FB / 海报）</span>
+    <span class="arrow">→</span>
+    <span class="node process">买家通过链接下单</span>
+    <span class="arrow">→</span>
+    <span class="node end">网点获得佣金</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">3</span> 推广日历流程</div>
+  <div class="flow-row">
+    <span class="node start">FH后台配置日历</span>
+    <span class="arrow">→</span>
+    <span class="node process">定时推送（10 / 13 / 18点）</span>
+    <span class="arrow">→</span>
+    <span class="node process">网点收到提醒</span>
+    <span class="arrow">→</span>
+    <span class="node process">一键转发至社群</span>
+    <span class="arrow">→</span>
+    <span class="node end">触达买家</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">4</span> 商家入驻流程</div>
+  <div class="flow-row">
+    <span class="node start">商家提交入驻申请</span>
+    <span class="arrow">→</span>
+    <span class="node decision">FH后台审核资质</span>
+    <span class="arrow">→</span>
+    <span class="node process">通过 → 开通卖家后台</span>
+    <span class="arrow">→</span>
+    <span class="node process">上架商品</span>
+    <span class="arrow">→</span>
+    <span class="node end">商品进入推荐池</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">5</span> 网点注册流程</div>
+  <div class="flow-row">
+    <span class="node start">FH后台生成邀请链接</span>
+    <span class="arrow">→</span>
+    <span class="node process">定向发给目标网点</span>
+    <span class="arrow">→</span>
+    <span class="node process">网点填写信息</span>
+    <span class="arrow">→</span>
+    <span class="node end">账号激活</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">6</span> 商品审核流程</div>
+  <div class="flow-row">
+    <span class="node start">卖家上传商品</span>
+    <span class="arrow">→</span>
+    <span class="node decision">FH后台审核</span>
+    <span class="arrow">→</span>
+    <span class="node process">通过 → 上架</span>
+    <span class="arrow"> / </span>
+    <span class="node alt">驳回 → 卖家修改重新提交</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">7</span> 结算流程</div>
+  <div class="flow-row">
+    <span class="node start">订单确认收货</span>
+    <span class="arrow">→</span>
+    <span class="node process">T+7 生成结算单</span>
+    <span class="arrow">→</span>
+    <span class="node decision">人工审批</span>
+    <span class="arrow">→</span>
+    <span class="node process">打款至卖家 / 网点</span>
+    <span class="arrow">→</span>
+    <span class="node end">完成结算</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">8</span> 售后退款流程</div>
+  <div class="flow-row">
+    <span class="node start">买家发起售后</span>
+    <span class="arrow">→</span>
+    <span class="node process">LINE群通知客服</span>
+    <span class="arrow">→</span>
+    <span class="node decision">审核（仅退款 / 退货退款）</span>
+    <span class="arrow">→</span>
+    <span class="node process">退货走Flash物流</span>
+    <span class="arrow">→</span>
+    <span class="node end">退款到买家</span>
+  </div>
+</div><hr class="divider">
+
+<div class="flow-section">
+  <div class="flow-title"><span class="num">9</span> 支付流程</div>
+  <div class="flow-row">
+    <span class="node start">买家提交订单</span>
+    <span class="arrow">→</span>
+    <span class="node decision">选择支付方式</span>
+    <span class="arrow">→</span>
+    <span class="node process">PromptPay QR扫码</span>
+    <span class="arrow"> / </span>
+    <span class="node alt">COD 货到付款</span>
+    <span class="arrow">→</span>
+    <span class="node end">支付完成</span>
+  </div>
+</div>
+
+</body>
+</html>

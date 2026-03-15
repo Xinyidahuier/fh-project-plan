@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flash Home MVP 产品需求文档 (PRD)</title>
+<style>
+  :root {
+    --brand: #FF6B35; --navy: #1A2B4A; --blue: #3182CE; --green: #38A169;
+    --purple: #805AD5; --red: #E53E3E; --amber: #D69E2E; --gray: #718096;
+    --light: #F7FAFC; --border: #E2E8F0; --text: #2D3748;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: var(--text); line-height: 1.8; background: #f0f2f5; }
+
+  .toc-sidebar { position: fixed; left: 0; top: 0; width: 280px; height: 100vh; background: var(--navy);
+    overflow-y: auto; padding: 24px 0; z-index: 100; transition: transform .3s; }
+  .toc-sidebar .logo { padding: 0 24px 20px; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 16px; }
+  .toc-sidebar .logo h2 { color: var(--brand); font-size: 20px; }
+  .toc-sidebar .logo p { color: rgba(255,255,255,.5); font-size: 12px; }
+  .toc-sidebar a { display: block; padding: 8px 24px; color: rgba(255,255,255,.7); text-decoration: none;
+    font-size: 13px; border-left: 3px solid transparent; transition: all .2s; }
+  .toc-sidebar a:hover, .toc-sidebar a.active { color: #fff; background: rgba(255,255,255,.05); border-left-color: var(--brand); }
+  .toc-sidebar .phase-label { padding: 16px 24px 6px; color: var(--brand); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1px; font-weight: 700; }
+  .toc-sidebar .sub { padding-left: 40px; font-size: 12px; }
+
+  .main { margin-left: 280px; padding: 0; }
+
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, #2a4a7f 100%); color: #fff;
+    padding: 80px 60px 60px; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; right: -100px; top: -100px; width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,107,53,.15) 0%, transparent 70%); }
+  .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 12px; }
+  .hero h1 span { color: var(--brand); }
+  .hero .subtitle { font-size: 20px; opacity: .8; margin-bottom: 32px; }
+  .hero .meta { font-size: 14px; opacity: .5; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 32px 0 0; }
+  .kpi-card { background: rgba(255,255,255,.08); border-radius: 12px; padding: 20px; text-align: center;
+    border-top: 3px solid var(--brand); backdrop-filter: blur(10px); }
+  .kpi-card .value { font-size: 28px; font-weight: 800; }
+  .kpi-card .label { font-size: 13px; opacity: .7; margin-top: 4px; }
+  .kpi-card .desc { font-size: 11px; opacity: .4; margin-top: 2px; }
+  .kpi-card.blue { border-color: var(--blue); }
+  .kpi-card.green { border-color: var(--green); }
+  .kpi-card.purple { border-color: var(--purple); }
+
+  .content { max-width: 960px; margin: 0 auto; padding: 40px 60px 80px; }
+  .phase-banner { background: linear-gradient(90deg, var(--navy), var(--blue)); color: #fff;
+    padding: 32px 60px; margin: 0; font-size: 14px; }
+  .phase-banner h2 { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .phase-banner p { opacity: .7; }
+
+  section { margin-bottom: 48px; scroll-margin-top: 20px; }
+  h2.section-title { font-size: 26px; color: var(--navy); font-weight: 800; margin-bottom: 24px;
+    padding-bottom: 12px; border-bottom: 3px solid var(--brand); }
+  h3 { font-size: 20px; color: var(--brand); margin: 28px 0 12px; font-weight: 700; }
+  h4 { font-size: 16px; color: var(--blue); margin: 20px 0 8px; font-weight: 700; }
+  p { margin-bottom: 14px; font-size: 15px; }
+  ul, ol { margin: 12px 0 16px 24px; }
+  li { margin-bottom: 8px; font-size: 15px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+  th { background: var(--navy); color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 13px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #f7fafc; }
+  .center { text-align: center; }
+
+  .highlight { background: var(--light); border-left: 4px solid var(--brand); border-radius: 0 8px 8px 0;
+    padding: 20px 24px; margin: 20px 0; }
+  .highlight.navy { border-color: var(--navy); }
+  .highlight.green { border-color: var(--green); }
+  .highlight.blue { border-color: var(--blue); }
+  .highlight.red { border-color: var(--red); }
+  .highlight.purple { border-color: var(--purple); }
+  .highlight strong { color: var(--navy); }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+  .kpi-grid .card { background: #fff; border-radius: 8px; padding: 16px; text-align: center;
+    border: 1px solid var(--border); border-top: 3px solid var(--brand); }
+  .kpi-grid .card .val { font-size: 24px; font-weight: 800; color: var(--brand); }
+  .kpi-grid .card .lbl { font-size: 12px; color: var(--gray); margin-top: 4px; }
+  .kpi-grid .card.b { border-top-color: var(--blue); } .kpi-grid .card.b .val { color: var(--blue); }
+  .kpi-grid .card.g { border-top-color: var(--green); } .kpi-grid .card.g .val { color: var(--green); }
+  .kpi-grid .card.p { border-top-color: var(--purple); } .kpi-grid .card.p .val { color: var(--purple); }
+
+  .module-banner { background: linear-gradient(90deg, #f8f9fa, #edf2f7); border-left: 5px solid var(--brand);
+    padding: 20px 28px; margin: 48px 0 32px; border-radius: 0 12px 12px 0; }
+  .module-banner h3 { font-size: 20px; font-weight: 800; color: var(--navy); margin: 0 0 4px; }
+  .module-banner p { font-size: 14px; color: var(--gray); margin: 0; }
+  .module-banner .tag { display: inline-block; background: var(--brand); color: #fff; font-size: 12px;
+    padding: 2px 10px; border-radius: 4px; margin-bottom: 8px; font-weight: 700; }
+
+  .check { color: var(--green); font-weight: bold; }
+  .cross { color: var(--red); font-weight: bold; }
+  .tag-mvp { background: var(--green); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .tag-p2 { background: var(--gray); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+  .flow-steps { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 24px 0; flex-wrap: wrap; }
+  .flow-step { background: #fff; border: 2px solid var(--border); border-radius: 10px; padding: 12px 18px;
+    text-align: center; min-width: 120px; }
+  .flow-step .amt { font-size: 18px; font-weight: 800; color: var(--brand); }
+  .flow-step .who { font-size: 12px; color: var(--gray); }
+  .flow-arrow { font-size: 24px; color: var(--brand); }
+
+  .state-flow { display: flex; align-items: center; gap: 6px; margin: 16px 0; flex-wrap: wrap; }
+  .state-node { background: var(--light); border: 2px solid var(--blue); border-radius: 8px; padding: 8px 16px;
+    font-size: 13px; font-weight: 600; color: var(--navy); }
+  .state-node.active { background: var(--blue); color: #fff; }
+  .state-node.end { background: var(--green); color: #fff; border-color: var(--green); }
+  .state-node.cancel { background: var(--red); color: #fff; border-color: var(--red); }
+  .state-arrow { color: var(--gray); font-size: 18px; }
+
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .role-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px; background: #fff; }
+  .role-card h4 { margin-top: 0; font-size: 16px; }
+
+  .tab-bar { display: flex; gap: 0; margin: 16px 0; border-radius: 10px; overflow: hidden; border: 2px solid var(--border); }
+  .tab-item { flex: 1; text-align: center; padding: 14px 8px; background: #fff; font-size: 14px; font-weight: 600;
+    border-right: 1px solid var(--border); }
+  .tab-item:last-child { border-right: none; }
+  .tab-item .tab-icon { font-size: 22px; margin-bottom: 4px; }
+  .tab-item .tab-label { color: var(--navy); }
+  .tab-item.active { background: var(--brand); }
+  .tab-item.active .tab-label { color: #fff; }
+
+  .field-table td:first-child { font-weight: 600; color: var(--navy); white-space: nowrap; width: 140px; }
+  .field-table td:nth-child(2) { white-space: nowrap; width: 80px; color: var(--blue); }
+
+  .transition-box { background: linear-gradient(135deg, var(--navy), #2a4a7f); color: #fff;
+    padding: 40px; border-radius: 12px; margin: 40px 0; }
+  .transition-box h3 { color: var(--brand); font-size: 22px; margin-bottom: 16px; }
+  .transition-box p { opacity: .9; font-size: 15px; line-height: 1.9; }
+
+  footer { background: var(--navy); color: rgba(255,255,255,.5); text-align: center; padding: 32px; font-size: 13px; }
+
+  @media (max-width: 1100px) {
+    .toc-sidebar { transform: translateX(-100%); }
+    .main { margin-left: 0; }
+    .content { padding: 24px; }
+    .hero { padding: 40px 24px; }
+    .kpi-row, .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .tab-bar { flex-wrap: wrap; }
+    .tab-item { flex: 1 1 45%; }
+  }
+  @media print {
+    .toc-sidebar { display: none; }
+    .main { margin-left: 0; }
+    .hero { padding: 40px; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ SIDEBAR NAV ════════════ -->
+<nav class="toc-sidebar">
+  <div class="logo">
+    <h2>Flash Home</h2>
+    <p>MVP 产品需求文档 v1.0</p>
+  </div>
+
+  <div class="phase-label">一 · 文档信息</div>
+  <a href="#doc-info">版本与术语</a>
+
+  <div class="phase-label">二 · 产品概述</div>
+  <a href="#overview">产品背景与目标</a>
+  <a href="#personas">用户画像</a>
+  <a href="#journey">业务流程 & 用户旅程</a>
+  <a href="#kpi">MVP 成功指标</a>
+
+  <div class="phase-label">三 · 产品架构</div>
+  <a href="#scope">功能框架图</a>
+  <a href="#ia-agent">网点端 IA</a>
+  <a href="#ia-admin">FH后台 IA</a>
+  <a href="#ia-seller">卖家端 IA</a>
+  <a href="#ia-buyer">买家端 IA</a>
+
+  <div class="phase-label">四 · 功能详述</div>
+  <a href="#endpoint-agent" class="sub">4.1 网点端</a>
+  <a href="#endpoint-admin" class="sub">4.2 FH后台</a>
+  <a href="#endpoint-seller" class="sub">4.3 卖家端</a>
+  <a href="#endpoint-buyer" class="sub">4.4 买家端</a>
+
+  <div class="phase-label">五 · 业务规则</div>
+  <a href="#rule-bindcommission">绑定与佣金</a>
+  <a href="#rule-settlement">结算规则</a>
+  <a href="#rule-push">推送与推荐</a>
+
+  <div class="phase-label">六 · 技术要求</div>
+  <a href="#nfr">性能 / 安全 / 兼容</a>
+  <a href="#tracking">数据埋点</a>
+
+  <div class="phase-label">七 · 路线图与风险</div>
+  <a href="#open-issues">开放问题 / 风险</a>
+  <a href="#roadmap">产品路线图</a>
+  <a href="#milestones">里程碑 / 验收</a>
+</nav>
+
+<!-- ════════════ MAIN ════════════ -->
+<div class="main">
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <h1>Flash Home <span>MVP</span></h1>
+  <p class="subtitle">分销电商平台 · 产品需求文档 (PRD)</p>
+  <p class="meta">版本 v1.0 &nbsp;|&nbsp; 2026年3月12日 &nbsp;|&nbsp; 货币单位: 泰铢 (THB)</p>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="value">4端</div>
+      <div class="label">系统组成</div>
+      <div class="desc">网点 · 后台 · 卖家 · 买家</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="value">自动化</div>
+      <div class="label">核心策略</div>
+      <div class="desc">网点推广智能化</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="value">H5+LIFF</div>
+      <div class="label">买家端架构</div>
+      <div class="desc">全渠道覆盖</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="value">T+7</div>
+      <div class="label">结算周期</div>
+      <div class="desc">自动计算 · 人工审批</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ 第一部分：文档信息 ════════════ -->
+<div class="phase-banner">
+  <h2>第一部分 · 文档信息</h2>
+  <p>版本历史、术语定义</p>
+</div>
+<div class="content">
+  <section id="doc-info">
+    <h2 class="section-title">1.1 版本历史</h2>
+    <table>
+      <tr><th>版本</th><th>日期</th><th>作者</th><th>变更说明</th><th>状态</th></tr>
+      <tr><td>v1.0</td><td>2026-03-14</td><td>xinyi</td><td>初始版本，含网点端/卖家端/买家端/FH后台一期功能定义</td><td><span class="tag-mvp">当前</span></td></tr>
+    </table>
+
+    <h2 class="section-title">1.2 术语定义</h2>
+    <table>
+      <tr><th>术语</th><th>说明</th></tr>
+      <tr><td>网点 / Agent</td><td>代理商，负责在社交渠道分享商品链接，赚取佣金</td></tr>
+      <tr><td>卖家 / Seller</td><td>供货商户，提供商品和发货</td></tr>
+      <tr><td>买家 / Buyer</td><td>终端消费者，通过代理分享的链接下单购买</td></tr>
+      <tr><td>FH后台 / Admin</td><td>Flash Home 运营管理后台</td></tr>
+      <tr><td>LIFF</td><td>LINE Front-end Framework，LINE 内嵌 H5 应用框架</td></tr>
+      <tr><td>PromptPay</td><td>泰国央行推行的即时支付系统</td></tr>
+      <tr><td>COD</td><td>Cash on Delivery，货到付款</td></tr>
+      <tr><td>佣金 / Commission</td><td>代理推广商品成交后获得的分成</td></tr>
+      <tr><td>推送计划 / Push Plan</td><td>运营通过日历向代理批量推送的商品推广任务</td></tr>
+      <tr><td>绑定</td><td>买家与代理的归属关系，决定佣金归属</td></tr>
+    </table>
+  </section>
+</div>
+
+<!-- ════════════ 第二部分：产品概述 ════════════ -->
+<div class="phase-banner">
+  <h2>第二部分 · 产品概述</h2>
+  <p>项目背景、用户画像、业务流程、成功指标</p>
+</div>
+<div class="content">
+  <section id="overview">
+    <h2 class="section-title">2.1 项目背景与目标</h2>
+    <p>Flash Home 电商项目要打造面向泰国市场的社交电商分销平台，依托 13,000+ 线下网点的客流与社群，连接卖家、网点和买家三方。网点只做推广，不囤货不碰货，按出单拿佣金，物流由 Flash Express 履约。详见《Flash Home 电商项目计划书》。</p>
+
+    <div class="highlight navy">
+      <h4>MVP 核心策略</h4>
+      <p><strong>网点推广自动化、智能化优先</strong> — 让网点"打开就能推、一键就能发"。其余功能模块保留核心功能，以最快速度验证商业模型。</p>
+    </div>
+
+    <h3>产品目标</h3>
+    <div class="kpi-grid">
+      <div class="card"><div class="val">验证</div><div class="lbl">商业模型</div></div>
+      <div class="card b"><div class="val">跑通</div><div class="lbl">选品→推广→下单→结算</div></div>
+      <div class="card g"><div class="val">自动化</div><div class="lbl">网点推广流程</div></div>
+      <div class="card p"><div class="val">多渠道</div><div class="lbl">LINE + 其他社交平台</div></div>
+    </div>
+  </section>
+
+  <section id="personas">
+    <h2 class="section-title">2.2 用户画像</h2>
+    <div class="role-grid">
+      <div class="role-card">
+        <h4>🏪 网点（推广者）</h4>
+        <p><strong>典型画像：</strong>Flash Home 现有线下网点，每日已有稳定到店客流</p>
+        <p><strong>核心诉求：</strong>低门槛赚取佣金，不用管库存和物流</p>
+        <p><strong>使用场景：</strong>每日查看推荐商品 → 一键生成素材 → 分享到 LINE/Facebook → 查看佣金</p>
+      </div>
+      <div class="role-card">
+        <h4>🏭 卖家（中小商家）</h4>
+        <p><strong>典型画像：</strong>品牌商/制造商/贸易商，Shopee/TikTok为主要销售渠道</p>
+        <p><strong>核心诉求：</strong>低成本开拓销售渠道，按效果付费</p>
+        <p><strong>使用场景：</strong>上架商品 → 设置佣金 → 处理订单 → 查看收入</p>
+      </div>
+      <div class="role-card">
+        <h4>🛒 买家（终端消费者）</h4>
+        <p><strong>典型画像：</strong>18-60岁泰国消费者，LINE/Facebook重度用户</p>
+        <p><strong>核心诉求：</strong>通过信任的人推荐购买，价格优惠、下单便捷</p>
+        <p><strong>使用场景：</strong>点击朋友分享的链接 → 浏览商品 → 下单支付 → 收货</p>
+      </div>
+      <div class="role-card">
+        <h4>⚙️ FH 平台运营</h4>
+        <p><strong>典型画像：</strong>平台运营团队</p>
+        <p><strong>核心诉求：</strong>高效管理商家/网点/商品，驱动网点推广效率</p>
+        <p><strong>使用场景：</strong>配置推荐策略 → 管理推广日历 → 审核商家/网点 → 财务结算</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey">
+    <h2 class="section-title">2.3 核心业务流程 & 用户旅程</h2>
+
+    <!-- 核心业务流程图 -->
+    <div style="margin:24px 0 32px;">
+      <h3 style="margin-bottom:12px;">核心业务流程图</h3>
+      <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">主线流程 + 商家入驻 / 网点注册 / 商品审核 / 售后退款 共9条业务流</p>
+      <div style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);">
+        <iframe src="FlashHome_核心业务流程图.html" style="width:100%;height:920px;border:none;display:block;" loading="lazy"></iframe>
+      </div>
+      <p style="font-size:11px;color:#9ca3af;margin-top:8px;text-align:right;">
+        <a href="FlashHome_核心业务流程图.html" target="_blank" style="color:#FF5757;text-decoration:none;">在新窗口打开完整图表 ↗</a>
+      </p>
+    </div>
+
+    <!-- 双角色用户旅程图 -->
+    <div style="margin:24px 0 32px;">
+      <h3 style="margin-bottom:12px;">双角色用户旅程图</h3>
+      <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">网点 Agent × 买家 Buyer · 双路径（浏览选品 / 日历推送）汇合 → 社交分销闭环</p>
+      <div style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);">
+        <iframe src="FlashHome_网点用户旅程图.html" style="width:100%;height:560px;border:none;display:block;" loading="lazy"></iframe>
+      </div>
+      <p style="font-size:11px;color:#9ca3af;margin-top:8px;text-align:right;">
+        <a href="FlashHome_网点用户旅程图.html" target="_blank" style="color:#FF5757;text-decoration:none;">在新窗口打开完整图表 ↗</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="kpi">
+    <h2 class="section-title">2.4 MVP 成功指标</h2>
+    <table>
+      <tr><th>指标名称</th><th>MVP 目标</th><th>对应功能</th></tr>
+      <tr><td><strong>今日推荐→分享转化率</strong></td><td>≥ 40%</td><td>今日推荐 + 一键分享</td></tr>
+      <tr><td><strong>分享→点击转化率</strong></td><td>≥ 20%</td><td>分享素材 + 推广链接</td></tr>
+      <tr><td><strong>点击→下单转化率</strong></td><td>≥ 8%</td><td>商品详情页 + 下单支付</td></tr>
+      <tr><td><strong>单网点日均成交</strong></td><td>≥ 3 单</td><td>全链路：推荐→分享→下单</td></tr>
+      <tr><td><strong>推送打开率</strong></td><td>≥ 50%</td><td>推广日历 + 推送通知</td></tr>
+    </table>
+  </section>
+</div>
+
+<!-- ════════════ 第三部分：产品架构 ════════════ -->
+<div class="phase-banner">
+  <h2>第三部分 · 产品架构</h2>
+  <p>功能框架 · MVP/P2 边界 · 信息架构</p>
+</div>
+<div class="content">
+  <section id="scope">
+    <h2 class="section-title">3.1 功能边界总览</h2>
+
+    <!-- 产品功能框架图 -->
+    <div style="margin:24px 0 32px;">
+      <h3 style="margin-bottom:12px;">产品功能框架图</h3>
+      <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">四端协同架构 · 三层系统设计 · MVP/P2 优先级标注</p>
+      <div style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);">
+        <iframe src="FlashHome_产品功能框架图.html" style="width:100%;height:820px;border:none;display:block;" loading="lazy"></iframe>
+      </div>
+      <p style="font-size:11px;color:#9ca3af;margin-top:8px;text-align:right;">
+        <a href="FlashHome_产品功能框架图.html" target="_blank" style="color:#FF5757;text-decoration:none;">在新窗口打开完整图表 ↗</a>
+      </p>
+    </div>
+
+  </section>
+</div>
+
+<!-- ════════════ 第三部分（续）：信息架构 ════════════ -->
+<div class="content">
+  <section id="ia-agent">
+    <h2 class="section-title">3.2 网点端信息架构</h2>
+    <div class="highlight">
+      <h4>导航结构：4 Tab 底部导航</h4>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item active"><div class="tab-icon">⭐</div><div class="tab-label">今日推荐</div></div>
+      <div class="tab-item"><div class="tab-icon">📅</div><div class="tab-label">推广日历</div></div>
+      <div class="tab-item"><div class="tab-icon">📋</div><div class="tab-label">我的订单</div></div>
+      <div class="tab-item"><div class="tab-icon">👤</div><div class="tab-label">我的</div></div>
+    </div>
+    <table>
+      <tr><th>Tab</th><th>页面层级</th><th>核心页面</th></tr>
+      <tr><td rowspan="3"><strong>今日推荐</strong></td><td>L1 首页</td><td>推荐商品列表 + 一键分享</td></tr>
+      <tr><td>L2 详情</td><td>商品详情 + 佣金信息</td></tr>
+      <tr><td>L2 分享</td><td>生成分享素材（文案/海报/直接分享）</td></tr>
+      <tr><td rowspan="2"><strong>推广日历</strong></td><td>L1 日历</td><td>月历视图 + 每日推广任务</td></tr>
+      <tr><td>L2 详情</td><td>推送内容详情 + 每日战报</td></tr>
+      <tr><td rowspan="2"><strong>我的订单</strong></td><td>L1 列表</td><td>订单列表（状态分类筛选）</td></tr>
+      <tr><td>L2 详情</td><td>订单详情 + 佣金信息</td></tr>
+      <tr><td rowspan="3"><strong>我的</strong></td><td>L1 个人中心</td><td>头像/昵称 + 功能入口</td></tr>
+      <tr><td>L2 佣金收入</td><td>佣金总览 + 明细 + 提现</td></tr>
+      <tr><td>L2 设置</td><td>个人信息 / 通知设置 / 银行卡</td></tr>
+    </table>
+  </section>
+
+  <section id="ia-admin">
+    <h2 class="section-title">3.3 FH后台信息架构</h2>
+    <div class="highlight">
+      <h4>导航结构：左侧菜单栏（PC Web 端）</h4>
+    </div>
+    <table>
+      <tr><th>一级菜单</th><th>二级菜单</th><th>说明</th></tr>
+      <tr><td rowspan="3"><strong>运营总览</strong></td><td>核心指标</td><td>GMV/订单量/客单价/佣金支出 · 日/周/月趋势</td></tr>
+      <tr><td>目标达成</td><td>MVP 指标实际值 vs 目标值（转化率/日均成交）</td></tr>
+      <tr><td>财务概览</td><td>待结算/已结算/待审核提现 汇总</td></tr>
+      <tr><td rowspan="4"><strong>推广运营台</strong></td><td>今日推荐配置</td><td>推荐池管理 + 算法权重 + 置顶</td></tr>
+      <tr><td>推广日历管理</td><td>推送计划 + 活动日历</td></tr>
+      <tr><td>分享素材模板</td><td>文案模板 + 海报模板</td></tr>
+      <tr><td>推广数据看板</td><td>分享/点击/转化数据</td></tr>
+      <tr><td rowspan="2"><strong>商家管理</strong></td><td>入驻审核</td><td>资质审核 + 通过/驳回</td></tr>
+      <tr><td>商家列表</td><td>信息查看 + 启用/禁用</td></tr>
+      <tr><td rowspan="2"><strong>网点管理</strong></td><td>邀请入驻</td><td>生成邀请链接 + 邀请记录</td></tr>
+      <tr><td>网点列表</td><td>信息查看 + 启用/禁用</td></tr>
+      <tr><td rowspan="2"><strong>商品管理</strong></td><td>商品审核</td><td>新品审核 + 违规下架</td></tr>
+      <tr><td>商品列表</td><td>筛选/搜索/状态管理</td></tr>
+      <tr><td><strong>订单中心</strong></td><td>订单列表</td><td>全平台订单查询与状态监控</td></tr>
+      <tr><td rowspan="2"><strong>财务结算</strong></td><td>结算管理</td><td>T+7 结算单 + 人工审批</td></tr>
+      <tr><td>提现审核</td><td>商家/网点提现申请审核</td></tr>
+      <tr><td><strong>售后工单</strong></td><td>工单列表</td><td>售后记录查看（实际处理走LINE群）</td></tr>
+    </table>
+  </section>
+
+  <section id="ia-seller">
+    <h2 class="section-title">3.4 卖家端信息架构</h2>
+    <div class="highlight">
+      <h4>导航结构：PC Web 左侧边栏导航</h4>
+      <p>卖家端为 <strong>PC Web 端</strong>，采用左侧固定边栏 + 右侧内容区布局，适配商品编辑、批量发货、报表查看等桌面操作场景。</p>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item active"><div class="tab-icon">📦</div><div class="tab-label">商品管理</div></div>
+      <div class="tab-item"><div class="tab-icon">📋</div><div class="tab-label">订单管理</div></div>
+      <div class="tab-item"><div class="tab-icon">💰</div><div class="tab-label">财务中心</div></div>
+      <div class="tab-item"><div class="tab-icon">🏪</div><div class="tab-label">我的店铺</div></div>
+    </div>
+    <table>
+      <tr><th>Tab</th><th>核心页面</th></tr>
+      <tr><td><strong>商品管理</strong></td><td>商品列表 / 添加商品（多SKU）/ 编辑 / 佣金设置（默认+单品）</td></tr>
+      <tr><td><strong>订单管理</strong></td><td>订单列表（按状态分类）/ 订单详情 / 发货操作 / 售后处理</td></tr>
+      <tr><td><strong>财务中心</strong></td><td>收入总览 / 收入明细 / 提现管理 / 银行卡</td></tr>
+      <tr><td><strong>我的店铺</strong></td><td>店铺信息 / 资质管理 / 联系方式</td></tr>
+    </table>
+  </section>
+
+  <section id="ia-buyer">
+    <h2 class="section-title">3.5 买家端信息架构</h2>
+    <div class="highlight">
+      <h4>技术架构：H5 为主体 + LIFF 壳</h4>
+      <p>核心页面均为 H5 开发，通过 LIFF 壳包装实现 LINE 内自动登录和原生体验。非 LINE 渠道（Facebook、短信等）直接打开 H5 页面。<strong>MVP 不设独立首页</strong>，买家通过推广链接直达商品详情页。</p>
+    </div>
+    <table>
+      <tr><th>页面</th><th>入口方式</th><th>说明</th></tr>
+      <tr><td><strong>商品详情页</strong></td><td>推广链接直达</td><td>商品图/价格/规格选择/加购/立即购买</td></tr>
+      <tr><td><strong>购物车</strong></td><td>商品详情页入口</td><td>商品列表/数量调整/结算</td></tr>
+      <tr><td><strong>确认订单</strong></td><td>购物车/立即购买</td><td>地址/支付方式（PromptPay+COD）/提交</td></tr>
+      <tr><td><strong>支付页</strong></td><td>确认订单</td><td>PromptPay QR码 或 COD确认</td></tr>
+      <tr><td><strong>订单列表</strong></td><td>个人中心</td><td>按状态分类查看</td></tr>
+      <tr><td><strong>订单详情</strong></td><td>订单列表</td><td>订单信息/物流/售后入口</td></tr>
+      <tr><td><strong>售后申请</strong></td><td>订单详情</td><td>仅退款/退货退款</td></tr>
+      <tr><td><strong>个人中心</strong></td><td>底部导航/浮动入口</td><td>地址管理/订单入口/设置</td></tr>
+    </table>
+  </section>
+</div>
+
+<!-- ════════════ 第四部分：功能详述 ════════════ -->
+<div class="phase-banner">
+  <h2>第四部分 · 功能详述</h2>
+  <p>四端功能规格 — 网点端 / FH后台 / 卖家端 / 买家端</p>
+</div>
+<div class="content">
+
+  <h2 class="section-title" id="endpoint-agent">4.1 网点端</h2>
+
+  <!-- ── 今日推荐 ── -->
+  <section id="agent-today">
+    <h2 class="section-title">今日推荐</h2>
+    <div class="module-banner">
+      <span class="tag">核心模块</span>
+      <h3>今日推荐 — 网点端首页</h3>
+      <p>智能推荐 + 一键分享，让网点"打开就能推"</p>
+    </div>
+
+    <h3>页面构成</h3>
+    <table>
+      <tr><th>区域</th><th>内容</th><th>交互</th></tr>
+      <tr><td>顶部快捷入口</td><td>扫码/搜索入口</td><td>快捷商品搜索</td></tr>
+      <tr><td>推荐商品列表</td><td>卡片式商品展示（图片、名称、价格、佣金率、预估佣金、7日销量）</td><td>下拉刷新 / 上拉加载更多</td></tr>
+      <tr><td>商品卡片操作区</td><td>「一键分享」按钮 + 「查看详情」</td><td>分享弹出素材选择面板</td></tr>
+    </table>
+
+    <h3>智能推荐算法</h3>
+    <div class="highlight blue">
+      <h4>推荐打分公式</h4>
+      <p><strong>Score = commission_rate × 0.4 + 7d_conversion × 0.3 + 7d_sales × 0.2 + freshness × 0.1</strong></p>
+      <p>运营可在后台手动「置顶」商品，置顶商品优先展示，不参与算法排序。</p>
+    </div>
+    <table>
+      <tr><th>因子</th><th>权重</th><th>数据来源</th><th>说明</th></tr>
+      <tr><td>佣金率</td><td>40%</td><td>商品设置</td><td>高佣金商品优先，激励网点推广</td></tr>
+      <tr><td>7日转化率</td><td>30%</td><td>订单数据</td><td>点击→下单的转化表现</td></tr>
+      <tr><td>7日销量</td><td>20%</td><td>订单数据</td><td>近期热销程度</td></tr>
+      <tr><td>新鲜度</td><td>10%</td><td>上架时间</td><td>新品适度加权</td></tr>
+    </table>
+
+    <h3>一键分享素材</h3>
+    <p>网点在商品卡片点击「一键分享」后，弹出分享素材面板，提供三种格式：</p>
+    <table>
+      <tr><th>格式</th><th>内容</th><th>适用场景</th></tr>
+      <tr><td><strong>文案 + 链接</strong></td><td>分类文案模板自动填充 + 含绑定码的推广链接</td><td>LINE 聊天、Facebook 帖文</td></tr>
+      <tr><td><strong>海报 + 二维码</strong></td><td>商品主图 + 价格/佣金信息 + 网点专属二维码</td><td>朋友圈、Instagram、社群</td></tr>
+      <tr><td><strong>直接转发</strong></td><td>调用 LINE/Facebook 分享 API 直接发送</td><td>快速分享到指定对话/群组</td></tr>
+    </table>
+
+    <!-- 代客下单功能移至 P2，MVP 阶段网点通过分享推广链接引导买家自主下单 -->
+  </section>
+
+  <!-- ── 推广日历 ── -->
+  <section id="agent-calendar">
+    <h2 class="section-title">推广日历</h2>
+    <div class="module-banner">
+      <span class="tag">核心模块</span>
+      <h3>推广日历 — 每日推广节奏管理</h3>
+      <p>按日历维度展示推广任务，每日 3 次定时推送（08:00 / 12:00 / 19:00）</p>
+    </div>
+
+    <h3>页面构成</h3>
+    <table>
+      <tr><th>区域</th><th>内容</th><th>交互</th></tr>
+      <tr><td>月历视图</td><td>当月日历，有推广内容的日期标记圆点</td><td>点击日期查看当日推送</td></tr>
+      <tr><td>当日推送列表</td><td>当日1-3条推送内容卡片</td><td>点击展开详情 / 一键分享到已绑定渠道</td></tr>
+      <tr><td>活动标记</td><td>特殊活动日（节日促销等）高亮显示</td><td>点击查看活动详情</td></tr>
+    </table>
+
+    <h3>每日推送时段</h3>
+    <table>
+      <tr><th>时段</th><th>时间</th><th>推送类型</th><th>内容</th></tr>
+      <tr><td>🌅 早间更新</td><td>08:00</td><td>今日推荐更新</td><td>今日推荐商品列表更新通知 + 重点商品预览</td></tr>
+      <tr><td>🔥 午间精选</td><td>12:00</td><td>爆品/活动提醒</td><td>上午表现最好的商品 或 限时活动提醒</td></tr>
+      <tr><td>🌙 晚间推荐</td><td>19:00</td><td>晚间选品推荐</td><td>当日热卖复推 + 明日预告 + 今日数据摘要</td></tr>
+    </table>
+
+    <h3>推送类型（MVP）</h3>
+    <table>
+      <tr><th>类型</th><th>触发方式</th><th>说明</th></tr>
+      <tr><td>定时推送</td><td>固定时段（08:00/12:00/19:00）</td><td>系统自动按时段推送</td></tr>
+      <tr><td>活动驱动推送</td><td>运营在后台配置活动日历</td><td>节日/促销活动的额外推送</td></tr>
+    </table>
+
+    <h3>每日战报内容</h3>
+    <table class="field-table">
+      <tr><th>数据项</th><th>类型</th><th>说明</th></tr>
+      <tr><td>今日分享次数</td><td>数字</td><td>今日生成并分享的素材数</td></tr>
+      <tr><td>链接点击数</td><td>数字</td><td>推广链接被点击总次数</td></tr>
+      <tr><td>新增订单数</td><td>数字</td><td>通过推广链接产生的订单</td></tr>
+      <tr><td>预估佣金</td><td>金额</td><td>今日产生的预估佣金总额</td></tr>
+      <tr><td>Top3 商品</td><td>列表</td><td>今日表现最好的3个商品</td></tr>
+    </table>
+  </section>
+
+  <!-- ── 我的订单 ── -->
+  <section id="agent-order">
+    <h2 class="section-title">我的订单</h2>
+
+    <h3>页面构成</h3>
+    <table>
+      <tr><th>区域</th><th>内容</th></tr>
+      <tr><td>顶部统计</td><td>待发货 / 已发货 / 已完成 / 售后中 数量汇总</td></tr>
+      <tr><td>状态Tab筛选</td><td>全部 / 待支付 / 待发货 / 已发货 / 已完成 / 售后中 / 已取消</td></tr>
+      <tr><td>订单卡片</td><td>订单号、商品缩略图、金额、预估佣金、状态标签</td></tr>
+    </table>
+
+    <h3>订单详情字段</h3>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>订单编号</td><td>文本</td><td>系统生成唯一编号</td></tr>
+      <tr><td>商品信息</td><td>卡片</td><td>图片+名称+规格+单价+数量</td></tr>
+      <tr><td>买家信息</td><td>文本</td><td>昵称+电话（脱敏）</td></tr>
+      <tr><td>收货地址</td><td>文本</td><td>完整收货地址</td></tr>
+      <tr><td>订单金额</td><td>金额</td><td>商品总价+运费</td></tr>
+      <tr><td>预估佣金</td><td>金额</td><td>该订单预估佣金（高亮显示）</td></tr>
+      <tr><td>订单状态</td><td>标签</td><td>当前状态+时间线</td></tr>
+      <tr><td>物流信息</td><td>时间线</td><td>物流轨迹（发货后显示）</td></tr>
+      <tr><td>支付方式</td><td>文本</td><td>PromptPay / COD</td></tr>
+      <tr><td>售后状态</td><td>标签</td><td>售后中时显示：售后类型（仅退款/退货退款）+ 当前进度（待卖家处理/待退货/待确认收货/已退款/已拒绝）</td></tr>
+      <tr><td>佣金影响</td><td>金额</td><td>售后中时显示：佣金已冻结 ฿XX；退款成功后显示：佣金已扣除 ฿XX（红色）</td></tr>
+    </table>
+
+    <h3>订单状态机</h3>
+    <div class="state-flow">
+      <div class="state-node">待支付</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node active">待发货</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node">已发货</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node end">已完成</div>
+    </div>
+    <div class="state-flow">
+      <div class="state-node">待支付</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node cancel">已取消</div>
+      <span style="margin-left:12px;font-size:13px;color:var(--gray);">（超时未支付自动取消 / 买家手动取消）</span>
+    </div>
+    <div class="state-flow">
+      <div class="state-node">已完成</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node" style="border-color:var(--amber);">售后中</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node cancel">已退款</div>
+    </div>
+  </section>
+
+  <!-- ── 我的 ── -->
+  <section id="agent-me">
+    <h2 class="section-title">我的（个人中心）</h2>
+
+    <h3>页面构成</h3>
+    <table>
+      <tr><th>区域</th><th>内容</th><th>交互</th></tr>
+      <tr><td>头部用户信息</td><td>头像 / 昵称 / 网点编号</td><td>点击编辑个人信息</td></tr>
+      <tr><td>佣金摘要卡片</td><td>累计佣金 / 本月佣金 / 可提现余额</td><td>点击进入佣金收入详情</td></tr>
+      <tr><td>功能入口列表</td><td>佣金收入 / 银行卡管理 / 社交账号管理 / 通知设置 / 联系客服 / 关于</td><td>点击进入对应页面</td></tr>
+    </table>
+
+    <h3>佣金收入（二级页面）</h3>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>累计佣金</td><td>金额</td><td>历史总佣金（含已结算+待结算）</td></tr>
+      <tr><td>待结算佣金</td><td>金额</td><td>订单完成但未到T+7的佣金</td></tr>
+      <tr><td>已结算佣金</td><td>金额</td><td>已完成结算的佣金</td></tr>
+      <tr><td>可提现余额</td><td>金额</td><td>已结算且未提现的金额</td></tr>
+      <tr><td>佣金明细列表</td><td>列表</td><td>按时间倒序，显示每笔佣金来源订单、金额、状态</td></tr>
+    </table>
+
+    <h3>提现流程</h3>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="amt">💰</div><div class="who">输入提现金额</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">🏦</div><div class="who">选择银行卡</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">📝</div><div class="who">确认提交</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">⏳</div><div class="who">后台审批</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">✅</div><div class="who">到账</div></div>
+    </div>
+
+    <div class="highlight">
+      <h4>提现规则</h4>
+      <ul>
+        <li>最低提现金额：100 泰铢</li>
+        <li>提现到账时间：1-3 个工作日（人工审批后打款）</li>
+        <li>需先绑定银行卡</li>
+      </ul>
+    </div>
+    <!-- ── 社交账号绑定（个人中心子功能） ── -->
+    <h3 id="agent-social">社交账号绑定</h3>
+    <div class="module-banner">
+      <span class="tag">核心模块</span>
+      <h3>社交账号绑定 — LINE OA &amp; Facebook Page 一键推送</h3>
+      <p>绑定后分享从5步缩减为1步，通过 API 直接推送到已绑定渠道，无需跳转外部 APP</p>
+    </div>
+
+    <h4>支持渠道</h4>
+    <table>
+      <tr><th>渠道</th><th>绑定方式</th><th>可推送对象</th><th>消息限制</th></tr>
+      <tr><td><strong>LINE OA</strong></td><td>LINE Login OAuth 2.0</td><td>好友列表 / 标签分组</td><td>免费 500 条/月，超出 ฿0.04/条</td></tr>
+      <tr><td><strong>Facebook Page</strong></td><td>Facebook Login + Page Token</td><td>主页发帖 / 群组（需管理员）</td><td>200 calls/hour/page</td></tr>
+    </table>
+
+    <h4>绑定流程（通用）</h4>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="amt">👤</div><div class="who">我的 → 社交账号管理</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">🔗</div><div class="who">选择渠道绑定</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">🔐</div><div class="who">OAuth 授权</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">✅</div><div class="who">选择推送对象</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">💬</div><div class="who">测试消息 → 完成</div></div>
+    </div>
+
+    <h4>绑定前后对比</h4>
+    <table>
+      <tr><th>场景</th><th>绑定前</th><th>绑定后</th></tr>
+      <tr><td>单品分享</td><td>分享 → 选渠道 → 跳转APP → 选群 → 发送（5步）</td><td>分享 → 勾选渠道 → 发送（1步）</td></tr>
+      <tr><td>日历一键分享</td><td>跳转LINE → 手动选群 → 逐个发送</td><td>直接推送到所有已绑定渠道</td></tr>
+      <tr><td>未绑定</td><td colspan="2">保持原有流程，底部引导「绑定社交账号，发送更简单 →」</td></tr>
+    </table>
+
+    <h4>管理页面</h4>
+    <table>
+      <tr><th>区域</th><th>内容</th></tr>
+      <tr><td>已绑定列表</td><td>渠道图标 + 名称 + 推送对象数/粉丝数 + 绑定时间（左滑解绑）</td></tr>
+      <tr><td>渠道详情</td><td>LINE：好友数/已发消息/剩余额度；FB：粉丝数/发帖数/Token有效期</td></tr>
+      <tr><td>添加渠道</td><td>「+ 绑定 LINE OA」/「+ 绑定 Facebook Page」</td></tr>
+    </table>
+
+    <h4>费用与限制</h4>
+    <table>
+      <tr><th>约束项</th><th>规则</th></tr>
+      <tr><td>LINE 免费额度</td><td>500 条/月，超额平台承担（MVP 阶段）</td></tr>
+      <tr><td>每日推送上限</td><td>每网点 3 次/日（对应推广日历时段）</td></tr>
+      <tr><td>FB Rate Limit</td><td>200 calls/hour/page，Queue 排队防超限</td></tr>
+      <tr><td>Token 过期</td><td>FB Token 60天有效，到期前7天提醒重授权；LINE Token 定期刷新</td></tr>
+    </table>
+
+    <h4>技术实现</h4>
+    <table>
+      <tr><th>模块</th><th>方案</th></tr>
+      <tr><td>LINE 授权 + 推送</td><td>LINE Login v2.1 OAuth → Messaging API（Push/Multicast/Narrowcast）</td></tr>
+      <tr><td>Facebook 授权 + 发帖</td><td>Facebook Login → Long-Lived Page Token → Graph API v18.0</td></tr>
+      <tr><td>消息队列</td><td>Redis/SQS 异步处理，防高并发 API 超限</td></tr>
+      <tr><td>Token 管理</td><td>AES-256 加密存储 + 定时刷新 + 过期预警</td></tr>
+      <tr><td>数据追踪</td><td>LINE Webhook 送达/打开率 + FB Insights 触达/互动 → 补充至每日战报</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<div class="content">
+
+  <h2 class="section-title" id="endpoint-admin">4.2 FH后台</h2>
+
+  <section id="admin-dashboard">
+    <h2 class="section-title">运营总览</h2>
+    <p>后台首页，登录即见，提供平台全局经营状况和 MVP 目标达成一览。</p>
+
+    <h3>核心指标卡片</h3>
+    <table>
+      <tr><th>指标</th><th>维度</th><th>说明</th></tr>
+      <tr><td>平台 GMV</td><td>今日 / 本周 / 本月</td><td>全平台成交总额，含趋势对比（环比）</td></tr>
+      <tr><td>订单量</td><td>今日 / 本周 / 本月</td><td>总订单数 + 完成率</td></tr>
+      <tr><td>客单价</td><td>本月</td><td>GMV ÷ 订单量</td></tr>
+      <tr><td>活跃网点数</td><td>今日</td><td>当日有分享行为的网点数 / 总网点数</td></tr>
+      <tr><td>佣金支出</td><td>本月</td><td>已结算 + 待结算佣金总额</td></tr>
+    </table>
+
+    <h3>MVP 目标达成</h3>
+    <table>
+      <tr><th>指标</th><th>目标</th><th>展示</th></tr>
+      <tr><td>今日推荐→分享转化率</td><td>≥ 40%</td><td>实际值 + 进度条 + 达标/未达标标签</td></tr>
+      <tr><td>分享→点击转化率</td><td>≥ 20%</td><td>同上</td></tr>
+      <tr><td>点击→下单转化率</td><td>≥ 8%</td><td>同上</td></tr>
+      <tr><td>单网点日均成交</td><td>≥ 3 单</td><td>同上</td></tr>
+      <tr><td>推送打开率</td><td>≥ 50%</td><td>同上</td></tr>
+    </table>
+
+    <h3>财务概览</h3>
+    <table>
+      <tr><th>数据项</th><th>说明</th></tr>
+      <tr><td>待结算金额</td><td>T+7 周期内未结算的总金额</td></tr>
+      <tr><td>已结算金额</td><td>本月已完成结算的总金额</td></tr>
+      <tr><td>待审核提现</td><td>待处理的提现申请笔数 + 金额</td></tr>
+    </table>
+  </section>
+
+  <section id="admin-promo">
+    <h2 class="section-title">推广运营台</h2>
+    <div class="module-banner">
+      <span class="tag">核心模块</span>
+      <h3>推广运营台 — 驱动网点端智能推广的核心引擎</h3>
+      <p>管理今日推荐、推广日历、分享素材模板、推广数据看板</p>
+    </div>
+
+    <h3>今日推荐配置</h3>
+    <table>
+      <tr><th>功能点</th><th>说明</th><th>交互规则</th></tr>
+      <tr><td>推荐池管理</td><td>设定参与智能推荐的商品范围</td><td>可按分类/商家/佣金率范围筛选加入</td></tr>
+      <tr><td>算法权重调整</td><td>调整推荐打分公式各因子权重</td><td>四个滑块：佣金率/转化率/销量/新鲜度，总和=100%</td></tr>
+      <tr><td>手动置顶</td><td>运营手动置顶特定商品到推荐列表顶部</td><td>支持排序、设定置顶时间段</td></tr>
+      <tr><td>推荐预览</td><td>预览当前算法+置顶配置的推荐结果</td><td>模拟网点端看到的推荐列表</td></tr>
+    </table>
+
+    <h3>推广日历管理</h3>
+    <table>
+      <tr><th>功能点</th><th>说明</th></tr>
+      <tr><td>推送计划管理</td><td>配置每日定时推送的内容（08:00/12:00/19:00）</td></tr>
+      <tr><td>活动日历</td><td>创建特殊活动（节日促销、新品首发等），自动在网点端日历标记</td></tr>
+      <tr><td>推送内容编辑</td><td>编辑推送标题、正文、关联商品、分享素材</td></tr>
+      <tr><td>战报模板配置</td><td>配置每日战报展示的数据项和格式</td></tr>
+    </table>
+
+    <h3>分享素材模板</h3>
+    <table>
+      <tr><th>模板类型</th><th>说明</th></tr>
+      <tr><td>文案模板</td><td>按商品分类预设文案模板（支持变量：商品名、价格、佣金等）</td></tr>
+      <tr><td>海报模板</td><td>可视化编辑海报模板（背景图+商品位+文字位+二维码位）</td></tr>
+    </table>
+
+    <h3>推广数据看板</h3>
+    <table>
+      <tr><th>数据项</th><th>维度</th><th>说明</th></tr>
+      <tr><td>分享总量</td><td>日/周/月</td><td>全平台网点分享素材总次数</td></tr>
+      <tr><td>链接点击量</td><td>日/周/月</td><td>推广链接被点击总次数</td></tr>
+      <tr><td>转化订单数</td><td>日/周/月</td><td>通过推广链接产生的订单数</td></tr>
+      <tr><td>推广 GMV</td><td>日/周/月</td><td>推广产生的成交总额</td></tr>
+      <tr><td>Top 10 网点</td><td>按 GMV 排名</td><td>表现最好的网点排行</td></tr>
+      <tr><td>Top 10 商品</td><td>按转化率排名</td><td>转化率最高的商品排行</td></tr>
+    </table>
+  </section>
+
+  <section id="admin-merchant">
+    <h2 class="section-title">商家管理</h2>
+    <h3>入驻审核</h3>
+    <table class="field-table">
+      <tr><th>审核字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td>店铺名称</td><td>文本</td><td>商家店铺名</td></tr>
+      <tr><td>营业执照</td><td>图片</td><td>泰国营业执照照片</td></tr>
+      <tr><td>联系人</td><td>文本</td><td>商家联系人姓名</td></tr>
+      <tr><td>联系电话</td><td>电话</td><td>商家联系电话</td></tr>
+      <tr><td>默认推广佣金率</td><td>百分比</td><td>商家承诺的默认推广佣金率（建议10%-20%）</td></tr>
+    </table>
+    <p><strong>审核操作：</strong>通过 / 驳回（填写驳回原因）</p>
+
+    <h3>商家列表</h3>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>搜索</td><td>按店铺名/联系人/电话搜索</td></tr>
+      <tr><td>筛选</td><td>按状态（启用/禁用/审核中）筛选</td></tr>
+      <tr><td>操作</td><td>查看详情 / 启用 / 禁用</td></tr>
+    </table>
+  </section>
+
+  <section id="admin-agent">
+    <h2 class="section-title">网点管理</h2>
+    <h3>网点入驻（邀请制）</h3>
+    <div class="highlight blue">
+      <h4>邀请制说明</h4>
+      <p>网点均为 FlashHome 内部人员，<strong>不开放外部注册</strong>。由后台运营创建邀请链接，定向发给目标网点，网点通过链接完成信息填写后即激活账号。</p>
+    </div>
+
+    <h4>后台操作：创建邀请</h4>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>创建邀请链接</td><td>后台点击「邀请网点」按钮，生成专属邀请链接（含邀请码），可复制发送给目标人员</td></tr>
+      <tr><td>邀请记录</td><td>展示已发出的邀请：邀请码、生成时间、状态（待注册/已完成）、对应网点</td></tr>
+    </table>
+
+    <h4>网点端：邀请注册页</h4>
+    <p>网点打开邀请链接后进入注册页面（H5），分两步完成：</p>
+    <table class="field-table">
+      <tr><th>步骤</th><th>字段</th><th>类型</th><th>说明</th></tr>
+      <tr><td rowspan="2">① 手机验证</td><td>手机号</td><td>电话</td><td>泰国手机号（+66）</td></tr>
+      <tr><td>验证码</td><td>SMS</td><td>6位数字验证码</td></tr>
+      <tr><td rowspan="3">② 基本信息</td><td>姓名</td><td>文本</td><td>真实姓名</td></tr>
+      <tr><td>LINE ID</td><td>文本</td><td>LINE 联系方式</td></tr>
+      <tr><td>推广渠道</td><td>选择</td><td>LINE群 / Facebook / Instagram / 线下</td></tr>
+    </table>
+    <p>提交后账号<strong>立即激活</strong>，自动跳转到网点端首页（今日推荐），无需后台审核。</p>
+    <p><strong>无邀请链接不可注册：</strong>直接访问注册页面提示「请联系 FlashHome 运营获取邀请链接」。</p>
+
+    <h3>网点列表</h3>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>搜索</td><td>按姓名/手机号/LINE ID搜索</td></tr>
+      <tr><td>筛选</td><td>按状态（启用/禁用）筛选</td></tr>
+      <tr><td>操作</td><td>查看详情 / 启用 / 禁用</td></tr>
+      <tr><td>关键指标显示</td><td>绑定客户数 / 累计GMV / 累计佣金</td></tr>
+    </table>
+  </section>
+
+  <section id="admin-product">
+    <h2 class="section-title">商品管理</h2>
+    <h3>商品审核</h3>
+    <table>
+      <tr><th>审核内容</th><th>说明</th></tr>
+      <tr><td>商品信息真实性</td><td>名称、描述、分类是否准确</td></tr>
+      <tr><td>图片质量</td><td>主图清晰、无违规内容</td></tr>
+      <tr><td>价格合理性</td><td>价格是否合理（平价生活用品定位）</td></tr>
+      <tr><td>推广佣金率</td><td>是否在 10%-20% 建议范围内</td></tr>
+    </table>
+
+    <h3>商品列表</h3>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>搜索</td><td>按商品名/商家名搜索</td></tr>
+      <tr><td>筛选</td><td>按状态/分类/价格区间/佣金率范围</td></tr>
+      <tr><td>操作</td><td>查看详情 / 违规下架 / 审核</td></tr>
+    </table>
+  </section>
+
+  <section id="admin-order">
+    <h2 class="section-title">订单中心</h2>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>订单列表</td><td>全平台所有订单，支持多条件筛选（状态/时间/商家/网点/金额）</td></tr>
+      <tr><td>订单详情</td><td>完整订单信息 + 商品 + 买家 + 网点 + 物流 + 佣金</td></tr>
+      <tr><td>订单导出</td><td>按筛选条件导出 Excel</td></tr>
+      <tr><td>异常提醒</td><td>超时未发货（>48h）高亮标记</td></tr>
+    </table>
+  </section>
+
+  <section id="admin-finance">
+    <h2 class="section-title">财务结算</h2>
+
+    <h3>结算管理</h3>
+    <div class="highlight green">
+      <h4>结算流程（MVP）</h4>
+      <p>订单确认收货 → T+7 天自动生成结算单 → 运营审核 → 人工打款</p>
+      <p><strong>MVP 不做自动打款</strong>，由运营在后台审核结算单后手动通过银行转账出款。</p>
+    </div>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>结算单列表</td><td>系统自动生成的结算单（按网点/商家分别生成）</td></tr>
+      <tr><td>结算详情</td><td>关联订单明细 + 推广佣金计算 + 平台佣金&交易费扣除明细</td></tr>
+      <tr><td>审核操作</td><td>确认结算 / 退回（需填写原因）</td></tr>
+    </table>
+
+    <h3>提现审核</h3>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>提现申请列表</td><td>商家/网点提交的提现申请</td></tr>
+      <tr><td>审核操作</td><td>通过（标记已打款）/ 驳回（填写原因）</td></tr>
+      <tr><td>打款记录</td><td>已完成的打款记录备查</td></tr>
+    </table>
+  </section>
+
+  <section id="admin-ticket">
+    <h2 class="section-title">售后工单</h2>
+    <div class="highlight">
+      <h4>售后流程</h4>
+      <p>两条路径：<strong>仅退款</strong>（买家申请 → 卖家24h审核 → 退款 → 佣金回退）和<strong>退货退款</strong>（买家申请 → 卖家24h审核 → 买家退货 → 卖家确认收货 → 退款 → 佣金回退）。卖家超时未处理系统自动同意，买家对拒绝结果可申诉，平台介入仲裁。</p>
+    </div>
+    <table>
+      <tr><th>字段</th><th>说明</th></tr>
+      <tr><td>工单编号</td><td>系统自动生成</td></tr>
+      <tr><td>关联订单</td><td>售后对应的订单号（可跳转）</td></tr>
+      <tr><td>售后类型</td><td>仅退款 / 退货退款</td></tr>
+      <tr><td>申请原因</td><td>买家填写的售后原因</td></tr>
+      <tr><td>处理状态</td><td>待卖家处理 / 待退货 / 待确认收货 / 已退款 / 已拒绝 / 申诉中</td></tr>
+      <tr><td>操作</td><td>介入仲裁（强制退款/驳回申诉）/ 查看详情</td></tr>
+    </table>
+  </section>
+</div>
+
+<div class="content">
+
+  <h2 class="section-title" id="endpoint-seller">4.3 卖家端</h2>
+
+  <section id="seller-product">
+    <h2 class="section-title">商品管理</h2>
+
+    <h3>商品列表</h3>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>状态筛选</td><td>在售 / 已下架 / 审核中</td></tr>
+      <tr><td>搜索</td><td>按商品名搜索</td></tr>
+      <tr><td>批量操作</td><td>批量上架 / 批量下架</td></tr>
+      <tr><td>商品卡片</td><td>主图 + 名称 + 价格 + 库存 + 佣金率 + 状态</td></tr>
+    </table>
+
+    <h3>添加/编辑商品</h3>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+      <tr><td>商品名称</td><td>文本</td><td>是</td><td>≤60字</td></tr>
+      <tr><td>商品分类</td><td>选择</td><td>是</td><td>一级分类 + 二级分类</td></tr>
+      <tr><td>商品主图</td><td>图片</td><td>是</td><td>1-5张，首张为主图</td></tr>
+      <tr><td>商品详情图</td><td>图片</td><td>否</td><td>详情页长图展示</td></tr>
+      <tr><td>商品描述</td><td>富文本</td><td>否</td><td>商品详细描述</td></tr>
+      <tr><td>原价</td><td>金额</td><td>是</td><td>商品原价（用于划线价展示）</td></tr>
+      <tr><td>售价</td><td>金额</td><td>是</td><td>商品售价（泰铢）</td></tr>
+      <tr><td>库存</td><td>数字</td><td>是</td><td>总库存或按SKU设置库存</td></tr>
+      <tr><td>重量</td><td>数字</td><td>否</td><td>用于运费计算（克）</td></tr>
+    </table>
+
+    <h3>多 SKU 规格设置</h3>
+    <div class="highlight blue">
+      <h4>规格规则</h4>
+      <ul>
+        <li>最多支持 <strong>2 个规格维度</strong>（如：颜色 + 尺寸）</li>
+        <li>每个维度最多 <strong>10 个选项</strong></li>
+        <li>每个 SKU 组合可独立设置：售价、库存</li>
+      </ul>
+    </div>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+      <tr><td>规格名称1</td><td>文本</td><td>是</td><td>如"颜色"、"口味"</td></tr>
+      <tr><td>规格选项1</td><td>多选标签</td><td>是</td><td>如"红色""蓝色""绿色"，≤10个</td></tr>
+      <tr><td>规格名称2</td><td>文本</td><td>否</td><td>如"尺寸"、"包装"</td></tr>
+      <tr><td>规格选项2</td><td>多选标签</td><td>否</td><td>≤10个</td></tr>
+      <tr><td>SKU 价格</td><td>金额</td><td>是</td><td>每个 SKU 组合的售价</td></tr>
+      <tr><td>SKU 库存</td><td>数字</td><td>是</td><td>每个 SKU 组合的库存</td></tr>
+    </table>
+
+    <h3>佣金设置</h3>
+    <table>
+      <tr><th>设置方式</th><th>说明</th><th>优先级</th></tr>
+      <tr><td><strong>店铺默认佣金率</strong></td><td>在「我的店铺」中设置，适用于所有未单独设佣金的商品</td><td>低</td></tr>
+      <tr><td><strong>单品独立佣金率</strong></td><td>在商品编辑页设置，覆盖店铺默认佣金率</td><td>高</td></tr>
+    </table>
+    <div class="highlight">
+      <p><strong>推广佣金率建议范围：</strong>10% - 20%。实际推广佣金 = 商品售价 × 佣金率。</p>
+    </div>
+  </section>
+
+  <section id="seller-order">
+    <h2 class="section-title">订单管理</h2>
+
+    <h3>订单列表</h3>
+    <table>
+      <tr><th>状态Tab</th><th>说明</th><th>卖家操作</th></tr>
+      <tr><td>待发货</td><td>买家已支付，等待发货</td><td>确认订单 + 填写物流单号 + 发货</td></tr>
+      <tr><td>已发货</td><td>已填写物流信息</td><td>查看物流状态</td></tr>
+      <tr><td>已完成</td><td>买家确认收货</td><td>查看详情</td></tr>
+      <tr><td>售后中</td><td>买家申请售后（24h内处理，超时自动同意）</td><td>同意/拒绝；退货退款需确认收货</td></tr>
+      <tr><td>已取消</td><td>订单被取消</td><td>查看详情</td></tr>
+    </table>
+
+    <h3>发货操作</h3>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+      <tr><td>物流公司</td><td>选择</td><td>是</td><td>默认 Flash Express</td></tr>
+      <tr><td>物流单号</td><td>文本</td><td>是</td><td>快递单号</td></tr>
+    </table>
+
+    <h3>售后处理</h3>
+    <p>卖家在「售后中」Tab 点击订单卡片进入售后处理页面，展示以下信息和操作：</p>
+    <table>
+      <tr><th>区域</th><th>内容</th></tr>
+      <tr><td>售后信息</td><td>售后类型（仅退款/退货退款）+ 申请原因 + 买家凭证图片 + 申请时间</td></tr>
+      <tr><td>订单摘要</td><td>商品信息 + 订单金额 + 买家信息</td></tr>
+      <tr><td>操作按钮</td><td>待处理状态：「同意」绿色按钮 + 「拒绝」红色按钮（需填拒绝原因）</td></tr>
+      <tr><td>退货确认</td><td>退货退款场景：买家寄回后显示退货物流信息 → 「确认收货并退款」按钮</td></tr>
+      <tr><td>倒计时提示</td><td>处理剩余时间倒计时（24h 审核），超时自动同意</td></tr>
+    </table>
+  </section>
+
+  <section id="seller-finance">
+    <h2 class="section-title">财务中心</h2>
+
+    <h3>收入总览</h3>
+    <table class="field-table">
+      <tr><th>数据项</th><th>说明</th></tr>
+      <tr><td>总收入</td><td>历史累计已结算收入</td></tr>
+      <tr><td>待结算</td><td>订单完成但未到T+7的收入</td></tr>
+      <tr><td>可提现</td><td>已结算且可提现的余额</td></tr>
+      <tr><td>冻结金额</td><td>售后处理中被冻结的金额</td></tr>
+    </table>
+
+    <h3>收入明细</h3>
+    <p>按时间倒序展示每笔收入记录：订单号、商品名、订单金额、平台佣金扣除、交易手续费扣除、推广佣金扣除、实际收入、结算状态。</p>
+
+    <h3>提现管理</h3>
+    <p>与网点端提现流程一致：输入金额 → 选择银行卡 → 提交申请 → 后台审批 → 到账。</p>
+  </section>
+
+  <section id="seller-shop">
+    <h2 class="section-title">我的店铺</h2>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+      <tr><td>店铺名称</td><td>文本</td><td>是</td><td>对外展示的店铺名</td></tr>
+      <tr><td>店铺 Logo</td><td>图片</td><td>否</td><td>店铺头像</td></tr>
+      <tr><td>店铺简介</td><td>文本</td><td>否</td><td>≤200字</td></tr>
+      <tr><td>联系方式</td><td>电话</td><td>是</td><td>客服联系电话</td></tr>
+      <tr><td>默认推广佣金率</td><td>百分比</td><td>是</td><td>建议10%-20%，适用于所有未单独设佣金的商品</td></tr>
+      <tr><td>营业执照</td><td>图片</td><td>是</td><td>审核后不可修改</td></tr>
+      <tr><td>银行账户</td><td>文本+选择</td><td>是</td><td>收款银行+账号</td></tr>
+    </table>
+  </section>
+</div>
+
+<div class="content">
+
+  <h2 class="section-title" id="endpoint-buyer">4.4 买家端</h2>
+
+  <section id="buyer-detail">
+    <h2 class="section-title">商品详情页</h2>
+    <div class="highlight blue">
+      <h4>核心入口</h4>
+      <p>买家端 MVP <strong>不设独立首页</strong>。买家通过网点分享的推广链接直达商品详情页。链接中携带网点绑定码，系统自动完成绑定。</p>
+    </div>
+
+    <h3>页面构成</h3>
+    <table>
+      <tr><th>区域</th><th>内容</th><th>交互</th></tr>
+      <tr><td>商品图片轮播</td><td>商品主图 + 详情图（横向滑动）</td><td>左右滑动浏览，点击放大</td></tr>
+      <tr><td>价格区域</td><td>售价（大号显示）+ 原价（划线）</td><td>—</td></tr>
+      <tr><td>商品名称</td><td>商品标题（≤60字）</td><td>—</td></tr>
+      <tr><td>规格选择</td><td>SKU 规格选择器（如颜色/尺寸）</td><td>点击选择，联动价格和库存</td></tr>
+      <tr><td>数量选择</td><td>数量加减器</td><td>默认1，受库存限制</td></tr>
+      <tr><td>商品详情</td><td>富文本详情描述 + 详情图</td><td>—</td></tr>
+      <tr><td>商家信息</td><td>店铺名 + 评分（P2）</td><td>—</td></tr>
+      <tr><td>底部操作栏</td><td>「加入购物车」+「立即购买」</td><td>固定底部</td></tr>
+    </table>
+
+    <h3>绑定逻辑</h3>
+    <div class="highlight">
+      <ul>
+        <li>链接格式：<code>https://flashhome.th/p/{product_id}?ref={agent_code}</code></li>
+        <li>LIFF 链接格式：<code>https://liff.line.me/{liff_id}?product={product_id}&ref={agent_code}</code></li>
+        <li>归因窗口：买家点击推广链接后 <strong>7天内</strong>下单，佣金归该网点</li>
+        <li>首单自动绑定：买家首次通过推广码完成下单，自动与该网点建立绑定关系</li>
+        <li>绑定有效期：<strong>90天滚动刷新</strong>，自买家最近一次交易起算90天；每次交易重新刷新；90天无交易自动解绑</li>
+        <li>已绑定的买家再次通过其他网点链接访问，<strong>不改变绑定关系</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="buyer-cart">
+    <h2 class="section-title">购物车与下单</h2>
+
+    <h3>购物车</h3>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>商品列表</td><td>已加购商品（图片+名称+规格+单价+数量）</td></tr>
+      <tr><td>数量调整</td><td>加减器修改数量，库存不足时禁用</td></tr>
+      <tr><td>删除商品</td><td>左滑删除 或 编辑模式批量删除</td></tr>
+      <tr><td>全选/金额汇总</td><td>底部全选框 + 已选商品总价</td></tr>
+      <tr><td>去结算</td><td>底部「去结算」按钮，跳转确认订单页</td></tr>
+    </table>
+
+    <h3>确认订单页</h3>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+      <tr><td>收货地址</td><td>选择/新增</td><td>是</td><td>从地址列表选择或新增地址</td></tr>
+      <tr><td>商品清单</td><td>列表</td><td>—</td><td>确认购买的商品（不可修改数量，需返回购物车）</td></tr>
+      <tr><td>运费</td><td>金额</td><td>—</td><td>根据地址和重量计算（或固定费率）</td></tr>
+      <tr><td>支付方式</td><td>选择</td><td>是</td><td>PromptPay (QR) / COD</td></tr>
+      <tr><td>订单备注</td><td>文本</td><td>否</td><td>给卖家的备注信息</td></tr>
+      <tr><td>订单总额</td><td>金额</td><td>—</td><td>商品总价 + 运费</td></tr>
+    </table>
+
+    <h3>支付流程</h3>
+    <table>
+      <tr><th>支付方式</th><th>流程</th><th>说明</th></tr>
+      <tr><td><strong>PromptPay</strong></td><td>提交订单 → 显示 QR 码 → 买家扫码支付 → 系统确认到账 → 订单变为「待发货」</td><td>QR 码有效期 15 分钟，超时订单取消</td></tr>
+      <tr><td><strong>COD</strong></td><td>提交订单 → 订单直接变为「待发货」→ 配送员送货 → 买家当面付款</td><td>COD 订单无需在线支付</td></tr>
+    </table>
+  </section>
+
+  <section id="buyer-order">
+    <h2 class="section-title">订单与售后</h2>
+
+    <h3>订单列表</h3>
+    <p>按状态分Tab：待支付 / 待发货 / 已发货 / 已完成 / 已取消</p>
+    <table>
+      <tr><th>订单卡片字段</th><th>说明</th></tr>
+      <tr><td>店铺名</td><td>卖家店铺名称</td></tr>
+      <tr><td>商品信息</td><td>缩略图 + 名称 + 规格 + 数量</td></tr>
+      <tr><td>订单金额</td><td>合计金额</td></tr>
+      <tr><td>订单状态</td><td>当前状态标签</td></tr>
+      <tr><td>操作按钮</td><td>根据状态显示：去支付/确认收货/申请售后/删除</td></tr>
+    </table>
+
+    <h3>售后申请</h3>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+      <tr><td>售后类型</td><td>选择</td><td>是</td><td>仅退款 / 退货退款</td></tr>
+      <tr><td>售后原因</td><td>选择+文本</td><td>是</td><td>预设原因列表 + 补充描述</td></tr>
+      <tr><td>凭证图片</td><td>图片</td><td>否</td><td>最多5张凭证照片</td></tr>
+    </table>
+
+    <div class="highlight red">
+      <h4>售后规则</h4>
+      <ul>
+        <li>仅支持<strong>全额退款</strong>，不支持部分退款</li>
+        <li>7天无理由退货（商品未使用）</li>
+        <li>退货退款需买家先退货（7天内寄回），卖家确认收货后退款</li>
+        <li>卖家24h未处理，系统自动同意；买家可对拒绝结果申诉</li>
+        <li>退款成功后，对应佣金自动扣除</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="buyer-me">
+    <h2 class="section-title">个人中心</h2>
+    <table>
+      <tr><th>功能</th><th>说明</th></tr>
+      <tr><td>个人信息</td><td>头像 / 昵称（LIFF 自动获取 LINE 信息，H5 需手动注册）</td></tr>
+      <tr><td>我的订单</td><td>快捷入口：待支付/待发货/已发货/售后</td></tr>
+      <tr><td>收货地址</td><td>地址列表 / 新增 / 编辑 / 删除 / 设置默认</td></tr>
+      <tr><td>联系客服</td><td>跳转 LINE 客服（或显示客服联系方式）</td></tr>
+    </table>
+
+    <h3>收货地址字段</h3>
+    <table class="field-table">
+      <tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+      <tr><td>收货人</td><td>文本</td><td>是</td><td>收货人姓名</td></tr>
+      <tr><td>手机号</td><td>电话</td><td>是</td><td>泰国手机号</td></tr>
+      <tr><td>省份</td><td>选择</td><td>是</td><td>泰国 77 府选择</td></tr>
+      <tr><td>区/县</td><td>选择</td><td>是</td><td>联动省份</td></tr>
+      <tr><td>详细地址</td><td>文本</td><td>是</td><td>街道、门牌号等</td></tr>
+      <tr><td>邮编</td><td>数字</td><td>否</td><td>泰国邮编</td></tr>
+      <tr><td>设为默认</td><td>开关</td><td>否</td><td>默认收货地址</td></tr>
+    </table>
+  </section>
+</div>
+
+<!-- ════════════ 第五部分：业务规则 ════════════ -->
+<div class="phase-banner">
+  <h2>第五部分 · 业务规则</h2>
+  <p>绑定归属、佣金计算、结算、推送、推荐算法</p>
+</div>
+<div class="content">
+
+  <section id="rule-bindcommission">
+    <h2 class="section-title">5.1 绑定归属规则</h2>
+    <table>
+      <tr><th>规则</th><th>说明</th></tr>
+      <tr><td>归因载体</td><td>网点专属推广码：<strong>通用码</strong>（网点主页入口）+ <strong>商品码</strong>（单品分享链接），系统自动追踪来源</td></tr>
+      <tr><td>归因窗口</td><td><strong>点击后7天</strong> — 买家点击推广链接后7天内下单，佣金归该网点。FH品类决策周期短，7天足够覆盖</td></tr>
+      <tr><td>绑定触发</td><td><strong>首单自动绑定</strong> — 买家首次通过推广码完成下单，自动与该网点建立绑定关系</td></tr>
+      <tr><td>绑定有效期</td><td><strong>90天滚动刷新</strong> — 自买家最近一次交易起算90天；期间每次交易都重新刷新有效期；90天无交易则自动解绑</td></tr>
+      <tr><td>复购佣金</td><td><strong>全额（与首单相同）</strong>— 绑定期内买家每次复购，网点均获得与首单相同比例的推广佣金，无衰减</td></tr>
+      <tr><td>绑定后归属</td><td>买家一旦绑定，后续订单均归属绑定网点，不受其他网点链接影响</td></tr>
+      <tr><td>自然流量</td><td>未绑定买家直接下单→不分佣；已绑定买家直接下单→佣金仍归绑定网点</td></tr>
+    </table>
+
+    <h2 class="section-title">5.2 费用结构与佣金规则</h2>
+
+    <h3>FH 平台向卖家收取的费用</h3>
+    <table>
+      <tr><th>费用类型</th><th>费率</th><th>说明</th></tr>
+      <tr><td><strong>成交佣金（按品类）</strong></td><td>电子配件 4% / 快消·家居·食品 5% / 美妆·保健 6%</td><td>计算基数：(商品价格 − 卖家折扣) × 费率，不含运费</td></tr>
+      <tr><td><strong>交易手续费</strong></td><td>3.21%</td><td>支付网关费，计算基数：含平台折扣的支付金额，发货前取消免收</td></tr>
+      <tr><td><strong>卖家年费</strong></td><td>฿999 / ฿2,999 / ฿9,999（入门/专业/品牌）</td><td>替代逐单基础设施费；P1 前3个月首批卖家免年费（冷启动优惠）</td></tr>
+    </table>
+
+    <h3>推广佣金（卖家 → 网点）</h3>
+    <div class="highlight green">
+      <h4>推广佣金计算</h4>
+      <p><strong>推广佣金 = 商品售价 × 卖家自设推广佣金率</strong></p>
+      <p>建议推广佣金率范围：<strong>10%-20%</strong>，由卖家自行设置。网点获取全额推广佣金，平台不从中抽成。</p>
+    </div>
+
+    <h3>佣金率确定优先级</h3>
+    <table>
+      <tr><th>优先级</th><th>来源</th><th>说明</th></tr>
+      <tr><td>1（最高）</td><td>单品独立佣金率</td><td>商家在商品编辑页单独设置的推广佣金率</td></tr>
+      <tr><td>2（默认）</td><td>店铺默认佣金率</td><td>商家在「我的店铺」中设置的默认推广佣金率</td></tr>
+    </table>
+
+    <h3>每笔交易资金流示例（美妆品类，售价 ฿100，推广佣金 15%）</h3>
+    <table>
+      <tr><th>费用项</th><th>费率</th><th>金额</th><th>去向</th></tr>
+      <tr><td>成交佣金</td><td>6%</td><td>฿6.00</td><td>FH 平台</td></tr>
+      <tr><td>交易手续费</td><td>3.21%</td><td>฿3.21</td><td>FH 平台</td></tr>
+      <tr><td>推广佣金</td><td>15%</td><td>฿15.00</td><td>网点</td></tr>
+      <tr><td><strong>卖家到手</strong></td><td>—</td><td><strong>฿75.79</strong></td><td>卖家（毛利 75.79%）</td></tr>
+    </table>
+  </section>
+
+  <section id="rule-settlement">
+    <h2 class="section-title">5.3 结算规则</h2>
+
+    <h3>结算周期</h3>
+    <table>
+      <tr><th>节点</th><th>说明</th></tr>
+      <tr><td>订单完成（确认收货）</td><td>开始计算 T+7 结算周期</td></tr>
+      <tr><td>T+7 天</td><td>系统自动生成结算单，进入可结算状态</td></tr>
+      <tr><td>运营审核</td><td>后台运营审核结算单</td></tr>
+      <tr><td>人工打款</td><td>审核通过后，人工通过银行转账打款</td></tr>
+    </table>
+
+    <h3>结算状态机</h3>
+    <div class="state-flow">
+      <div class="state-node">待结算</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node active">T+7到期</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node">待审核</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node end">已结算</div>
+    </div>
+
+    <h3>特殊场景处理</h3>
+    <table>
+      <tr><th>场景</th><th>处理方式</th></tr>
+      <tr><td>T+7 期间发起售后</td><td>冻结该订单的佣金和商家收入，结算顺延</td></tr>
+      <tr><td>售后退款成功</td><td>扣除对应佣金，已结算则从余额扣除</td></tr>
+      <tr><td>COD 订单拒收</td><td>订单取消，不计入结算</td></tr>
+    </table>
+
+    <h3>提现规则</h3>
+    <table>
+      <tr><th>规则</th><th>网点</th><th>卖家</th></tr>
+      <tr><td>最低提现金额</td><td>100 ฿</td><td>100 ฿</td></tr>
+      <tr><td>到账时间</td><td>1-3 工作日</td><td>1-3 工作日</td></tr>
+      <tr><td>提现方式</td><td>银行转账</td><td>银行转账</td></tr>
+      <tr><td>需绑定银行卡</td><td>是</td><td>是</td></tr>
+    </table>
+  </section>
+
+  <section id="rule-push">
+    <h2 class="section-title">5.4 推送规则</h2>
+    <table>
+      <tr><th>推送类型</th><th>频率</th><th>时间</th><th>内容</th></tr>
+      <tr><td>今日推荐更新</td><td>每日1次</td><td>08:00</td><td>推荐商品列表更新通知</td></tr>
+      <tr><td>午间精选</td><td>每日1次</td><td>12:00</td><td>爆品/活动提醒</td></tr>
+      <tr><td>每日战报</td><td>每日1次</td><td>19:00</td><td>今日推广数据汇总</td></tr>
+      <tr><td>活动推送</td><td>按需</td><td>运营配置</td><td>节日/促销活动通知</td></tr>
+    </table>
+    <div class="highlight">
+      <h4>推送通道（MVP）</h4>
+      <p>MVP 阶段推送通过 <strong>APP 内通知（网点端推广日历）</strong> + <strong>LINE 消息推送</strong> 实现。不做短信推送。</p>
+    </div>
+  </section>
+
+  <section id="rule-recommend">
+    <h2 class="section-title">5.5 智能推荐算法</h2>
+    <div class="highlight blue">
+      <h4>推荐打分公式</h4>
+      <p><strong>Score = commission_rate × W1 + 7d_conversion × W2 + 7d_sales × W3 + freshness × W4</strong></p>
+      <p>默认权重：W1=0.4, W2=0.3, W3=0.2, W4=0.1 （后台可调整）</p>
+    </div>
+    <table>
+      <tr><th>因子</th><th>计算方式</th><th>归一化</th></tr>
+      <tr><td>commission_rate</td><td>商品佣金率</td><td>佣金率 / 最大佣金率 (50%)</td></tr>
+      <tr><td>7d_conversion</td><td>近7天点击→下单转化率</td><td>转化率 / 最大转化率</td></tr>
+      <tr><td>7d_sales</td><td>近7天销量</td><td>销量 / 最大销量</td></tr>
+      <tr><td>freshness</td><td>上架时间新鲜度</td><td>1 / (1 + 上架天数/30)</td></tr>
+    </table>
+    <p><strong>置顶规则：</strong>运营手动置顶的商品固定展示在列表最前面，不参与算法排序。支持设定置顶时间段（开始时间、结束时间）。</p>
+  </section>
+</div>
+
+<!-- ════════════ 第六部分：技术要求 ════════════ -->
+<div class="phase-banner">
+  <h2>第六部分 · 技术要求</h2>
+  <p>性能 / 安全 / 兼容性 / 多语言 / 数据埋点</p>
+</div>
+<div class="content">
+  <section id="nfr">
+    <h2 class="section-title">6.1 性能要求</h2>
+    <table>
+      <tr><th>指标</th><th>目标</th><th>说明</th></tr>
+      <tr><td>页面首屏加载</td><td>≤ 3 秒</td><td>4G 网络环境下</td></tr>
+      <tr><td>API 响应时间</td><td>≤ 500ms</td><td>P95 响应时间</td></tr>
+      <tr><td>图片加载</td><td>懒加载</td><td>列表页图片进入视口后加载</td></tr>
+      <tr><td>列表分页</td><td>每页 20 条</td><td>支持上拉加载更多</td></tr>
+      <tr><td>并发支持</td><td>≥ 500</td><td>同时在线用户数</td></tr>
+    </table>
+
+    <h2 class="section-title">6.2 安全要求</h2>
+    <table>
+      <tr><th>项目</th><th>措施</th></tr>
+      <tr><td>支付安全</td><td>PromptPay 对接泰国支付网关，HTTPS 全链路加密</td></tr>
+      <tr><td>数据传输</td><td>所有 API 通信使用 HTTPS + Token 认证</td></tr>
+      <tr><td>敏感信息</td><td>手机号/银行卡号脱敏显示，数据库加密存储</td></tr>
+      <tr><td>权限控制</td><td>四端独立权限体系，后台支持角色权限管理</td></tr>
+      <tr><td>防刷单</td><td>MVP 基础策略：同一 IP/设备短时间重复下单限制</td></tr>
+    </table>
+
+    <h2 class="section-title">6.3 兼容性要求</h2>
+    <table>
+      <tr><th>端</th><th>环境</th><th>要求</th></tr>
+      <tr><td>网点端</td><td>移动端 H5</td><td>iOS Safari 14+ / Android Chrome 80+ / LINE 内置浏览器</td></tr>
+      <tr><td>卖家端</td><td>PC Web（响应式）</td><td>Chrome 90+ / Edge 90+ / Safari 15+ / 分辨率 ≥ 1280×720</td></tr>
+      <tr><td>买家端</td><td>H5 + LIFF</td><td>LINE App 最新版 / iOS Safari 14+ / Android Chrome 80+ / Facebook 内置浏览器</td></tr>
+      <tr><td>FH后台</td><td>PC Web</td><td>Chrome 90+ / Edge 90+ / 分辨率 ≥ 1280×720</td></tr>
+    </table>
+
+    <h2 class="section-title">6.4 多语言</h2>
+    <table>
+      <tr><th>端</th><th>MVP 语言</th><th>说明</th></tr>
+      <tr><td>买家端</td><td>泰语</td><td>面向泰国消费者</td></tr>
+      <tr><td>网点端</td><td>泰语</td><td>面向泰国本地网点</td></tr>
+      <tr><td>卖家端</td><td>泰语 + 中文</td><td>部分卖家为中国背景</td></tr>
+      <tr><td>FH后台</td><td>中文 + 英文</td><td>运营团队使用</td></tr>
+    </table>
+  </section>
+</div>
+
+<div class="content">
+  <section id="tracking">
+    <h2 class="section-title">6.5 核心埋点事件</h2>
+
+    <h3>网点端事件</h3>
+    <table>
+      <tr><th>事件名</th><th>触发时机</th><th>关键参数</th></tr>
+      <tr><td>page_view_today_picks</td><td>打开今日推荐页</td><td>agent_id, timestamp</td></tr>
+      <tr><td>product_click</td><td>点击商品卡片</td><td>agent_id, product_id, position</td></tr>
+      <tr><td>share_generate</td><td>点击一键分享</td><td>agent_id, product_id, share_type (text/poster/direct)</td></tr>
+      <tr><td>share_complete</td><td>分享素材实际发送</td><td>agent_id, product_id, share_channel (line/fb)</td></tr>
+      <tr><td>calendar_view</td><td>打开推广日历</td><td>agent_id, date</td></tr>
+    </table>
+
+    <h3>买家端事件</h3>
+    <table>
+      <tr><th>事件名</th><th>触发时机</th><th>关键参数</th></tr>
+      <tr><td>link_click</td><td>买家点击推广链接</td><td>agent_code, product_id, source (line/fb/other)</td></tr>
+      <tr><td>product_view</td><td>商品详情页曝光</td><td>product_id, agent_code, is_new_bindding</td></tr>
+      <tr><td>add_to_cart</td><td>加入购物车</td><td>product_id, sku_id, quantity, price</td></tr>
+      <tr><td>checkout_start</td><td>进入确认订单页</td><td>cart_items_count, total_amount</td></tr>
+      <tr><td>payment_select</td><td>选择支付方式</td><td>payment_method (promptpay/cod)</td></tr>
+      <tr><td>order_submit</td><td>提交订单</td><td>order_id, total_amount, payment_method, agent_code</td></tr>
+      <tr><td>payment_complete</td><td>支付完成</td><td>order_id, payment_method, amount</td></tr>
+    </table>
+
+    <h2 class="section-title">6.6 核心转化漏斗</h2>
+
+    <h3>漏斗一：网点推广漏斗</h3>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="amt">查看推荐</div><div class="who">page_view</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">点击商品</div><div class="who">product_click</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">生成素材</div><div class="who">share_generate</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">完成分享</div><div class="who">share_complete</div></div>
+    </div>
+
+    <h3>漏斗二：买家购买漏斗</h3>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="amt">链接点击</div><div class="who">link_click</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">商品浏览</div><div class="who">product_view</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">加入购物车</div><div class="who">add_to_cart</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">提交订单</div><div class="who">order_submit</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="amt">支付完成</div><div class="who">payment_complete</div></div>
+    </div>
+
+    <h2 class="section-title">6.7 数据看板需求</h2>
+    <table>
+      <tr><th>看板</th><th>核心指标</th><th>使用方</th></tr>
+      <tr><td>运营总览</td><td>平台GMV / 订单量 / 客单价 / 活跃网点数 / 佣金支出 / MVP目标达成</td><td>运营</td></tr>
+      <tr><td>推广效果看板</td><td>日均分享数 / 链接点击数 / 点击→下单转化率 / 推广GMV</td><td>运营</td></tr>
+      <tr><td>网点排行看板</td><td>Top网点GMV / Top网点分享数 / 网点活跃率</td><td>运营</td></tr>
+      <tr><td>商品转化看板</td><td>商品点击率 / 商品转化率 / 商品退货率</td><td>运营</td></tr>
+      <tr><td>财务概览</td><td>待结算金额 / 已结算金额 / 待审核提现笔数+金额</td><td>运营</td></tr>
+      <tr><td>每日战报</td><td>分享次数 / 点击数 / 订单数 / 预估佣金 / Top3商品</td><td>网点（个人）</td></tr>
+    </table>
+  </section>
+</div>
+
+<!-- ════════════ 第七部分：路线图与风险 ════════════ -->
+<div class="phase-banner">
+  <h2>第七部分 · 路线图与风险</h2>
+  <p>开放问题 / 风险评估 / 产品路线图 / 开发里程碑 / 验收标准</p>
+</div>
+<div class="content">
+  <section id="open-issues">
+    <h2 class="section-title">7.1 待确认事项</h2>
+    <table>
+      <tr><th>#</th><th>问题</th><th>影响范围</th><th>状态</th></tr>
+      <tr><td>1</td><td>PromptPay 支付网关选择哪家服务商？</td><td>买家端支付</td><td>待定</td></tr>
+      <tr><td>2</td><td>Flash Express 物流 API 对接方案（自动建单/运单号回传/配送状态同步）细节确认</td><td>卖家端发货</td><td>进行中</td></tr>
+      <tr><td>3</td><td>LIFF App ID 申请和 LINE OA 开发者权限</td><td>买家端 LIFF 壳</td><td>待定</td></tr>
+      <tr><td>4</td><td>域名和服务器部署区域（泰国/新加坡）</td><td>全局性能</td><td>待定</td></tr>
+      <tr><td>5</td><td>运费计算规则确认（固定运费 / 按重量）</td><td>买家端下单</td><td>待定</td></tr>
+      <tr><td>6</td><td>COD 配送服务商合作方</td><td>买家端COD</td><td>待定</td></tr>
+      <tr><td>7</td><td>SMS 验证码服务商（注册登录用）</td><td>全端注册登录</td><td>待定</td></tr>
+    </table>
+
+    <h2 class="section-title">7.2 技术风险</h2>
+    <table>
+      <tr><th>风险</th><th>影响</th><th>缓解措施</th></tr>
+      <tr><td>LIFF 壳在非LINE环境的兼容性</td><td>部分功能受限（自动登录不可用）</td><td>H5 作为降级方案，非LINE环境走手机号注册登录</td></tr>
+      <tr><td>PromptPay 支付回调延迟</td><td>用户支付后订单状态延迟更新</td><td>轮询机制 + 手动刷新按钮</td></tr>
+      <tr><td>分享素材在不同社交平台的展示差异</td><td>海报/链接在 FB/LINE 显示效果不一</td><td>按平台分别优化 OG 标签和分享格式</td></tr>
+      <tr><td>高并发推送时系统压力</td><td>08:00 定时推送可能导致短时高并发</td><td>分批推送（5分钟窗口内随机分发）</td></tr>
+    </table>
+
+    <h2 class="section-title">7.3 业务风险</h2>
+    <table>
+      <tr><th>风险</th><th>影响</th><th>缓解措施</th></tr>
+      <tr><td>网点推广积极性不足</td><td>分享率低，推广 GMV 达不到目标</td><td>优化推荐算法 + 运营激励活动 + 降低分享门槛</td></tr>
+      <tr><td>卖家商品质量参差不齐</td><td>退货率高，影响用户体验和网点信任</td><td>严格商品审核 + 退货率监控 + 黑名单机制</td></tr>
+      <tr><td>COD 拒收率高</td><td>物流成本损失</td><td>监控 COD 拒收率，必要时对高拒收用户限制 COD</td></tr>
+      <tr><td>绑定规则引发网点争议</td><td>多个网点争抢同一买家</td><td>「首单绑定 + 90天滚动刷新」规则明确告知网点，保障获客者权益</td></tr>
+    </table>
+  </section>
+</div>
+
+<div class="content">
+
+  <section id="roadmap">
+    <h2 class="section-title">7.4 产品路线图</h2>
+
+    <h3>MVP 阶段（当前）</h3>
+    <div class="highlight green">
+      <h4>核心目标：跑通商业模型 + 验证网点推广自动化价值</h4>
+      <ul>
+        <li><strong>网点端：</strong>今日推荐 + 一键分享 + 推广日历 + 每日战报</li>
+        <li><strong>FH后台：</strong>推广运营台 + 商家/网点/商品管理 + 订单中心 + 财务结算 + 售后工单</li>
+        <li><strong>卖家端：</strong>商品管理(多SKU) + 订单管理 + 财务中心 + 佣金设置(店铺+单品)</li>
+        <li><strong>买家端：</strong>H5+LIFF壳 + 商品详情 + 购物车 + 支付(PromptPay+COD) + 订单/售后</li>
+      </ul>
+    </div>
+
+    <h3>P2 阶段规划</h3>
+    <table>
+      <tr><th>端</th><th>功能方向</th><th>优先级</th><th>说明</th></tr>
+      <tr><td rowspan="4">网点端</td><td>我的客户（CRM）</td><td>高</td><td>客户标签、购买记录、活跃度分析</td></tr>
+      <tr><td>专题推荐清单</td><td>中</td><td>节日/主题商品合集</td></tr>
+      <tr><td>高级数据分析</td><td>中</td><td>渠道效果对比、最佳分享时间、AI推荐</td></tr>
+      <tr><td>团队管理</td><td>低</td><td>多级代理、团队佣金</td></tr>
+      <tr><td rowspan="3">FH后台</td><td>运营大盘</td><td>高</td><td>GMV趋势、用户增长、全局数据分析</td></tr>
+      <tr><td>营销活动管理</td><td>中</td><td>优惠券、满减活动、限时高佣金</td></tr>
+      <tr><td>风控系统</td><td>中</td><td>刷单检测、异常行为预警</td></tr>
+      <tr><td rowspan="2">卖家端</td><td>数据分析</td><td>中</td><td>销售趋势、商品分析、代理贡献分析</td></tr>
+      <tr><td>营销工具</td><td>低</td><td>优惠券、限时促销</td></tr>
+      <tr><td rowspan="3">买家端</td><td>独立首页+分类浏览</td><td>高</td><td>独立流量入口，不依赖推广链接</td></tr>
+      <tr><td>商品评价</td><td>中</td><td>评分+评论系统</td></tr>
+      <tr><td>积分/优惠券</td><td>低</td><td>用户激励体系</td></tr>
+      <tr><td rowspan="2">通用</td><td>多语言完善</td><td>中</td><td>全端多语言切换</td></tr>
+      <tr><td>自动打款</td><td>高</td><td>替代人工打款，对接银行API自动转账</td></tr>
+    </table>
+  </section>
+
+  <section id="milestones">
+    <h2 class="section-title">7.5 MVP 开发里程碑（建议）</h2>
+    <table>
+      <tr><th>阶段</th><th>周期</th><th>交付物</th></tr>
+      <tr><td><strong>M1: 基础架构</strong></td><td>第1-2周</td><td>项目脚手架 + 数据库设计 + API框架 + 用户认证体系</td></tr>
+      <tr><td><strong>M2: 卖家端核心</strong></td><td>第3-4周</td><td>商品管理（含多SKU）+ 佣金设置 + 店铺管理</td></tr>
+      <tr><td><strong>M3: 后台核心</strong></td><td>第5-6周</td><td>商家/网点/商品审核管理 + 推广运营台基础功能</td></tr>
+      <tr><td><strong>M4: 网点端核心</strong></td><td>第7-8周</td><td>今日推荐 + 一键分享 + 推广日历</td></tr>
+      <tr><td><strong>M5: 买家端 + 交易</strong></td><td>第9-10周</td><td>H5+LIFF壳 + 商品详情 + 购物车 + 下单支付</td></tr>
+      <tr><td><strong>M6: 订单 + 结算</strong></td><td>第11-12周</td><td>全流程订单管理 + 财务结算 + 售后工单</td></tr>
+      <tr><td><strong>M7: 联调测试</strong></td><td>第13-14周</td><td>全链路联调 + 数据埋点 + Bug修复</td></tr>
+      <tr><td><strong>M8: UAT + 上线</strong></td><td>第15-16周</td><td>用户验收测试 + 灰度发布 + 正式上线</td></tr>
+    </table>
+  </section>
+
+  <section id="acceptance">
+    <h2 class="section-title">7.6 MVP 验收标准</h2>
+
+    <h3>功能验收 Checklist</h3>
+    <table>
+      <tr><th>#</th><th>验收项</th><th>验收标准</th></tr>
+      <tr><td>1</td><td>网点查看今日推荐</td><td>推荐列表正确展示，算法打分排序正确，置顶商品优先</td></tr>
+      <tr><td>2</td><td>网点一键分享</td><td>三种素材格式均可正常生成，推广链接含正确绑定码</td></tr>
+      <tr><td>3</td><td>推广日历推送</td><td>08:00/12:00/19:00 定时推送正常触发，内容正确</td></tr>
+      <tr><td>4</td><td>买家点击链接购买</td><td>链接正确跳转商品详情，绑定关系正确建立，下单支付流程通畅</td></tr>
+      <tr><td>5</td><td>PromptPay 支付</td><td>QR码正确生成，支付回调正常，订单状态更新</td></tr>
+      <tr><td>6</td><td>COD 下单</td><td>COD订单正常创建，无需在线支付</td></tr>
+      <tr><td>7</td><td>卖家发货</td><td>卖家填写物流信息后订单状态正确变更</td></tr>
+      <tr><td>8</td><td>佣金计算</td><td>店铺默认佣金率 / 单品佣金率优先级正确，计算结果准确</td></tr>
+      <tr><td>9</td><td>T+7 结算</td><td>订单完成T+7后自动生成结算单，金额正确</td></tr>
+      <tr><td>10</td><td>售后退款</td><td>退款流程通畅，佣金正确扣除</td></tr>
+      <tr><td>11</td><td>LIFF 壳</td><td>LINE内打开自动登录，非LINE环境降级到H5正常使用</td></tr>
+      <tr><td>12</td><td>多SKU</td><td>2维度规格选择正确联动价格和库存</td></tr>
+    </table>
+
+    <h3>非功能验收</h3>
+    <table>
+      <tr><th>#</th><th>验收项</th><th>标准</th></tr>
+      <tr><td>1</td><td>页面加载速度</td><td>首屏加载 ≤ 3秒 (4G)</td></tr>
+      <tr><td>2</td><td>兼容性测试</td><td>iOS Safari / Android Chrome / LINE / FB 内置浏览器均可正常使用</td></tr>
+      <tr><td>3</td><td>数据埋点</td><td>核心事件埋点正确上报，漏斗数据可追踪</td></tr>
+      <tr><td>4</td><td>安全测试</td><td>支付链路HTTPS加密，敏感数据脱敏</td></tr>
+    </table>
+  </section>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>Flash Home · MVP 产品需求文档 v1.0 &nbsp;|&nbsp; 2026年3月12日</p>
+  <p>© Flash Home Team. All rights reserved.</p>
+</footer>
+
+</div><!-- end .main -->
+</body>
+</html>

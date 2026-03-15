@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashHome 双角色用户旅程图</title>
+<style>
+  :root { --brand:#FF6B35; --navy:#1A2B4A; --blue:#3182CE; --green:#38A169; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+    background:#fff; color:#1e293b; padding:32px; line-height:1.6; }
+  h1 { font-size:22px; color:var(--navy); margin-bottom:6px; }
+  .subtitle { font-size:13px; color:#6b7280; margin-bottom:32px; }
+
+  .role-section { margin-bottom:20px; }
+  .role-badge { display:inline-block; padding:5px 16px; border-radius:20px; font-size:13px;
+    font-weight:700; color:#fff; margin-bottom:14px; }
+  .role-agent { background:var(--brand); }
+  .role-buyer { background:var(--blue); }
+
+  .journey-row { display:flex; align-items:stretch; gap:0; margin-left:12px; }
+  .step { flex:1; min-width:0; position:relative; }
+  .step-inner { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 12px;
+    text-align:center; margin:0 4px; height:100%; display:flex; flex-direction:column; justify-content:center; }
+  .step-phase { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+    color:#9ca3af; margin-bottom:4px; }
+  .step-action { font-size:12.5px; font-weight:600; color:var(--navy); margin-bottom:4px; }
+  .step-detail { font-size:10.5px; color:#6b7280; }
+  .step-emotion { margin-top:6px; font-size:16px; }
+
+  .step-inner.highlight { background:#FFF5F0; border-color:#fed7aa; }
+  .step-inner.blue-hl { background:#EBF8FF; border-color:#bee3f8; }
+
+  .connector { display:flex; align-items:center; justify-content:center; padding:6px 0; }
+  .connector-line { flex:1; height:2px; background:linear-gradient(90deg,var(--brand),var(--blue)); }
+  .connector-arrow { color:#9ca3af; font-size:18px; margin:0 4px; }
+
+  .merge-point { text-align:center; margin:24px 0; }
+  .merge-box { display:inline-block; background:linear-gradient(135deg,var(--brand),var(--blue));
+    color:#fff; padding:14px 36px; border-radius:12px; font-weight:700; font-size:14px;
+    box-shadow:0 4px 16px rgba(0,0,0,.12); }
+
+  .loop-box { text-align:center; margin-top:20px; }
+  .loop-inner { display:inline-block; background:#F0FFF4; border:2px solid var(--green);
+    color:#276749; padding:14px 36px; border-radius:12px; font-weight:700; font-size:13px; }
+</style>
+</head>
+<body>
+<h1>双角色用户旅程图</h1>
+<p class="subtitle">网点 Agent × 买家 Buyer · 双路径（浏览选品 / 日历推送）汇合 → 社交分销闭环</p>
+
+<!-- Agent Journey -->
+<div class="role-section">
+  <div class="role-badge role-agent">网点 Agent</div>
+  <div class="journey-row">
+    <div class="step">
+      <div class="step-inner">
+        <div class="step-phase">触达</div>
+        <div class="step-action">登录网点H5</div>
+        <div class="step-detail">LINE内打开LIFF应用</div>
+        <div class="step-emotion">📱</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner highlight">
+        <div class="step-phase">发现</div>
+        <div class="step-action">浏览今日推荐</div>
+        <div class="step-detail">AI算法推荐高佣商品</div>
+        <div class="step-emotion">⭐</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner">
+        <div class="step-phase">提醒</div>
+        <div class="step-action">收到推广日历推送</div>
+        <div class="step-detail">10点 / 13点 / 18点三波</div>
+        <div class="step-emotion">📅</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner highlight">
+        <div class="step-phase">行动</div>
+        <div class="step-action">选品 & 一键分享</div>
+        <div class="step-detail">文案 / 海报 / 直接分享</div>
+        <div class="step-emotion">🚀</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner">
+        <div class="step-phase">分发</div>
+        <div class="step-action">LINE / Facebook 传播</div>
+        <div class="step-detail">推广链接绑定网点ID</div>
+        <div class="step-emotion">💬</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Merge Point -->
+<div class="merge-point">
+  <div class="merge-box">⬇ 推广链接触达买家 — 社交信任传递 ⬇</div>
+</div>
+
+<!-- Buyer Journey -->
+<div class="role-section">
+  <div class="role-badge role-buyer">买家 Buyer</div>
+  <div class="journey-row">
+    <div class="step">
+      <div class="step-inner blue-hl">
+        <div class="step-phase">触达</div>
+        <div class="step-action">点击推广链接</div>
+        <div class="step-detail">LINE / FB / 短信入口</div>
+        <div class="step-emotion">👆</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner">
+        <div class="step-phase">浏览</div>
+        <div class="step-action">商品详情页</div>
+        <div class="step-detail">图片/价格/规格/评价</div>
+        <div class="step-emotion">🔍</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner blue-hl">
+        <div class="step-phase">决策</div>
+        <div class="step-action">下单支付</div>
+        <div class="step-detail">PromptPay QR / COD</div>
+        <div class="step-emotion">💳</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner">
+        <div class="step-phase">履约</div>
+        <div class="step-action">Flash物流配送</div>
+        <div class="step-detail">到网点自提或送货上门</div>
+        <div class="step-emotion">🚚</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-inner blue-hl">
+        <div class="step-phase">完成</div>
+        <div class="step-action">确认收货</div>
+        <div class="step-detail">满意度反馈</div>
+        <div class="step-emotion">✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loop -->
+<div class="loop-box">
+  <div class="loop-inner">
+    ✅ 网点获佣金 → T+7结算打款 → 激励持续推广 → 社交分销闭环
+  </div>
+</div>
+
+</body>
+</html>
