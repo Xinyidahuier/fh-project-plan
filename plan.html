@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flash Home 电商电商项目计划书 P1-2 完整版</title>
+<style>
+  :root {
+    --brand: #FF6B35; --navy: #1A2B4A; --blue: #3182CE; --green: #38A169;
+    --purple: #805AD5; --red: #E53E3E; --amber: #D69E2E; --gray: #718096;
+    --light: #F7FAFC; --border: #E2E8F0; --text: #2D3748;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: var(--text); line-height: 1.8; background: #f0f2f5; }
+
+  /* ── NAV ── */
+  .toc-sidebar { position: fixed; left: 0; top: 0; width: 280px; height: 100vh; background: var(--navy);
+    overflow-y: auto; padding: 24px 0; z-index: 100; transition: transform .3s; }
+  .toc-sidebar .logo { padding: 0 24px 20px; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 16px; }
+  .toc-sidebar .logo h2 { color: var(--brand); font-size: 20px; }
+  .toc-sidebar .logo p { color: rgba(255,255,255,.5); font-size: 12px; }
+  .toc-sidebar a { display: block; padding: 8px 24px; color: rgba(255,255,255,.7); text-decoration: none;
+    font-size: 13px; border-left: 3px solid transparent; transition: all .2s; }
+  .toc-sidebar a:hover, .toc-sidebar a.active { color: #fff; background: rgba(255,255,255,.05); border-left-color: var(--brand); }
+  .toc-sidebar .phase-label { padding: 16px 24px 6px; color: var(--brand); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1px; font-weight: 700; }
+
+  /* ── MAIN ── */
+  .main { margin-left: 280px; padding: 0; }
+
+  /* ── HERO ── */
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, #2a4a7f 100%); color: #fff;
+    padding: 80px 60px 60px; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; right: -100px; top: -100px; width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,107,53,.15) 0%, transparent 70%); }
+  .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 12px; }
+  .hero h1 span { color: var(--brand); }
+  .hero .subtitle { font-size: 20px; opacity: .8; margin-bottom: 32px; }
+  .hero .meta { font-size: 14px; opacity: .5; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 32px 0 0; }
+  .kpi-card { background: rgba(255,255,255,.08); border-radius: 12px; padding: 20px; text-align: center;
+    border-top: 3px solid var(--brand); backdrop-filter: blur(10px); }
+  .kpi-card .value { font-size: 28px; font-weight: 800; }
+  .kpi-card .label { font-size: 13px; opacity: .7; margin-top: 4px; }
+  .kpi-card .desc { font-size: 11px; opacity: .4; margin-top: 2px; }
+  .kpi-card.blue { border-color: var(--blue); }
+  .kpi-card.green { border-color: var(--green); }
+  .kpi-card.purple { border-color: var(--purple); }
+  .kpi-card.red { border-color: var(--red); }
+  .kpi-card.amber { border-color: var(--amber); }
+
+  /* Hero tagline */
+  .hero-tagline { font-size: 22px; font-weight: 400; color: rgba(255,255,255,.85); line-height: 1.6; max-width: 640px; margin-bottom: 40px; }
+  .hero-tagline strong { color: var(--brand); font-weight: 700; }
+
+  /* Hero flow */
+  .hero-flow { display: flex; align-items: stretch; gap: 0; margin: 0 auto; max-width: 820px; }
+  .hero-flow-step { flex: 1; text-align: center; padding: 20px 12px; background: rgba(255,255,255,.06); border-radius: 12px; position: relative; }
+  .hero-flow-step .step-icon { font-size: 28px; margin-bottom: 8px; }
+  .hero-flow-step .step-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .hero-flow-step .step-desc { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 4px; line-height: 1.4; }
+  .hero-flow-arrow { display: flex; align-items: center; padding: 0 4px; font-size: 22px; color: var(--brand); font-weight: 700; flex-shrink: 0; }
+
+  /* Hero data strip */
+  .hero-data { display: flex; gap: 32px; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.12); }
+  .hero-data-item { text-align: left; }
+  .hero-data-item .d-val { font-size: 22px; font-weight: 800; color: var(--brand); }
+  .hero-data-item .d-lbl { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 2px; }
+
+  /* ── SECTION ── */
+  .content { max-width: 960px; margin: 0 auto; padding: 40px 60px 80px; }
+  .phase-banner { background: linear-gradient(90deg, var(--navy), var(--blue)); color: #fff;
+    padding: 32px 60px; margin: 0; font-size: 14px; }
+  .phase-banner h2 { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .phase-banner p { opacity: .7; }
+
+  section { margin-bottom: 48px; scroll-margin-top: 20px; }
+  h2.section-title { font-size: 26px; color: var(--navy); font-weight: 800; margin-bottom: 24px;
+    padding-bottom: 12px; border-bottom: 3px solid var(--brand); }
+  h3 { font-size: 20px; color: var(--brand); margin: 28px 0 12px; font-weight: 700; }
+  h4 { font-size: 16px; color: var(--blue); margin: 20px 0 8px; font-weight: 700; }
+  p { margin-bottom: 14px; font-size: 15px; }
+  ul, ol { margin: 12px 0 16px 24px; }
+  li { margin-bottom: 8px; font-size: 15px; }
+
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+  th { background: var(--navy); color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 13px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #f7fafc; }
+  .center { text-align: center; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight { background: var(--light); border-left: 4px solid var(--brand); border-radius: 0 8px 8px 0;
+    padding: 20px 24px; margin: 20px 0; }
+  .highlight.navy { border-color: var(--navy); }
+  .highlight.green { border-color: var(--green); }
+  .highlight.blue { border-color: var(--blue); }
+  .highlight.red { border-color: var(--red); }
+  .highlight.purple { border-color: var(--purple); }
+  .highlight strong { color: var(--navy); }
+  .highlight h4 { margin-top: 0; }
+
+  /* ── KPI GRID inside content ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+  .kpi-grid .card { background: #fff; border-radius: 8px; padding: 16px; text-align: center;
+    border: 1px solid var(--border); border-top: 3px solid var(--brand); }
+  .kpi-grid .card .val { font-size: 24px; font-weight: 800; color: var(--brand); }
+  .kpi-grid .card .lbl { font-size: 12px; color: var(--gray); margin-top: 4px; }
+  .kpi-grid .card .dsc { font-size: 11px; color: #a0aec0; }
+  .kpi-grid .card.b { border-top-color: var(--blue); }
+  .kpi-grid .card.b .val { color: var(--blue); }
+  .kpi-grid .card.g { border-top-color: var(--green); }
+  .kpi-grid .card.g .val { color: var(--green); }
+  .kpi-grid .card.p { border-top-color: var(--purple); }
+  .kpi-grid .card.p .val { color: var(--purple); }
+  .kpi-grid .card.r { border-top-color: var(--red); }
+  .kpi-grid .card.r .val { color: var(--red); }
+  .kpi-grid .card.a { border-top-color: var(--amber); }
+  .kpi-grid .card.a .val { color: var(--amber); }
+
+  /* ── BAR CHART ── */
+  .bar-chart { margin: 16px 0 24px; }
+  .bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+  .bar-label { width: 120px; font-size: 13px; font-weight: 600; text-align: right; padding-right: 12px; }
+  .bar-track { flex: 1; background: #edf2f7; border-radius: 6px; height: 28px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 10px; color: #fff; font-size: 12px; font-weight: 700; transition: width .6s; }
+
+  /* ── RISK BADGE ── */
+  .risk-high { background: #FED7D7; color: var(--red); padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+  .risk-mid { background: #FEFCBF; color: var(--amber); padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+
+  /* ── TRANSITION BANNER ── */
+  .transition-box { background: linear-gradient(135deg, var(--navy), #2a4a7f); color: #fff;
+    padding: 40px; border-radius: 12px; margin: 40px 0; }
+  .transition-box h3 { color: var(--brand); font-size: 22px; margin-bottom: 16px; }
+  .transition-box p { opacity: .9; font-size: 15px; line-height: 1.9; }
+
+  /* ── ROLE CARDS ── */
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .role-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px; background: #fff; }
+  .role-card h4 { margin-top: 0; font-size: 16px; }
+  .role-card .tag { display: inline-block; background: var(--light); color: var(--gray); font-size: 11px;
+    padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+
+  /* ── FUND FLOW ── */
+  .flow-steps { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 24px 0;
+    flex-wrap: wrap; }
+  .flow-step { background: #fff; border: 2px solid var(--border); border-radius: 10px; padding: 12px 18px;
+    text-align: center; min-width: 120px; }
+  .flow-step .amt { font-size: 20px; font-weight: 800; color: var(--brand); }
+  .flow-step .who { font-size: 12px; color: var(--gray); }
+  .flow-arrow { font-size: 24px; color: var(--brand); }
+
+  /* ── PLATFORM TABLE ICONS ── */
+  .check { color: var(--green); font-weight: bold; }
+  .cross { color: var(--red); font-weight: bold; }
+  .warn { color: var(--amber); font-weight: bold; }
+  .tag-p0 { background: var(--green); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .tag-p1 { background: var(--blue); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .tag-p2 { background: var(--gray); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+
+  /* ── MODULE BANNER ── */
+  .module-banner { background: linear-gradient(90deg, #f8f9fa, #edf2f7); border-left: 5px solid var(--brand);
+    padding: 20px 28px; margin: 48px 0 32px; border-radius: 0 12px 12px 0; }
+  .module-banner h3 { font-size: 20px; font-weight: 800; color: var(--navy); margin: 0 0 4px; }
+  .module-banner p { font-size: 14px; color: var(--gray); margin: 0; }
+  .module-banner .tag { display: inline-block; background: var(--brand); color: #fff; font-size: 12px;
+    padding: 2px 10px; border-radius: 4px; margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; }
+
+  /* ── MOBILE MENU BUTTON ── */
+  .menu-btn { display: none; position: fixed; top: 12px; left: 12px; z-index: 200; background: var(--navy);
+    color: #fff; border: none; border-radius: 8px; width: 40px; height: 40px; font-size: 20px; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+  .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 99; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1100px) {
+    .menu-btn { display: block; }
+    .toc-sidebar { transform: translateX(-100%); }
+    .toc-sidebar.open { transform: translateX(0); }
+    .menu-overlay.open { display: block; }
+    .main { margin-left: 0; }
+    .content { padding: 20px 16px; }
+    .hero { padding: 48px 20px 36px; }
+    .hero h1 { font-size: 28px; }
+    .hero .subtitle { font-size: 16px; }
+    .kpi-row, .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .kpi-card .value { font-size: 22px; }
+    .role-grid { grid-template-columns: 1fr; }
+    table { display: block; overflow-x: auto; white-space: nowrap; }
+    .module-banner { padding: 16px 20px; margin: 32px 0 24px; }
+    .highlight { padding: 16px 18px; }
+    .flow-steps { gap: 4px; }
+    .flow-step { min-width: 90px; padding: 8px 12px; }
+    .flow-step .amt { font-size: 16px; }
+    .hero-flow { flex-wrap: wrap; gap: 8px; }
+    .hero-flow-arrow { display: none; }
+    .hero-flow-step { flex: 1 1 45%; }
+    .hero-data { flex-wrap: wrap; gap: 16px; }
+    h2.section-title { font-size: 20px; }
+    h3 { font-size: 17px; }
+  }
+
+  /* ── SMALL MOBILE ── */
+  @media (max-width: 480px) {
+    .kpi-row, .kpi-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 24px; }
+    .content { padding: 16px 12px; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .toc-sidebar, .menu-btn, .menu-overlay { display: none; }
+    .main { margin-left: 0; }
+    .hero { padding: 40px; }
+    body { background: #fff; }
+    table { display: table; white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── MOBILE MENU ── -->
+<button class="menu-btn" onclick="document.querySelector('.toc-sidebar').classList.toggle('open');document.querySelector('.menu-overlay').classList.toggle('open')">☰</button>
+<div class="menu-overlay" onclick="document.querySelector('.toc-sidebar').classList.remove('open');this.classList.remove('open')"></div>
+
+<!-- ════════════ SIDEBAR NAV ════════════ -->
+<nav class="toc-sidebar">
+  <div class="logo">
+    <h2>Flash Home</h2>
+    <p>电商项目计划书 P1-2 完整版</p>
+  </div>
+  <div class="phase-label">第一阶段：市场研究</div>
+  <a href="#summary">摘要</a>
+  <a href="#market-overview">1. 市场规模与趋势</a>
+  <a href="#pain-points">2. 三方需求与痛点</a>
+  <a href="#opportunity">3. FH市场空白与定位</a>
+  <div class="phase-label">战略衔接</div>
+  <a href="#transition">市场结论与战略决策</a>
+  <div class="phase-label">第二阶段：项目方案</div>
+  <a href="#mod-a" style="color:var(--brand);font-weight:600;font-size:12px">1. 项目定位与模式</a>
+  <a href="#overview">&nbsp;&nbsp;1.1 项目概述</a>
+  <a href="#biz-model">&nbsp;&nbsp;1.2 商业模式：三端协同</a>
+  <a href="#mod-b" style="color:var(--brand);font-weight:600;font-size:12px">2. 商业经济模型</a>
+  <a href="#fee-compare">&nbsp;&nbsp;2.1 卖家费用结构</a>
+  <a href="#fund-flow">&nbsp;&nbsp;2.2 每笔交易资金流</a>
+  <a href="#breakeven">&nbsp;&nbsp;2.3 盈亏平衡分析</a>
+  <a href="#mod-c" style="color:var(--brand);font-weight:600;font-size:12px">3. 增长引擎</a>
+  <a href="#growth-overview">&nbsp;&nbsp;3.1 增长全景</a>
+  <a href="#product-selection">&nbsp;&nbsp;3.2 选品策略</a>
+  <a href="#incentives">&nbsp;&nbsp;3.3 网点激励机制</a>
+  <a href="#growth-engine">&nbsp;&nbsp;3.4 增长补贴方案</a>
+  <a href="#mod-d" style="color:var(--brand);font-weight:600;font-size:12px">4. 执行路径</a>
+  <a href="#milestones">&nbsp;&nbsp;4.1 阶段里程碑与KPI</a>
+  <a href="#mod-e" style="color:var(--brand);font-weight:600;font-size:12px">5. 保障体系</a>
+  <a href="#risks">&nbsp;&nbsp;5.1 风险评估与应对</a>
+  <a href="#tech">&nbsp;&nbsp;5.2 技术方案简述</a>
+</nav>
+
+<!-- ════════════ MAIN ════════════ -->
+<div class="main">
+
+<!-- HERO -->
+<header class="hero">
+  <h1><span>Flash Home</span> 电商项目计划书</h1>
+  <p class="hero-tagline">依托 <strong>13,000+ Flash Home 线下网点</strong>，构建以「信任推荐」驱动的电商平台——让网点成为卖家的<strong>零门槛推广网络</strong></p>
+
+  <div class="hero-flow">
+    <div class="hero-flow-step">
+      <div class="step-icon">📦</div>
+      <div class="step-title">卖家上架商品</div>
+      <div class="step-desc">低费率 15-29%<br>按出单付费</div>
+    </div>
+    <div class="hero-flow-arrow">▸</div>
+    <div class="hero-flow-step" style="border-top: 2px solid var(--brand)">
+      <div class="step-icon">⚙️</div>
+      <div class="step-title">FH 平台</div>
+      <div class="step-desc">撮合 · 归因 · 结算<br>统一推广工具</div>
+    </div>
+    <div class="hero-flow-arrow">▸</div>
+    <div class="hero-flow-step">
+      <div class="step-icon">🏪</div>
+      <div class="step-title">网点信任推荐</div>
+      <div class="step-desc">零库存零风险<br>LINE/FB/线下推广</div>
+    </div>
+    <div class="hero-flow-arrow">▸</div>
+    <div class="hero-flow-step">
+      <div class="step-icon">🛒</div>
+      <div class="step-title">买家下单</div>
+      <div class="step-desc">熟人背书<br>信任转化</div>
+    </div>
+    <div class="hero-flow-arrow">▸</div>
+    <div class="hero-flow-step">
+      <div class="step-icon">🚚</div>
+      <div class="step-title">Flash 配送</div>
+      <div class="step-desc">全国物流闭环<br>成本优势</div>
+    </div>
+  </div>
+
+  <p class="meta" style="margin-top:32px">Phase 1-2 完整版 — 市场研究 × 项目方案 | v2.0 | 2026年3月</p>
+</header>
+
+<!-- ═══════════ PHASE 1 ═══════════ -->
+<div class="phase-banner" id="phase1">
+  <h2>第一阶段：市场研究</h2>
+  <p>泰国电商市场与消费者信任推荐行为深度分析</p>
+</div>
+
+<div class="content">
+
+<!-- 摘要 -->
+<section id="summary">
+  <h2 class="section-title">摘要</h2>
+  <p>泰国电商市场 2025 年规模达 <strong>$357亿美元</strong>，年增速 10.9%，移动端占线上交易 80% 以上。更关键的是泰国消费者的购买决策高度依赖<strong>人际信任推荐</strong>——81% 的消费者因 KOL 或熟人推荐而购买，89% 的人表示社交平台影响其购买决策，远高于对品牌广告的信任度。</p>
+  <p>然而，现有电商平台（Shopee、TikTok Shop等）的获客逻辑均依赖算法推荐和付费广告，没有平台系统性地利用「线下信任关系网络」来驱动交易。这意味着一个巨大的市场空白：<strong>有私域流量和信任关系的人，缺乏零门槛的变现工具</strong>。Flash Home 正是为填补这一空白而设计。</p>
+
+  <div class="kpi-grid">
+    <div class="card"><div class="val">$35.7B</div><div class="lbl">泰国电商市场</div><div class="dsc">2025年 / CAGR 10.9%</div></div>
+    <div class="card b"><div class="val">81%</div><div class="lbl">受推荐影响购买</div><div class="dsc">KOL与熟人推荐</div></div>
+    <div class="card g"><div class="val">13,000+</div><div class="lbl">Flash Home网点</div><div class="dsc">天然信任推荐网络</div></div>
+    <div class="card p"><div class="val">89%</div><div class="lbl">社交平台影响购买</div><div class="dsc">泰国消费者社交驱动决策</div></div>
+  </div>
+</section>
+
+<!-- 1. 泰国电商市场规模与趋势 -->
+<section id="market-overview">
+  <h2 class="section-title">1 泰国电商市场规模与趋势</h2>
+
+  <h3>1.1 市场规模</h3>
+  <div class="kpi-grid">
+    <div class="card"><div class="val">$35.7B</div><div class="lbl">2025年规模</div><div class="dsc">同比+13.3%</div></div>
+    <div class="card b"><div class="val">$54B</div><div class="lbl">2029年预测</div><div class="dsc">CAGR 10.9%</div></div>
+    <div class="card g"><div class="val">11.4%</div><div class="lbl">电商占零售比</div><div class="dsc">同比+8.8%</div></div>
+    <div class="card p"><div class="val">43.5M</div><div class="lbl">电商用户数</div><div class="dsc">总人口约7,100万</div></div>
+  </div>
+  <p style="font-size:13px;color:var(--gray);margin-top:8px">数据来源：GlobeNewswire (Jan 2026) Thailand B2C Ecommerce Databook; PaymentsCMI E-Commerce in Thailand 2024-2027; SellerCraft Digital Retail Outlook 2025-2026</p>
+
+  <h3>1.2 关键趋势</h3>
+  <div class="highlight">
+    <h4>三个与 FH 直接相关的趋势</h4>
+    <ol>
+      <li><strong>移动端主导：</strong>80%+ 线上交易来自手机，QR 支付（PromptPay）渗透率超 70%，消费者习惯在手机上完成从发现到支付的全链路</li>
+      <li><strong>平台费用持续上涨：</strong>Shopee/TikTok 平台综合费用已达 GMV 的 35-40%，中小卖家利润被严重挤压，急需低成本替代渠道</li>
+      <li><strong>联盟营销爆发：</strong>泰国联盟营销采用率从 19% 跃升至 35%，「按效果付费」模式被越来越多商家接受</li>
+    </ol>
+  </div>
+  <p style="font-size:13px;color:var(--gray)">数据来源：DataReportal Digital 2025 Thailand; Meltwater / We Are Social Digital 2025 Report</p>
+
+  <h3>1.3 消费者购买决策：信任驱动</h3>
+  <p>泰国消费者的购买决策由<strong>信任驱动，而非算法驱动</strong>。这一特征是 FH 网点推广模式的市场根基。</p>
+  <div class="bar-chart">
+    <div class="bar-row"><div class="bar-label">社交平台影响购买决策</div><div class="bar-track"><div class="bar-fill" style="width:89%;background:var(--blue)">89%</div></div></div>
+    <div class="bar-row"><div class="bar-label">KOL / 熟人推荐</div><div class="bar-track"><div class="bar-fill" style="width:81%;background:var(--brand)">81%</div></div></div>
+    <div class="bar-row"><div class="bar-label">免费配送</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--green)">60%</div></div></div>
+    <div class="bar-row"><div class="bar-label">优惠券 / 折扣</div><div class="bar-track"><div class="bar-fill" style="width:58%;background:var(--purple)">58%</div></div></div>
+    <div class="bar-row"><div class="bar-label">货到付款</div><div class="bar-track"><div class="bar-fill" style="width:35%;background:var(--gray)">35%</div></div></div>
+  </div>
+  <p style="font-size:13px;color:var(--gray);margin-top:4px">数据来源：Meltwater/Intellify 2025 Thailand Social Media Report (89%); Statista/Rakuten Insight 2023 (81%); 60%/58%/35% 为行业综合估算</p>
+
+  <div class="highlight" style="background:linear-gradient(135deg,var(--navy),#2a4a7f);color:#fff;border-left-color:var(--brand)">
+    <h4 style="color:var(--brand)">对 FH 的核心启示</h4>
+    <p style="color:rgba(255,255,255,.85)">排名前两位的购买决策因素——<strong style="color:#fff">「社交平台影响」和「熟人推荐」</strong>——恰好是 FH 网点模式的天然优势。网点主和到店客户之间已有线下信任关系，这种信任转化为购买的效率远高于算法推荐和品牌广告。</p>
+  </div>
+</section>
+
+<!-- 2. 三方需求与痛点 -->
+<section id="pain-points">
+  <h2 class="section-title">2 三方需求与痛点</h2>
+  <p>FH 的商业模式连接三方参与者。每一方都有明确的需求和未被满足的痛点。</p>
+
+  <div class="role-grid" style="grid-template-columns:repeat(3,1fr);gap:12px">
+    <div class="role-card" style="border-top:3px solid var(--green)">
+      <span class="tag" style="background:var(--green);color:#fff">卖家</span>
+      <h4>品牌商 / 制造商 / 贸易商</h4>
+      <p><strong>典型画像：</strong>以 Shopee/TikTok 为主力销售渠道，希望拓展低成本增量获客渠道</p>
+      <p style="color:var(--red);font-weight:600;margin-top:12px">痛点：</p>
+      <ul>
+        <li>大平台广告 ROI 持续下降，获客成本占 GMV 20%+</li>
+        <li>大平台综合费用 35-40%，利润被严重挤压</li>
+        <li>自建社媒运营耗时耗力，缺人手</li>
+        <li>过度依赖单一平台，缺乏多渠道布局</li>
+      </ul>
+      <p style="color:var(--green);font-weight:600;margin-top:12px">核心诉求：</p>
+      <ul><li>多一个低成本获客渠道，按出单付费</li><li>不与大平台冲突，做增量而非替代</li></ul>
+    </div>
+    <div class="role-card" style="border-top:3px solid var(--brand)">
+      <span class="tag">网点（推广方）</span>
+      <h4>Flash Home 线下网点</h4>
+      <p><strong>典型画像：</strong>有固定到店客流，有 LINE 群/FB 主页等社交渠道，希望获得额外收入</p>
+      <p style="color:var(--red);font-weight:600;margin-top:12px">痛点：</p>
+      <ul>
+        <li>有客流有社群，但不知道怎么变现</li>
+        <li>怕囤货卖不掉，不敢做电商</li>
+        <li>缺乏推广工具和商品供应</li>
+      </ul>
+      <p style="color:var(--green);font-weight:600;margin-top:12px">核心诉求：</p>
+      <ul><li>零库存零风险</li><li>操作简单，顺手就能赚</li></ul>
+    </div>
+    <div class="role-card" style="border-top:3px solid var(--blue)">
+      <span class="tag" style="background:var(--blue);color:#fff">买家</span>
+      <h4>泰国消费者 · 18-60岁</h4>
+      <p><strong>典型画像：</strong>习惯在 LINE/FB/TikTok 发现商品，信任熟人推荐，手机下单</p>
+      <p style="color:var(--red);font-weight:600;margin-top:12px">痛点：</p>
+      <ul>
+        <li>不信任陌生品牌和广告，需要背书</li>
+        <li>大平台促销规则复杂（满减/凑单/限时），实际优惠有限</li>
+        <li>运费成为购买决策关键因素，60% 消费者因运费放弃下单</li>
+        <li>社交平台看到的商品缺乏售后保障</li>
+      </ul>
+      <p style="color:var(--green);font-weight:600;margin-top:12px">核心诉求：</p>
+      <ul><li>熟人推荐、品质可信</li><li>价格实惠、优惠直接透明</li><li>下单方便、物流靠谱</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3. FH 的市场空白与战略定位 -->
+<section id="opportunity">
+  <h2 class="section-title">3 FH 的市场空白与战略定位</h2>
+
+  <h3>3.1 现有平台获客模式对比</h3>
+  <p>要理解 FH 的机会在哪里，先看现有平台的获客逻辑：</p>
+  <table>
+    <tr><th>维度</th><th>Shopee</th><th>Lazada</th><th>TikTok Shop</th><th style="background:var(--brand)">Flash Home</th></tr>
+    <tr><td><strong>获客逻辑</strong></td><td>App 算法+广告</td><td>App 算法+广告</td><td>内容算法+广告</td><td style="color:var(--brand);font-weight:700">人际信任推荐</td></tr>
+    <tr><td><strong>推广模式</strong></td><td>联盟</td><td>联盟</td><td>联盟</td><td style="color:var(--brand);font-weight:700">网点推广·卖家自定义佣金</td></tr>
+    <tr><td><strong>卖家获客成本</strong></td><td>高（必须投广告）</td><td>高（必须投广告）</td><td>中（内容+广告）</td><td style="color:var(--brand);font-weight:700">按出单付佣金，零固定成本</td></tr>
+    <tr><td><strong>触达渠道</strong></td><td>App 内为主</td><td>App 内为主</td><td>TikTok 生态内</td><td style="color:var(--brand);font-weight:700">LINE+FB+IG+TikTok+线下</td></tr>
+    <tr><td><strong>信任基础</strong></td><td>平台品牌</td><td>平台品牌</td><td>内容/主播</td><td style="color:var(--brand);font-weight:700">线下熟人关系</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--gray);margin-top:8px">数据来源：SellerCraft Digital Retail Outlook 2025-2026; 各平台官方卖家中心公开费率</p>
+
+  <h3>3.2 FH 要填补的市场空白</h3>
+  <div class="highlight" style="background:linear-gradient(135deg,var(--navy),#2a4a7f);color:#fff;border-left-color:var(--brand);padding:28px 32px">
+    <p style="color:rgba(255,255,255,.9);font-size:16px">所有现有平台的获客逻辑都依赖<strong style="color:#fff">算法或内容</strong>，没有任何平台在系统性地激活「线下信任关系网络」。泰国有 <strong style="color:#fff">13,000+ 个 Flash Home 网点</strong>，每天接触数十万消费者，网点主与客户之间已有信任关系、有社交触点——但目前<strong style="color:var(--brand)">没有平台</strong>为他们提供零门槛、零库存的电商变现工具。<strong style="color:#fff">这就是 FH 的机会。</strong></p>
+  </div>
+
+  <h3>3.3 FH 的三层战略定位</h3>
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="width:28%;color:#fff">定位</th>
+      <th style="color:#fff">描述</th>
+    </tr>
+    <tr><td style="color:var(--brand);font-weight:700;font-size:16px">连接者，而非竞争者</td><td>FH 不与大平台正面争夺算法流量，而是建立大平台无法覆盖的「线下信任推荐网络」，做<strong>流量的下沉连接器</strong>——把网点已有的客流和社群变成可转化的商业流量</td></tr>
+    <tr><td style="color:var(--brand);font-weight:700;font-size:16px">多平台统一入口</td><td>网点无需分别运营不同社交平台。FH 提供统一推广工具，<strong>一键生成多平台分享链接</strong>，系统自动追踪归因和结算佣金，解决「多平台运营成本高」的核心痛点</td></tr>
+    <tr><td style="color:var(--brand);font-weight:700;font-size:16px">Flash 生态独特壁垒</td><td>依托 Flash Express 全国广泛的物流网络，FH 在配送成本和时效上具备竞争对手短期内<strong>无法复制的先天优势</strong>。网点网络 + 物流闭环 = 双重壁垒</td></tr>
+  </table>
+
+</section>
+
+</div><!-- end content -->
+
+<!-- ═══════════ TRANSITION ═══════════ -->
+<section id="transition">
+<div class="content">
+  <div class="transition-box">
+    <h3>从市场洞察到战略行动</h3>
+    <p>基于第一阶段的市场研究，我们得出三个核心结论：</p>
+    <p><strong>1. 信任推荐是泰国消费者的核心决策因素：</strong>89% 受社交平台影响购买决策，81% 因熟人/KOL 推荐而购买。FH 的网点推荐模式精准匹配这一消费行为。</p>
+    <p><strong>2. 市场空白明确：</strong>Shopee/Lazada 依赖算法+广告，TikTok 依赖内容+直播，但没有任何平台在系统性地激活「线下网点信任推荐网络」。这正是 FH 要填补的空白。</p>
+    <p><strong>3. 资源禀赋独特：</strong>Flash Home 13,000+ 线下网点、日均百万级客流、Flash Express 全国物流网络——这些资源是任何竞争对手短期内无法复制的。</p>
+    <p style="margin-top:16px;color:var(--brand);font-weight:700">因此，第二阶段将围绕这三个结论，构建 Flash Home 的商业模式、盈利模型、推广路径和实施计划。</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════ PHASE 2 ═══════════ -->
+<div class="phase-banner" id="phase2">
+  <h2>第二阶段：项目方案</h2>
+  <p>Flash Home 商业模式、盈利模型与实施计划</p>
+</div>
+
+<div class="content">
+
+<!-- ═══ MODULE A ═══ -->
+<div class="module-banner" id="mod-a">
+  <span class="tag">1</span>
+  <h3>项目定位与模式</h3>
+  <p>FH是谁、做什么、商业模式怎么运转</p>
+</div>
+
+<!-- A1. 项目概述 -->
+<section id="overview">
+  <h2 class="section-title">1.1 项目概述</h2>
+  <p style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:8px">Flash Home 电商项目 = 依托 13,000+ 加盟商网络的信任推荐电商</p>
+  <p>卖家上架·定佣金 → FH 撮合·归因·结算 → 网点推荐给熟客 → 买家下单 → Flash Express 配送。<strong>网点不囤货、不碰货，按出单拿佣金。</strong></p>
+</section>
+
+<!-- 2. 商业模式 -->
+<section id="biz-model">
+  <h2 class="section-title">1.2 商业模式：三端协同</h2>
+  <div class="role-grid" style="grid-template-columns:repeat(3,1fr);gap:12px">
+    <div class="role-card" style="border-top:3px solid var(--green)">
+      <h4 style="color:var(--green)">供给端 — 卖家</h4>
+      <ul>
+        <li>在FH后台上架商品，设置推广佣金比率</li>
+        <li>接单后通过 Flash Express 发货</li>
+        <li>无需投流，网点帮你推广获客</li>
+        <li><strong>综合成本仅 15-29%，毛利 71-85%</strong></li>
+      </ul>
+    </div>
+    <div class="role-card" style="border-top:3px solid var(--blue)">
+      <h4 style="color:var(--blue)">平台端 — FH平台</h4>
+      <ul>
+        <li>连接卖家与网点，统一收款、结算、对账</li>
+        <li>商品审核与品质管控</li>
+        <li>自动生成商品专属推广链接，追踪推广来源</li>
+        <li>协调 Flash Express 完成物流履约</li>
+        <li><strong>收益：佣金+交易费+卖家年费</strong></li>
+      </ul>
+    </div>
+    <div class="role-card" style="border-top:3px solid var(--brand)">
+      <h4 style="color:var(--brand)">推广端 — 13,000+网点</h4>
+      <ul>
+        <li>Flash Home 现有线下网点，每日已有稳定到店客流</li>
+        <li>线下：向到店客户推荐商品，引导扫码下单</li>
+        <li>线上：在社交媒体（LINE/Facebook/TikTok等）分享商品链接</li>
+        <li><strong>收益：推广佣金 10-20%（按成交付费）</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>网点推广路径</h3>
+  <div class="highlight">
+    <h4 style="color:var(--brand)">线下面对面推荐</h4>
+    <p>客户进店寄件/取件 → 网点主展示商品 → 推荐感兴趣的商品 → 客户扫码下单 → 卖家发货 → Flash送货上门</p>
+  </div>
+  <div class="highlight blue">
+    <h4 style="color:var(--blue)">线上社交平台分享</h4>
+    <p>网点主在个人社交账号（LINE/Facebook/IG/TikTok等）分享商品链接 → 粉丝点击 → 在FH平台下单 → 系统自动追踪来源 → 佣金实时到账</p>
+  </div>
+</section>
+
+<!-- ═══ MODULE B ═══ -->
+<div class="module-banner" id="mod-b">
+  <span class="tag">2</span>
+  <h3>商业经济模型</h3>
+  <p>钱怎么流、怎么分、怎么赚</p>
+</div>
+
+<!-- B1. 卖家费用结构与对比 -->
+<section id="fee-compare">
+  <h2 class="section-title">2.1 卖家费用结构</h2>
+
+  <!-- ── 2.1.1 FH vs 竞品费用对比（原 2.1.3）── -->
+  <h3 style="margin:28px 0 16px;color:var(--navy)">2.1.1 FH vs 主流平台费用对比</h3>
+  <p>先看全局：在相同销售额下，FH 卖家的综合费用<strong>显著低于 Shopee 和 TikTok</strong>。</p>
+
+  <table>
+    <tr><th style="width:25%">费用类型</th><th class="center" style="background:var(--brand);width:25%">FH 平台</th><th class="center" style="width:25%">Shopee</th><th class="center" style="width:25%">TikTok Shop</th></tr>
+
+    <!-- ── 平台费用区块 ── -->
+    <tr><td colspan="4" style="background:#34567A;font-weight:700;color:#fff;text-align:center;letter-spacing:2px;padding:8px">平台费用</td></tr>
+    <tr><td><strong>基础设施费</strong></td><td class="center" style="color:var(--green);font-weight:700">无</td><td class="center">฿1.07/单</td><td class="center">฿1.07/单</td></tr>
+    <tr><td><strong>卖家年费</strong></td><td class="center" style="color:var(--brand);font-weight:600">฿999-9,999/年</td><td class="center" style="font-size:13px">无</td><td class="center" style="font-size:13px">无</td></tr>
+    <tr><td><strong>交易手续费</strong></td><td class="center">3.21%</td><td class="center">3.21%</td><td class="center">3.21%</td></tr>
+    <tr><td><strong>成交佣金 / 销售费</strong></td><td class="center" style="color:var(--brand);font-weight:700">4%-6%</td><td class="center">5%-14%</td><td class="center">5%-9%</td></tr>
+    <tr><td><strong>商业增长费 / 服务费</strong></td><td class="center" style="color:var(--green);font-weight:700">无</td><td class="center">6%-8%</td><td class="center">6%-7%</td></tr>
+    <tr style="background:#FFF5EB"><td style="font-weight:700">平台费用合计</td><td class="center" style="color:var(--brand);font-weight:700;font-size:18px">7-9% + 年费</td><td class="center" style="color:var(--red);font-weight:700">16%-26%</td><td class="center" style="color:var(--red);font-weight:700">16.5%-20%以上</td></tr>
+
+    <!-- ── 推广费用区块 ── -->
+    <tr><td colspan="4" style="background:#34567A;font-weight:700;color:#fff;text-align:center;letter-spacing:2px;padding:8px">推广费用</td></tr>
+    <tr><td><strong>达人推广费</strong></td><td class="center">卖家设置，建议10%-20%</td><td class="center">通常不低于15%</td><td class="center">通常不低于15%</td></tr>
+    <tr><td><strong>投广费</strong></td><td class="center" style="color:var(--green);font-weight:700">无</td><td class="center">不低于5%</td><td class="center">不低于5%</td></tr>
+    <tr style="background:#FFF5EB"><td style="font-weight:700">推广费用合计</td><td class="center" style="color:var(--brand);font-weight:700;font-size:18px">10%-20%</td><td class="center" style="color:var(--red);font-weight:700">20%以上</td><td class="center" style="color:var(--red);font-weight:700">20%以上</td></tr>
+
+    <!-- ── 总计 & 毛利 ── -->
+    <tr><td colspan="4" style="background:#34567A;font-weight:700;color:#fff;text-align:center;letter-spacing:2px;padding:8px">卖家总览</td></tr>
+    <tr style="background:#FFF5EB"><td style="font-weight:700">卖家总费用</td><td class="center" style="color:var(--brand);font-weight:700;font-size:18px">15%-29%</td><td class="center" style="color:var(--red);font-weight:700;font-size:18px">~40%</td><td class="center" style="color:var(--red);font-weight:700;font-size:18px">~40%</td></tr>
+    <tr style="background:var(--navy)"><td style="font-weight:700;color:#fff">卖家毛利</td><td class="center" style="color:var(--brand);font-weight:800;font-size:22px">71%-85%</td><td class="center" style="color:rgba(255,255,255,.6);font-weight:700;font-size:22px">~60%</td><td class="center" style="color:rgba(255,255,255,.6);font-weight:700;font-size:22px">~60%</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--gray);margin-top:8px">数据来源：Shopee Seller Center 官方费率页（2025）；TikTok Shop Seller Center 官方费率页（2025）；FH 费率为项目规划值。</p>
+
+  <div class="highlight">
+    <h4>核心结论</h4>
+    <p><strong>在相同销售额下，FH卖家可保留毛利空间高出10%-20%</strong>。FH的费用优势来自三个「无」：<strong>无基础设施费（逐单฿1.07）、无商业增长费/服务费、无投广费</strong>。FH的10%-20%推广费用直接给到帮忙推广的加盟商（按效果付费），而Shopee/TikTok的推广费用大部分流入平台广告系统。</p>
+  </div>
+
+  <!-- ── 2.1.2 按品类费率表（卖家视角）── -->
+  <h3 style="margin:28px 0 16px;color:var(--navy)">2.1.2 按品类费率明细（FH 项目规划）</h3>
+  <p>上表是全局对比，下面拆到各品类看 FH 卖家的逐单成本构成。以下费率为项目规划值，正式上线前可能调整。</p>
+
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="width:16%;color:#fff">品类</th>
+      <th class="center" style="width:12%;color:#fff">① 佣金</th>
+      <th class="center" style="width:12%;color:#fff">② 交易费</th>
+      <th class="center" style="width:14%;color:#fff">FH每单收入</th>
+      <th class="center" style="width:18%;color:#fff">③ 推广佣金<br><span style="font-weight:400;font-size:12px">（给网点）</span></th>
+      <th class="center" style="width:14%;color:#fff">卖家综合成本</th>
+    </tr>
+    <tr>
+      <td>⚡ 快消 / 日化</td>
+      <td class="center" style="color:var(--brand);font-weight:700">5%</td>
+      <td class="center">3.21%</td>
+      <td class="center" style="color:var(--green);font-weight:700">~8.2%</td>
+      <td class="center">10%–12%</td>
+      <td class="center" style="font-weight:700">约 18%–20%</td>
+    </tr>
+    <tr>
+      <td>🍜 食品饮料</td>
+      <td class="center" style="color:var(--brand);font-weight:700">5%</td>
+      <td class="center">3.21%</td>
+      <td class="center" style="color:var(--green);font-weight:700">~8.2%</td>
+      <td class="center">10%–12%</td>
+      <td class="center" style="font-weight:700">约 18%–20%</td>
+    </tr>
+    <tr>
+      <td>🏠 家居日用</td>
+      <td class="center" style="color:var(--brand);font-weight:700">5%</td>
+      <td class="center">3.21%</td>
+      <td class="center" style="color:var(--green);font-weight:700">~8.2%</td>
+      <td class="center">10%–15%</td>
+      <td class="center" style="font-weight:700">约 18%–23%</td>
+    </tr>
+    <tr>
+      <td>👗 服装配饰</td>
+      <td class="center" style="color:var(--brand);font-weight:700">5%</td>
+      <td class="center">3.21%</td>
+      <td class="center" style="color:var(--green);font-weight:700">~8.2%</td>
+      <td class="center">12%–18%</td>
+      <td class="center" style="font-weight:700">约 20%–26%</td>
+    </tr>
+    <tr>
+      <td>💄 美妆个护</td>
+      <td class="center" style="color:var(--brand);font-weight:700">6%</td>
+      <td class="center">3.21%</td>
+      <td class="center" style="color:var(--green);font-weight:700">~9.2%</td>
+      <td class="center">15%–20%</td>
+      <td class="center" style="font-weight:700">约 24%–29%</td>
+    </tr>
+    <tr>
+      <td>💊 健康保健品</td>
+      <td class="center" style="color:var(--brand);font-weight:700">6%</td>
+      <td class="center">3.21%</td>
+      <td class="center" style="color:var(--green);font-weight:700">~9.2%</td>
+      <td class="center">15%–20%</td>
+      <td class="center" style="font-weight:700">约 24%–29%</td>
+    </tr>
+    <tr>
+      <td>📱 电子配件</td>
+      <td class="center" style="color:var(--brand);font-weight:700">4%</td>
+      <td class="center">3.21%</td>
+      <td class="center" style="color:var(--green);font-weight:700">~7.2%</td>
+      <td class="center">8%–12%</td>
+      <td class="center" style="font-weight:700">约 15%–19%</td>
+    </tr>
+  </table>
+
+  <div style="background:var(--light);border-radius:12px;padding:20px 24px;margin:16px 0 32px;font-size:14px;color:var(--gray);line-height:1.8">
+    <strong style="color:var(--navy)">费率说明</strong><br>
+    ① 佣金计算基数：(商品价格 − 卖家折扣) × 费率，不含运费。② 交易费基数：含平台折扣的支付金额，发货前取消免收。③ 推广佣金由卖家自行设置，FH 提供建议区间，退款订单退还给卖家。以上为每笔交易的变动费用，年费为固定费用，不在此表中重复列出。
+  </div>
+
+  <!-- ── 2.1.3 卖家年费体系（原 2.1.1）── -->
+  <h3 style="margin:28px 0 16px;color:var(--navy)">2.1.3 卖家年费体系</h3>
+  <p>FH 用年费替代逐单基础设施费（฿1.07/单），出单越多越划算。三档年费对应不同规模卖家：</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:16px 0 24px">
+    <div style="background:#fff;border-radius:12px;padding:24px 20px;border-top:4px solid var(--green);text-align:center">
+      <div style="font-size:12px;color:var(--green);font-weight:700;letter-spacing:1px;margin-bottom:4px">入门版</div>
+      <div style="font-size:32px;font-weight:800;color:var(--navy)">฿999<span style="font-size:14px;font-weight:400;color:var(--gray)">/年</span></div>
+      <div style="font-size:13px;color:var(--gray);margin:8px 0 16px">~฿83/月</div>
+      <table style="font-size:13px;text-align:left;margin:0">
+        <tr><td style="padding:4px 8px;color:var(--gray)">SKU上限</td><td style="padding:4px 8px;font-weight:700">100</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">推广权益</td><td style="padding:4px 8px">推广链接</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">数据报表</td><td style="padding:4px 8px">基础订单数据</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">BD支持</td><td style="padding:4px 8px">自助入驻</td></tr>
+      </table>
+      <div style="margin-top:12px;font-size:12px;color:var(--gray)">适合：小微卖家 / 试水</div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:24px 20px;border-top:4px solid var(--blue);text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.08)">
+      <div style="font-size:12px;color:var(--blue);font-weight:700;letter-spacing:1px;margin-bottom:4px">专业版</div>
+      <div style="font-size:32px;font-weight:800;color:var(--navy)">฿2,999<span style="font-size:14px;font-weight:400;color:var(--gray)">/年</span></div>
+      <div style="font-size:13px;color:var(--gray);margin:8px 0 16px">~฿250/月</div>
+      <table style="font-size:13px;text-align:left;margin:0">
+        <tr><td style="padding:4px 8px;color:var(--gray)">SKU上限</td><td style="padding:4px 8px;font-weight:700">1,000</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">推广权益</td><td style="padding:4px 8px">推广链接</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">数据报表</td><td style="padding:4px 8px">订单数据 + 销售趋势 + 网点转化</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">BD支持</td><td style="padding:4px 8px">群组答疑</td></tr>
+      </table>
+      <div style="margin-top:12px;font-size:12px;color:var(--blue);font-weight:600">推荐 · 中型卖家</div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:24px 20px;border-top:4px solid var(--purple);text-align:center">
+      <div style="font-size:12px;color:var(--purple);font-weight:700;letter-spacing:1px;margin-bottom:4px">品牌版</div>
+      <div style="font-size:32px;font-weight:800;color:var(--navy)">฿9,999<span style="font-size:14px;font-weight:400;color:var(--gray)">/年</span></div>
+      <div style="font-size:13px;color:var(--gray);margin:8px 0 16px">~฿833/月</div>
+      <table style="font-size:13px;text-align:left;margin:0">
+        <tr><td style="padding:4px 8px;color:var(--gray)">SKU上限</td><td style="padding:4px 8px;font-weight:700">不限</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">推广权益</td><td style="padding:4px 8px">全部 + 首页推荐位 + 定制活动</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">数据报表</td><td style="padding:4px 8px">全部 + 选品建议 + 竞品分析</td></tr>
+        <tr><td style="padding:4px 8px;color:var(--gray)">BD支持</td><td style="padding:4px 8px">专属BD对接</td></tr>
+      </table>
+      <div style="margin-top:12px;font-size:12px;color:var(--gray)">适合：品牌商 / 工厂直供</div>
+    </div>
+  </div>
+
+  <div style="background:var(--light);border-radius:12px;padding:16px 24px;margin:0 0 32px;font-size:14px;color:var(--gray);line-height:1.8">
+    <strong style="color:var(--navy)">年费说明</strong><br>
+    P1 前 3 个月首批 50+ 卖家免年费入驻（冷启动优惠），P2 起正式收费。所有版本均含基础推广链接和佣金结算功能。
+  </div>
+</section>
+
+<!-- 4. 每笔交易资金流 -->
+<section id="fund-flow">
+  <h2 class="section-title">2.2 每笔交易资金流</h2>
+
+  <!-- ── 垂直资金流图 ── -->
+  <div style="background:var(--light);border-radius:16px;padding:32px;margin:8px 0 24px">
+
+    <!-- 示例标签 -->
+    <div style="text-align:center;margin-bottom:24px">
+      <span style="display:inline-block;background:#fff;border:1.5px solid var(--brand);color:var(--brand);border-radius:20px;padding:6px 20px;font-size:14px">示例：美妆品类 · 零售价 ฿100 · 卖家设推广佣金 15%</span>
+    </div>
+
+    <!-- STEP 1: 买家支付 -->
+    <div style="max-width:560px;margin:0 auto 0;border:2px solid var(--blue);border-radius:12px;padding:20px 28px;background:#fff;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:17px;font-weight:700;color:var(--navy)">🛒 买家支付</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px">通过网点推荐或社交平台下单，经 FH 平台完成支付</div>
+      </div>
+      <div style="font-size:32px;font-weight:800;color:var(--brand)">฿100</div>
+    </div>
+
+    <!-- 箭头 -->
+    <div style="text-align:center;font-size:28px;color:var(--brand);line-height:1.2;margin:8px 0">▼</div>
+
+    <!-- STEP 2: FH 平台统一收款结算 -->
+    <div style="max-width:560px;margin:0 auto;background:linear-gradient(135deg,#1A2B4A,#2a4a7f);border-radius:12px;padding:24px 28px;color:#fff">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="font-size:17px;font-weight:700">🏢 FH 平台统一收款并结算</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px">扣除各项费用后，分别打款给各方</div>
+        </div>
+        <div style="font-size:32px;font-weight:800;color:var(--brand)">฿100</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 12px;font-size:13px">佣金 6% → ฿6.00</span>
+        <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 12px;font-size:13px">交易费 3.21% → ฿3.21</span>
+        <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 12px;font-size:13px;opacity:.5">年费已预付（不逐单扣）</span>
+        <span style="background:rgba(255,107,53,.25);border:1px solid rgba(255,107,53,.4);border-radius:6px;padding:5px 12px;font-size:13px;color:var(--brand)">推广佣金 15% → ฿15.00</span>
+      </div>
+    </div>
+
+    <!-- 箭头 -->
+    <div style="text-align:center;font-size:28px;color:var(--brand);line-height:1.2;margin:8px 0">▼</div>
+
+    <!-- STEP 3: 三方分账 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:560px;margin:0 auto">
+      <!-- FH 平台 -->
+      <div style="background:#fff;border-radius:12px;padding:20px 16px;text-align:center;border-top:4px solid var(--brand)">
+        <div style="font-size:13px;color:var(--gray);font-weight:600;margin-bottom:8px">🏢 FH 平台（毛收入）</div>
+        <div style="font-size:28px;font-weight:800;color:var(--brand)">฿9.21</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:6px">占零售价 9.21%</div>
+        <div style="margin-top:10px;font-size:12px;color:var(--gray);line-height:1.7">佣金 ฿6.00<br>交易费 ฿3.21<br><span style="opacity:.5">+ 年费收入（预付）</span></div>
+      </div>
+      <!-- 加盟商网点 -->
+      <div style="background:#fff;border-radius:12px;padding:20px 16px;text-align:center;border-top:4px solid var(--green)">
+        <div style="font-size:13px;color:var(--gray);font-weight:600;margin-bottom:8px">👥 加盟商网点（推广费）</div>
+        <div style="font-size:28px;font-weight:800;color:var(--brand)">฿15.00</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:6px">占零售价 15%</div>
+        <div style="margin-top:10px;font-size:12px;color:var(--gray);line-height:1.7">卖家自设比例<br>替代传统广告费<br>退款时退还卖家</div>
+      </div>
+      <!-- 卖家到手 -->
+      <div style="background:#fff;border-radius:12px;padding:20px 16px;text-align:center;border-top:4px solid var(--blue)">
+        <div style="font-size:13px;color:var(--gray);font-weight:600;margin-bottom:8px">📦 卖家到手</div>
+        <div style="font-size:28px;font-weight:800;color:var(--navy)">฿75.79</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:6px">占零售价 75.79%</div>
+        <div style="margin-top:10px;font-size:12px;color:var(--gray);line-height:1.7">= 100 − 6 − 3.21 − 15<br>年费已预付不扣<br>Flash 快递兜底配送</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h4>说明</h4>
+    <p>此示例为美妆品类（佣金6%），推广佣金由卖家自行设置（本例15%）。年费（฿999-9,999/年）已预付，不在每笔交易中扣除，因此每笔交易仅扣佣金+交易费+推广佣金。不同品类费率详见 2.1.2 按品类费率表。</p>
+  </div>
+</section>
+
+<!-- 5. 盈亏平衡 -->
+<section id="breakeven">
+  <h2 class="section-title">2.3 盈亏平衡分析</h2>
+
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="color:#fff">活跃网点</th>
+      <th class="center" style="color:#fff">月订单</th>
+      <th class="center" style="color:#fff">月 GMV</th>
+      <th class="center" style="color:#fff">FH 月收入</th>
+      <th class="center" style="color:#fff">月运营成本</th>
+      <th class="center" style="color:#fff">盈亏</th>
+    </tr>
+    <tr>
+      <td><strong>100</strong><span style="font-size:12px;color:var(--gray)">（P1）</span></td>
+      <td class="center">7,800</td>
+      <td class="center">฿117万</td>
+      <td class="center">฿12万</td>
+      <td class="center">฿180万</td>
+      <td class="center" style="color:var(--red);font-weight:700">亏损</td>
+    </tr>
+    <tr>
+      <td><strong>500</strong><span style="font-size:12px;color:var(--gray)">（P2）</span></td>
+      <td class="center">39,000</td>
+      <td class="center">฿585万</td>
+      <td class="center">฿60万</td>
+      <td class="center">฿180万</td>
+      <td class="center" style="color:var(--red);font-weight:700">亏损</td>
+    </tr>
+    <tr style="background:#FFF5EB">
+      <td style="color:var(--brand);font-weight:700">1,500 ⬅ P1平衡点</td>
+      <td class="center" style="font-weight:700">117,000</td>
+      <td class="center" style="font-weight:700">฿1,755万</td>
+      <td class="center" style="color:var(--brand);font-weight:700">฿180万</td>
+      <td class="center" style="font-weight:700">≈฿180万</td>
+      <td class="center" style="color:var(--brand);font-weight:800">打平</td>
+    </tr>
+    <tr style="background:#FFF5EB">
+      <td style="color:var(--brand);font-weight:700">2,000 ⬅ 扩张期平衡点<span style="font-size:12px;color:var(--gray)">（P3）</span></td>
+      <td class="center" style="font-weight:700">156,000</td>
+      <td class="center" style="font-weight:700">฿2,340万</td>
+      <td class="center" style="color:var(--brand);font-weight:700">฿240万</td>
+      <td class="center" style="font-weight:700">≈฿240万</td>
+      <td class="center" style="color:var(--brand);font-weight:800">打平</td>
+    </tr>
+    <tr>
+      <td><strong>5,000</strong></td>
+      <td class="center">390,000</td>
+      <td class="center">฿5,850万</td>
+      <td class="center" style="color:var(--green);font-weight:700">฿601万</td>
+      <td class="center">฿300万</td>
+      <td class="center" style="color:var(--green);font-weight:700">盈利</td>
+    </tr>
+  </table>
+
+  <div style="background:var(--light);border-radius:12px;padding:16px 20px;margin:12px 0 24px;font-size:13px;color:var(--gray);line-height:1.8">
+    <strong style="color:var(--navy)">测算假设</strong><br>
+    客单价 ฿150，FH 平台费率 7-9%（佣金+交易费），每活跃网点日均 3 单，月 26 个工作日。运营成本含技术、运营、服务器及营销推广。
+  </div>
+
+  <div class="highlight green">
+    <h4>盈亏平衡点</h4>
+    <p><strong>P1 平衡点：</strong>月运营成本 ฿180万 → 需激活 <strong>约 1,500 个网点</strong>（占总网点 11.5%）。<br><strong>扩张期平衡点：</strong>月运营成本 ฿240万 → 需激活 <strong>约 2,000 个网点</strong>（占总网点 15.4%）。<br>两个平衡点均在 Flash Home 13,000+ 网点体系内完全可控。</p>
+  </div>
+</section>
+
+<!-- ═══ MODULE C ═══ -->
+<div class="module-banner" id="mod-c">
+  <span class="tag">3</span>
+  <h3>增长引擎</h3>
+  <p>订单量怎么从0到规模化：选品 × 激励 × 补贴 × 归因</p>
+</div>
+
+<!-- 3.1 增长全景 -->
+<section id="growth-overview">
+  <h2 class="section-title">3.1 增长全景</h2>
+
+  <div class="highlight navy">
+    <h4>增长公式</h4>
+    <p style="font-size:18px;font-weight:700;color:var(--navy);margin:8px 0">月订单量 = 活跃网点数 × 单网点日均出单 × 30天</p>
+    <p>围绕这个公式，增长靠四个引擎协同：<strong>选品</strong>（推什么）→ <strong>网点激励</strong>（谁来推、为什么推）→ <strong>补贴</strong>（买家为什么买）→ <strong>归因机制</strong>（佣金怎么算）。</p>
+  </div>
+
+  <table>
+    <tr style="background:var(--navy)"><th style="color:#fff">阶段</th><th class="center" style="color:#fff">活跃网点</th><th class="center" style="color:#fff">日均出单</th><th class="center" style="color:#fff">复购率</th><th class="center" style="color:#fff">月订单</th><th class="center" style="color:#fff">月 GMV</th></tr>
+    <tr><td><strong>P1 验证期</strong></td><td class="center">100</td><td class="center">3 单</td><td class="center">≥15%</td><td class="center" style="font-weight:700">9,000</td><td class="center" style="color:var(--brand);font-weight:700">฿180万</td></tr>
+    <tr><td><strong>P2 跑通期</strong></td><td class="center">500</td><td class="center">5 单</td><td class="center">≥20%</td><td class="center" style="font-weight:700">75,000</td><td class="center" style="color:var(--brand);font-weight:700">฿1,500万</td></tr>
+    <tr><td><strong>P3 复制期</strong></td><td class="center">2,000+</td><td class="center">8 单</td><td class="center">≥25%</td><td class="center" style="font-weight:700">480,000</td><td class="center" style="color:var(--brand);font-weight:700">฿9,600万</td></tr>
+  </table>
+
+  <div style="background:var(--light);border-radius:12px;padding:16px 20px;margin:12px 0 24px;font-size:13px;color:var(--gray);line-height:1.8">
+    <strong style="color:var(--navy)">阶段重心</strong><br>
+    <strong style="color:var(--navy)">P1</strong> 验证单网点能否出单（固定100网点，打磨选品和激励机制）→ <strong style="color:var(--navy)">P2</strong> 模型跑通后快速扩网点 → <strong style="color:var(--navy)">P3</strong> 网点规模化 + 效率提升 + 复购深耕，三者并行。
+  </div>
+</section>
+
+<!-- 3.2 选品策略 -->
+<section id="product-selection">
+  <h2 class="section-title">3.2 选品策略</h2>
+  <p>FH 不是货架电商，网点靠"人对人推荐"驱动成交。<strong>选品决定网点推不推得动、买家愿不愿意下单。</strong></p>
+
+  <h3>3.2.1 品类筛选标准</h3>
+  <p><em>核心原则：高复购 × 低决策门槛 × 适合熟人推荐</em></p>
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="color:#fff">维度</th>
+      <th style="color:#fff">适合网点推广</th>
+      <th style="color:#fff">不适合网点推广</th>
+      <th style="color:#fff">原因</th>
+    </tr>
+    <tr><td><strong>复购频率</strong></td><td style="color:var(--green);font-weight:600">快消日化、食品饮料、个护美妆</td><td style="color:var(--gray)">大家电、家具</td><td>用完还要买，网点不需要反复拉新</td></tr>
+    <tr><td><strong>决策门槛</strong></td><td style="color:var(--green);font-weight:600">客单价 ฿100-500 的日常消费</td><td style="color:var(--gray)">฿5,000+ 的高价商品</td><td>熟人推荐一句话就能成交</td></tr>
+    <tr><td><strong>信任依赖</strong></td><td style="color:var(--green);font-weight:600">母婴、保健品、本地特产</td><td style="color:var(--gray)">标准化3C数码</td><td>"老板推荐的我放心"比价格更重要</td></tr>
+    <tr><td><strong>物流适配</strong></td><td style="color:var(--green);font-weight:600">常温、轻量、标准包装</td><td style="color:var(--gray)">冷链生鲜、超大件</td><td>Flash Express 现有网络即可覆盖</td></tr>
+  </table>
+
+  <div style="background:var(--light);border-radius:12px;padding:16px 20px;margin:12px 0 24px;font-size:13px;color:var(--gray);line-height:1.8">
+    <strong style="color:var(--navy)">P1 聚焦品类</strong>：围绕 3-5 个核心品类打透（快消日化、食品饮料、个护美妆为主力），单品类精选 20-30 个 SKU。
+  </div>
+
+  <h3>3.2.2 区域化选品匹配</h3>
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="color:#fff">区域</th>
+      <th style="color:#fff">消费特征</th>
+      <th style="color:#fff">推荐品类侧重</th>
+      <th style="color:#fff">选品策略</th>
+    </tr>
+    <tr><td><strong>曼谷及周边</strong></td><td>消费力强，品牌意识高</td><td>进口美妆、品牌个护、健康食品</td><td>主打品牌溢价款，强调"正品保障"</td></tr>
+    <tr><td><strong>中部 / 东部</strong></td><td>工业区多，务工群体为主</td><td>日化大包装、方便食品、基础个护</td><td>主打性价比，"比 7-11 便宜"</td></tr>
+    <tr><td><strong>北部 / 东北部</strong></td><td>价格敏感，信赖本地推荐</td><td>本地特产、家庭日化、母婴</td><td>主打实用刚需，搭配本地品牌</td></tr>
+    <tr><td><strong>南部</strong></td><td>清真需求，旅游经济带动</td><td>清真认证食品、防晒个护、旅游周边</td><td>清真认证是必选项，非可选项</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--gray);margin-top:8px">平台每周向网点推送"本周推荐选品包"（3-5 款），含商品卖点、推荐话术、配套素材，网点一键转发即可开始推广。</p>
+
+  <h3>3.2.3 爆品驱动机制</h3>
+  <table>
+    <tr><th>机制</th><th class="center">频率</th><th>具体做法</th><th>预期效果</th></tr>
+    <tr><td><strong>每周爆品</strong></td><td class="center" style="color:var(--brand);font-weight:700">每周 1 款</td><td>卖家让利 5-10% + 运费差价池补贴，网点专享价比市场低 15-20%</td><td>给网点"这周必推"的理由</td></tr>
+    <tr><td><strong>月度爆品节</strong></td><td class="center" style="color:var(--brand);font-weight:700">每月 1 次</td><td>集中 5-8 款爆品，配合买家补贴，持续 3 天</td><td>制造集中购买高峰</td></tr>
+    <tr><td><strong>网点试用装</strong></td><td class="center" style="color:var(--brand);font-weight:700">新品上架时</td><td>卖家提供试用装 → 平台分发给活跃网点 → 网点体验后推荐</td><td>"自己用过才推荐"，信任转化更高</td></tr>
+  </table>
+</section>
+
+<!-- 3.3 网点激励机制 -->
+<section id="incentives">
+  <h2 class="section-title">3.3 网点激励机制</h2>
+
+  <h3>推广归因规则</h3>
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="width:25%;color:#fff">规则</th>
+      <th style="width:25%;color:#fff">设计</th>
+      <th style="color:#fff">说明</th>
+    </tr>
+    <tr><td><strong>归因载体</strong></td><td>网点专属推广码</td><td>通用码（网点主页）+ 商品码（单品链接），系统自动追踪来源</td></tr>
+    <tr><td><strong>归因窗口</strong></td><td style="color:var(--brand);font-weight:700">点击后 7 天</td><td>买家点击后 7 天内下单，佣金归该网点</td></tr>
+    <tr><td><strong>绑定机制</strong></td><td style="color:var(--brand);font-weight:700">首单绑定，90 天滚动</td><td>首次下单自动绑定，每次交易刷新有效期；90 天无交易则解绑</td></tr>
+    <tr><td><strong>复购佣金</strong></td><td style="color:var(--green);font-weight:700">全额，无衰减</td><td>绑定期内每次复购，网点获得与首单相同比例的佣金。<strong>谁获客，谁持续受益</strong></td></tr>
+  </table>
+
+  <h3>网点月收入预估（分阶段）</h3>
+  <p><em>假设：客单价 ฿200，推广佣金 15%（฿30/单），补贴 +฿5/单（P1-P2）。复购按绑定买家月均复购 1.5 次估算。</em></p>
+
+  <h4 style="margin:24px 0 12px;color:var(--navy)">第 1-3 月：拉新期</h4>
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="color:#fff">网点层级</th>
+      <th class="center" style="color:#fff">日客流</th>
+      <th class="center" style="color:#fff">日均新客</th>
+      <th class="center" style="color:#fff">绑定买家</th>
+      <th class="center" style="color:var(--brand)">合计月收入</th>
+    </tr>
+    <tr><td style="color:var(--green);font-weight:600">一般网点</td><td class="center">30-50</td><td class="center">2-3 单</td><td class="center">~150 人</td><td class="center" style="color:var(--brand);font-weight:700;font-size:16px">฿3,150-4,200</td></tr>
+    <tr><td style="color:var(--blue);font-weight:600">中等网点</td><td class="center">~50</td><td class="center">5-8 单</td><td class="center">~300 人</td><td class="center" style="color:var(--brand);font-weight:700;font-size:16px">฿7,875-11,025</td></tr>
+    <tr><td style="color:var(--purple);font-weight:600">头部网点</td><td class="center">300+</td><td class="center">10-15 单</td><td class="center">~700 人</td><td class="center" style="color:var(--brand);font-weight:700;font-size:16px">฿15,750-21,000</td></tr>
+  </table>
+
+  <h4 style="margin:24px 0 12px;color:var(--navy)">第 4-6 月：复购期（新客放缓，复购池放大）</h4>
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="color:#fff">网点层级</th>
+      <th class="center" style="color:#fff">日客流</th>
+      <th class="center" style="color:#fff">日均新客</th>
+      <th class="center" style="color:#fff">绑定买家</th>
+      <th class="center" style="color:var(--brand)">合计月收入</th>
+    </tr>
+    <tr><td style="color:var(--green);font-weight:600">一般网点</td><td class="center">30-50</td><td class="center">0.5-1 单</td><td class="center">~200 人</td><td class="center" style="color:var(--brand);font-weight:700;font-size:16px">฿6,300-7,350</td></tr>
+    <tr><td style="color:var(--blue);font-weight:600">中等网点</td><td class="center">~50</td><td class="center">1-2 单</td><td class="center">~400 人</td><td class="center" style="color:var(--brand);font-weight:700;font-size:16px">฿16,800-17,850</td></tr>
+    <tr><td style="color:var(--purple);font-weight:600">头部网点</td><td class="center">300+</td><td class="center">3-5 单</td><td class="center">~1,000 人</td><td class="center" style="color:var(--brand);font-weight:700;font-size:16px">฿39,900-43,750</td></tr>
+  </table>
+
+  <div style="background:var(--light);border-radius:12px;padding:16px 20px;margin:12px 0 24px;font-size:13px;color:var(--gray);line-height:1.8">
+    <strong style="color:var(--navy)">测算说明</strong><br>
+    前 1-3 月熟人圈快速转化，新客订单为主；第 4-6 月新客放缓但绑定买家池持续积累，复购收入占比大幅提升——<strong style="color:var(--navy)">越早推广，后期被动收入越高</strong>。
+  </div>
+</section>
+
+<!-- 3.4 增长补贴方案 -->
+<section id="growth-engine">
+  <h2 class="section-title">3.4 增长补贴方案</h2>
+  <p>前期通过<strong>网点补贴 + 买家优惠</strong>加速增长飞轮，随规模增长逐步退出。补贴资金主要来自运费差价——Flash Express 内部物流成本（฿22-28）与卖家支付的市场运费（฿38-45）之间的结构性价差，每单约 ฿15。</p>
+
+  <h3>3.4.1 资金池测算与分配</h3>
+  <p><em>单笔差价 ≈ ฿15（卖家付 ฿38-45 vs Flash 内部成本 ฿22-28）。</em></p>
+  <table>
+    <tr><th>阶段</th><th class="center">月订单</th><th class="center">月差价收益</th><th class="center">加盟商 50%</th><th class="center">买家 30%</th><th class="center">备用 20%</th></tr>
+    <tr><td><strong>P1 验证期</strong></td><td class="center">9,000</td><td class="center" style="font-weight:700">฿135,000</td><td class="center">฿67,500</td><td class="center">฿40,500</td><td class="center">฿27,000</td></tr>
+    <tr><td><strong>P2 跑通期</strong></td><td class="center">75,000</td><td class="center" style="font-weight:700">฿1,125,000</td><td class="center">฿562,500</td><td class="center">฿337,500</td><td class="center">฿225,000</td></tr>
+    <tr><td><strong>P3 复制期</strong></td><td class="center">480,000</td><td class="center" style="font-weight:700">฿7,200,000</td><td class="center">฿3,600,000</td><td class="center">฿2,160,000</td><td class="center">฿1,440,000</td></tr>
+  </table>
+
+  <h3>3.4.2 加盟商激励补贴</h3>
+  <p><em>预算：资金池 50%（P2 约 ฿562,500/月）。分两批落地：</em></p>
+  <table>
+    <tr><th>补贴类型</th><th class="center">力度</th><th>使用场景</th><th class="center">上线时间</th><th class="center">月预算（P2）</th></tr>
+    <tr><td><strong>每单固定补贴</strong></td><td class="center" style="color:var(--brand);font-weight:700">+฿5 / 单</td><td>叠加到推广佣金，前6个月有效</td><td class="center">P1</td><td class="center">~฿375,000</td></tr>
+    <tr><td><strong>首月冲刺奖励</strong></td><td class="center" style="color:var(--brand);font-weight:700">+฿10 / 单</td><td>新网点首月补贴翻倍，快速建立推广习惯</td><td class="center">P1</td><td class="center">~฿30,000</td></tr>
+    <tr><td><strong>入驻礼包</strong></td><td class="center" style="color:var(--brand);font-weight:700">5单→฿300 / 15单→฿500</td><td>分阶段小目标降低启动门槛</td><td class="center">P1</td><td class="center">~฿80,000</td></tr>
+    <tr><td><strong>周结算阶梯奖励</strong></td><td class="center" style="color:var(--brand);font-weight:700">周销 ฿5K→฿100 / ฿15K→฿400 / ฿30K→฿1,000</td><td>缩短反馈周期，每周看到奖励到账</td><td class="center">P2</td><td class="center">~฿40,000</td></tr>
+    <tr><td><strong>区域排名竞赛</strong></td><td class="center" style="color:var(--brand);font-weight:700">Top3: ฿3K / ฿2K / ฿1K</td><td>月度区域排名赛，激发竞争意识</td><td class="center">P2</td><td class="center">~฿30,000</td></tr>
+    <tr style="background:var(--navy)"><td style="color:#fff;font-weight:700" colspan="4">合计</td><td class="center" style="color:var(--brand);font-weight:700;font-size:15px">~฿555,000</td></tr>
+  </table>
+
+  <h3>3.4.3 买家补贴</h3>
+  <p><em>预算：资金池 30%（P2 约 ฿337,500/月）。</em></p>
+  <table>
+    <tr><th>补贴类型</th><th class="center">力度</th><th>使用场景</th><th class="center">月预算（P2）</th></tr>
+    <tr><td><strong>首单立减</strong></td><td class="center" style="color:var(--brand);font-weight:700">满 ฿150 减 ฿50</td><td>新用户首次下单，降低首购门槛</td><td class="center">~฿75,000</td></tr>
+    <tr><td><strong>主题活动折扣</strong></td><td class="center" style="color:var(--brand);font-weight:700">指定商品 8 折</td><td>每周一场主题促销（周末/节日）</td><td class="center">~฿60,000</td></tr>
+    <tr><td><strong>复购奖励</strong></td><td class="center" style="color:var(--brand);font-weight:700">满 ฿300 返 ฿30</td><td>降低复购门槛，培养消费习惯</td><td class="center">~฿45,000</td></tr>
+    <tr><td><strong>好友邀请奖励</strong></td><td class="center" style="color:var(--brand);font-weight:700">老带新双方各得 ฿25</td><td>买家裂变，让买家也成为"微型推广节点"</td><td class="center">~฿75,000</td></tr>
+    <tr><td><strong>免运费券</strong></td><td class="center" style="color:var(--brand);font-weight:700">每月 2 张</td><td>锁定每月至少 2 次复购</td><td class="center">~฿60,000</td></tr>
+    <tr style="background:var(--navy)"><td style="color:#fff;font-weight:700" colspan="3">合计</td><td class="center" style="color:var(--brand);font-weight:700;font-size:16px">~฿315,000</td></tr>
+  </table>
+
+  <div class="highlight green">
+    <h4>补贴退出机制</h4>
+    <p>随平台规模增长和网络效应形成，补贴逐步退出：<strong>第一期全额补贴 → 第二期减半 → 第三期仅保留阶梯奖励</strong>。运费差价从补贴工具逐步转为平台净利润来源，预计第二期即可实现差价收益&gt;补贴支出的正循环。</p>
+  </div>
+</section>
+
+<!-- ═══ MODULE D ═══ -->
+<div class="module-banner" id="mod-d">
+  <span class="tag">4</span>
+  <h3>执行路径</h3>
+  <p>什么时候做什么、怎么验证、怎么晋级</p>
+</div>
+
+<!-- D1. 阶段里程碑 -->
+<section id="milestones">
+  <h2 class="section-title">4.1 阶段里程碑与KPI</h2>
+
+  <!-- ── GMV 推导说明 ── -->
+  <div style="background:var(--light);border-radius:12px;padding:20px 24px;margin-bottom:28px;font-size:14px;line-height:1.8;color:var(--gray)">
+    <strong style="color:var(--navy)">KPI 推导逻辑</strong><br>
+    月 GMV = 活跃网点数 × 单网点日均成交单数 × 平均客单价 × 30 天。所有目标均基于此公式反推，确保数字自洽。平均客单价按 ฿200 估算（泰国电商平台中位数 ฿150-250）。
+  </div>
+
+  <!-- ════ P1 ════ -->
+  <h3 style="border-left:4px solid var(--brand);padding-left:12px">P1 MVP 验证期（第 1-3 个月）</h3>
+  <p style="color:var(--gray);margin:-8px 0 16px 16px;font-size:14px">核心命题：<strong style="color:var(--navy)">跑通单网点交易闭环，验证「网点推广」模型成立</strong></p>
+
+  <div class="kpi-grid">
+    <div class="card"><div class="val">100</div><div class="lbl">试点网点</div><div class="dsc">曼谷50 + 清迈25 + 孔敬25</div></div>
+    <div class="card b"><div class="val">฿180万</div><div class="lbl">月GMV</div><div class="dsc">100点 × 3单/天 × ฿200</div></div>
+    <div class="card g"><div class="val">50+</div><div class="lbl">入驻卖家</div><div class="dsc">美妆 / 日用 / 食品</div></div>
+    <div class="card p"><div class="val">≥60%</div><div class="lbl">网点激活率</div><div class="dsc">当月有成交的网点占比</div></div>
+  </div>
+
+  <!-- 对照测试设计 -->
+  <div style="background:var(--light);border-radius:12px;padding:20px 24px;margin:4px 0 20px;font-size:14px;line-height:1.8">
+    <strong style="color:var(--navy)">对照测试设计（A/B/C 三组）</strong><br>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px">
+      <div style="background:#fff;border-radius:8px;padding:16px;border-top:3px solid var(--brand)">
+        <div style="font-weight:700;color:var(--navy);margin-bottom:6px">A 组：曼谷 × 50</div>
+        <div style="color:var(--gray);font-size:13px">一线城市，电商成熟，竞争激烈。验证：高竞争环境下网点推广是否有差异化空间</div>
+      </div>
+      <div style="background:#fff;border-radius:8px;padding:16px;border-top:3px solid var(--blue)">
+        <div style="font-weight:700;color:var(--navy);margin-bottom:6px">B 组：清迈 × 25</div>
+        <div style="color:var(--gray);font-size:13px">北部旅游/服务业城市，社区关系紧密。验证：「熟人推荐」模型在中型城市的效果</div>
+      </div>
+      <div style="background:#fff;border-radius:8px;padding:16px;border-top:3px solid var(--green)">
+        <div style="font-weight:700;color:var(--navy);margin-bottom:6px">C 组：孔敬 × 25</div>
+        <div style="color:var(--gray);font-size:13px">东北 Isan 地区中心，生活消费为主。验证：低电商渗透率市场的增长潜力</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;color:var(--gray)">三组执行相同的选网点标准（日均客流 &gt;50 人、经营 &gt;6 个月），P1 结束时对比核心指标，决定 P2 扩张方向。</div>
+  </div>
+
+  <h4 style="margin-top:20px">业务动作</h4>
+  <ul>
+    <li>三城筛选 100 个 Flash Home 网点（曼谷 50 / 清迈 25 / 孔敬 25），统一选址标准：日均客流 &gt;50 人、社区型网点优先</li>
+    <li>招募 50+ 合作商家/工厂入驻，聚焦美妆、日用品、零食三个验证品类</li>
+    <li>建立网点培训体系：线上视频教程 + 线下 BD 一对一辅导</li>
+    <li>启动运费差价补贴计划（前期增长引擎），激活首批网点积极性</li>
+  </ul>
+  <h4>验证指标</h4>
+  <table style="font-size:14px">
+    <tr><th style="width:40%">指标</th><th class="center" style="width:20%">目标值</th><th style="width:40%">验证什么</th></tr>
+    <tr><td>单网点日均成交</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 3 单</td><td>模型可行性——网点愿意推、买家愿意买</td></tr>
+    <tr><td>30日买家复购率</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 15%</td><td>信任传递——网点推荐能转化为持续购买</td></tr>
+    <tr><td>网点月留存率</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 70%</td><td>激励有效——佣金机制让网点持续参与</td></tr>
+    <tr><td>退货率</td><td class="center" style="font-weight:700;color:var(--brand)">≤ 5%</td><td>品控体系——快消标品退货率行业基准 3-8%，熟人推荐进一步降低</td></tr>
+    <tr><td>COD 拒收率</td><td class="center" style="font-weight:700;color:var(--brand)">≤ 5%</td><td>履约质量——泰国 COD 拒收行业均值 5-10%，熟人推荐应更低</td></tr>
+  </table>
+
+  <!-- 晋级条件 -->
+  <div style="background:linear-gradient(135deg,#1A2B4A,#2a4a7f);border-radius:12px;padding:20px 24px;margin:20px 0 32px;color:#fff;font-size:14px;line-height:1.8">
+    <strong style="color:var(--brand)">▶ P1 → P2 晋级条件</strong><br>
+    4 项验证指标中至少 3 项达标，且单网点日均成交 ≥3 单必须达标。未达标则延长 P1 至指标合格，不盲目扩张。<br>
+    同时根据 A/B/C 三组对照数据，确定 P2 优先扩张的城市类型和区域。
+  </div>
+
+  <!-- ════ P2 ════ -->
+  <h3 style="border-left:4px solid var(--blue);padding-left:12px">P2 模型跑通期（第 4-6 个月）</h3>
+  <p style="color:var(--gray);margin:-8px 0 16px 16px;font-size:14px">核心命题：<strong style="color:var(--navy)">复制成功模型到更多网点，提升单网点产出，逼近盈亏平衡</strong></p>
+
+  <div class="kpi-grid">
+    <div class="card"><div class="val">500</div><div class="lbl">覆盖网点</div><div class="dsc">根据 P1 数据决定城市配比</div></div>
+    <div class="card b"><div class="val">฿1,500万</div><div class="lbl">月GMV</div><div class="dsc">500点 × 5单/天 × ฿200</div></div>
+    <div class="card g"><div class="val">150+</div><div class="lbl">入驻卖家</div><div class="dsc">品类扩至 5+ 类</div></div>
+    <div class="card a"><div class="val">盈亏平衡</div><div class="lbl">财务目标</div><div class="dsc">第6个月月度打平</div></div>
+  </div>
+
+  <!-- 扩城策略 -->
+  <div style="background:var(--light);border-radius:12px;padding:20px 24px;margin:4px 0 20px;font-size:14px;line-height:1.8">
+    <strong style="color:var(--navy)">扩城策略（取决于 P1 对照结果）</strong>
+    <table style="font-size:13px;margin-top:10px">
+      <tr><th style="width:30%">P1 结果</th><th>P2 策略</th></tr>
+      <tr><td><strong>外府 &gt; 曼谷</strong></td><td>重心放外府，新增 3-4 个城市（春武里/呵叻/合艾等），曼谷维持不大规模扩张</td></tr>
+      <tr><td><strong>曼谷 &gt; 外府</strong></td><td>曼谷吃深至 300 个，外府再加 1-2 个城市小规模验证</td></tr>
+      <tr><td><strong>两组相当</strong></td><td>两线并进，曼谷 200 + 外府 300（3-4 个城市各 50-100）</td></tr>
+    </table>
+  </div>
+
+  <h4 style="margin-top:20px">业务动作</h4>
+  <ul>
+    <li>网点从 100 扩至 500，优先复制 P1 中表现 Top 20% 网点的选址特征</li>
+    <li>根据对照数据向最优城市类型倾斜，利用 Flash Home 地推团队协助拓点</li>
+    <li>卖家从 50 扩至 150+，新增服装配饰、电子配件品类</li>
+    <li>建立「标杆网点」案例库，用真实收入数据吸引新网点加入</li>
+  </ul>
+  <h4>关键指标</h4>
+  <table style="font-size:14px">
+    <tr><th style="width:40%">指标</th><th class="center" style="width:20%">目标值</th><th style="width:40%">意义</th></tr>
+    <tr><td>单网点日均成交</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 5 单</td><td>产出提升——从「能跑通」到「跑得好」</td></tr>
+    <tr><td>新网点首月激活率</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 50%</td><td>复制性——新拓网点能快速上手</td></tr>
+    <tr><td>卖家续约率</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 80%</td><td>卖家价值——商家认可FH渠道效果</td></tr>
+    <tr><td>平台月毛利</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 0</td><td>财务健康——覆盖运营成本，不烧钱</td></tr>
+  </table>
+
+  <!-- 晋级条件 -->
+  <div style="background:linear-gradient(135deg,#1A2B4A,#2a4a7f);border-radius:12px;padding:20px 24px;margin:20px 0 32px;color:#fff;font-size:14px;line-height:1.8">
+    <strong style="color:var(--brand)">▶ P2 → P3 晋级条件</strong><br>
+    月度盈亏平衡达成 + 单网点日均 ≥5 单 + 新网点首月激活率 ≥50%。三项全部达标后启动规模复制。
+  </div>
+
+  <!-- ════ P3 ════ -->
+  <h3 style="border-left:4px solid var(--green);padding-left:12px">P3 规模复制期（第 7-12 个月）</h3>
+  <p style="color:var(--gray);margin:-8px 0 16px 16px;font-size:14px">核心命题：<strong style="color:var(--navy)">全国铺开，建立规模壁垒，实现持续盈利</strong></p>
+
+  <div class="kpi-grid">
+    <div class="card"><div class="val">2,000+</div><div class="lbl">覆盖网点</div><div class="dsc">5+ 城市全国铺开</div></div>
+    <div class="card b"><div class="val">฿9,600万</div><div class="lbl">月GMV</div><div class="dsc">2,000点 × 8单/天 × ฿200</div></div>
+    <div class="card g"><div class="val">300+</div><div class="lbl">入驻卖家</div><div class="dsc">含工厂直供</div></div>
+    <div class="card a"><div class="val">฿960万+</div><div class="lbl">月平台收入</div><div class="dsc">GMV × 7-9% + 年费</div></div>
+  </div>
+
+  <h4 style="margin-top:20px">业务动作</h4>
+  <ul>
+    <li>全国拓展至 2,000+ 网点，覆盖五大区域（曼谷/北部/东北/东部/南部），借 Flash Home 地推团队批量激活</li>
+    <li>建立区域运营中心（曼谷/清迈/孔敬），本地化管理替代总部直管</li>
+    <li>引入工厂直供模式，提升商品价格竞争力和卖家利润空间</li>
+    <li>逐步退出运费差价补贴，网点靠佣金收入自驱动</li>
+  </ul>
+  <h4>关键指标</h4>
+  <table style="font-size:14px">
+    <tr><th style="width:40%">指标</th><th class="center" style="width:20%">目标值</th><th style="width:40%">意义</th></tr>
+    <tr><td>单网点日均成交</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 8 单</td><td>网点产出持续提升</td></tr>
+    <tr><td>买家复购率</td><td class="center" style="font-weight:700;color:var(--brand)">≥ 25%</td><td>买家粘性——从尝鲜到习惯</td></tr>
+    <tr><td>平台月净利润</td><td class="center" style="font-weight:700;color:var(--brand)">฿200万+</td><td>持续盈利——模型成熟</td></tr>
+    <tr><td>网点月均收入</td><td class="center" style="font-weight:700;color:var(--brand)">฿7,200+</td><td>8单 × ฿200 × 15%佣金 × 30天，网点有动力长期参与</td></tr>
+  </table>
+
+</section>
+
+<!-- ═══ MODULE E ═══ -->
+<div class="module-banner" id="mod-e">
+  <span class="tag">5</span>
+  <h3>保障体系</h3>
+  <p>风险防控与技术支撑</p>
+</div>
+
+<!-- E1. 风险 -->
+<section id="risks">
+  <h2 class="section-title">5.1 风险评估与应对策略</h2>
+  <table>
+    <tr><th>风险</th><th class="center">可能性</th><th class="center">影响</th><th class="center">等级</th><th>应对策略</th><th>负责方</th></tr>
+    <tr><td><strong>网点激活率低于预期</strong></td><td class="center">中</td><td class="center" style="color:var(--red)">高</td><td class="center"><span class="risk-high">高风险</span></td><td>分层激励 + 竞赛机制 + BD驻点帮扶</td><td>BD+运营</td></tr>
+    <tr><td><strong>卖家商品质量问题</strong></td><td class="center">中</td><td class="center" style="color:var(--red)">高</td><td class="center"><span class="risk-high">高风险</span></td><td>入驻审核 + 保证金制度 + 退货率超标下架</td><td>品控团队</td></tr>
+    <tr><td><strong>社交平台API/政策变更</strong></td><td class="center">中</td><td class="center" style="color:var(--amber)">中</td><td class="center"><span class="risk-mid">中风险</span></td><td>多平台分散 + 自有H5备选 + 政策监控</td><td>技术团队</td></tr>
+    <tr><td><strong>与Flash Express主业冲突</strong></td><td class="center">低</td><td class="center" style="color:var(--red)">高</td><td class="center"><span class="risk-mid">中风险</span></td><td>独立BU运营 + 网点自愿 + 不影响揽收KPI</td><td>管理层</td></tr>
+    <tr><td><strong>竞争对手快速模仿</strong></td><td class="center">中</td><td class="center" style="color:var(--amber)">中</td><td class="center"><span class="risk-mid">中风险</span></td><td>6个月建立粘性壁垒 + 数据积累 + 独家协议</td><td>战略+BD</td></tr>
+  </table>
+
+  <div class="highlight red">
+    <h4>风险管理原则</h4>
+    <ol>
+      <li><strong>小步快跑：</strong>P1阶段100网点试点验证，确认模式可行后再规模扩张</li>
+      <li><strong>数据驱动：</strong>建立实时监控仪表盘，跟踪网点激活率、出单率、退货率</li>
+      <li><strong>快速迭代：</strong>每两周一次产品迭代，根据网点和卖家反馈持续优化</li>
+      <li><strong>预留Plan B：</strong>每个核心风险都有明确的应对方案和触发条件</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 10. 技术方案 -->
+<section id="tech">
+  <h2 class="section-title">5.2 技术方案简述</h2>
+  <h3>5.2.1 四端架构</h3>
+  <table>
+    <tr style="background:var(--navy)">
+      <th style="color:#fff">端</th>
+      <th style="color:#fff">技术方案</th>
+      <th style="color:#fff">核心功能（MVP）</th>
+    </tr>
+    <tr><td><strong>网点端</strong></td><td>移动端 H5<br><span style="font-size:12px;color:var(--gray)">iOS Safari 14+ / Android Chrome 80+ / LINE 内置浏览器</span></td><td>今日推荐 + 一键分享（文案/海报/直接转发）+ 推广日历（08:00/12:00/19:00 定时推送）+ 佣金查看与提现</td></tr>
+    <tr><td><strong>FH 后台</strong></td><td>PC Web<br><span style="font-size:12px;color:var(--gray)">Chrome 90+ / Edge 90+</span></td><td>推广运营台（推荐池+日历管理+素材模板+数据看板）+ 商家/网点/商品审核 + 订单中心 + 财务结算（T+7 人工审批）+ 售后工单</td></tr>
+    <tr><td><strong>卖家端</strong></td><td>PC Web（响应式）<br><span style="font-size:12px;color:var(--gray)">泰语 + 中文双语</span></td><td>商品管理（多 SKU）+ 佣金设置（店铺默认 + 单品覆盖）+ 订单管理 + 财务中心</td></tr>
+    <tr><td><strong>买家端</strong></td><td>H5 + LIFF 壳<br><span style="font-size:12px;color:var(--gray)">LINE 内自动登录，非 LINE 降级到 H5</span></td><td>MVP 不设独立首页，买家通过推广链接直达商品详情页 → 购物车 → 支付（PromptPay QR + COD）→ 订单/售后</td></tr>
+  </table>
+
+  <h3>5.2.2 核心功能模块</h3>
+  <table>
+    <tr><th>模块</th><th>功能描述</th><th>MVP / P2</th></tr>
+    <tr><td><strong>今日推荐</strong></td><td>智能推荐算法（佣金率×转化率×库存打分）、置顶商品、品类筛选</td><td><span class="tag-mvp">MVP</span></td></tr>
+    <tr><td><strong>一键分享</strong></td><td>三种素材格式（文案+链接 / 海报图片 / 直接转发到 LINE/FB），推广链接含网点绑定码</td><td><span class="tag-mvp">MVP</span></td></tr>
+    <tr><td><strong>推广日历</strong></td><td>月历视图 + 每日推广任务，08:00/12:00/19:00 三个时段定时推送，每日战报</td><td><span class="tag-mvp">MVP</span></td></tr>
+    <tr><td><strong>商品管理</strong></td><td>卖家上架（多 SKU、2 维度规格）、分类管理、价格设定、库存同步</td><td><span class="tag-mvp">MVP</span></td></tr>
+    <tr><td><strong>订单系统</strong></td><td>下单 → 支付 → 推送卖家 → 发货 → 物流跟踪 → 确认收货 → 售后</td><td><span class="tag-mvp">MVP</span></td></tr>
+    <tr><td><strong>佣金结算</strong></td><td>自动计算分润（店铺默认率 + 单品覆盖率），T+7 结算，人工审批后打款</td><td><span class="tag-mvp">MVP</span></td></tr>
+    <tr><td><strong>社交账号绑定</strong></td><td>网点绑定 LINE OA（Messaging API）+ Facebook Page（Graph API），绑定后一键分享通过 API 直接推送</td><td><span class="tag-mvp">MVP</span></td></tr>
+    <tr><td><strong>CRM / 我的客户</strong></td><td>客户标签、购买记录、活跃度分析</td><td><span class="tag-p2">P2</span></td></tr>
+    <tr><td><strong>营销活动</strong></td><td>优惠券、满减活动、限时高佣金</td><td><span class="tag-p2">P2</span></td></tr>
+    <tr><td><strong>风控系统</strong></td><td>刷单检测、异常行为预警</td><td><span class="tag-p2">P2</span></td></tr>
+  </table>
+
+  <h3>5.2.3 系统对接</h3>
+  <ul>
+    <li><strong>Flash Express 物流系统：</strong>API 对接实现自动建单、运单号回传、配送状态同步</li>
+    <li><strong>支付：</strong>PromptPay QR 码支付（对接泰国支付网关，HTTPS 全链路加密）+ 货到付款（COD）</li>
+    <li><strong>LINE Platform：</strong>LINE Login OAuth 2.0 授权 + Messaging API（Push / Multicast / Narrowcast），LIFF 壳实现 LINE 内原生体验</li>
+    <li><strong>Facebook：</strong>Facebook Login + Page Token 授权 → Graph API v18.0 自动发帖，消息队列（Redis / SQS）异步处理防 API 超限</li>
+  </ul>
+
+  <h3>5.2.4 性能与安全</h3>
+  <table>
+    <tr><th>指标</th><th>目标</th><th>说明</th></tr>
+    <tr><td>页面首屏加载</td><td style="font-weight:700;color:var(--brand)">≤ 3 秒</td><td>4G 网络环境</td></tr>
+    <tr><td>API 响应时间</td><td style="font-weight:700;color:var(--brand)">≤ 500ms</td><td>P95 响应时间</td></tr>
+    <tr><td>并发支持</td><td style="font-weight:700;color:var(--brand)">≥ 500</td><td>同时在线用户数</td></tr>
+    <tr><td>数据安全</td><td colspan="2">HTTPS 全链路加密 + Token 认证，手机号/银行卡脱敏显示，数据库加密存储</td></tr>
+    <tr><td>防刷单</td><td colspan="2">同一 IP/设备短时间重复下单限制（MVP 基础策略）</td></tr>
+  </table>
+</section>
+
+</div><!-- end content -->
+
+<!-- FOOTER -->
+<footer style="background:var(--navy);color:rgba(255,255,255,.5);padding:40px 60px;text-align:center;font-size:13px">
+  <p style="color:var(--brand);font-weight:700;font-size:16px;margin-bottom:8px">Flash Home — Flash Express子公司</p>
+  <p>电商项目计划书 P1-2 完整版 | v2.0 | 2026年3月</p>
+  <p style="margin-top:4px">Confidential — 仅供内部使用</p>
+</footer>
+
+</div><!-- end main -->
+
+<script>
+// Scroll spy
+const links = document.querySelectorAll('.toc-sidebar a');
+const sections = [];
+links.forEach(l => {
+  const id = l.getAttribute('href')?.slice(1);
+  if (id) sections.push({ id, el: document.getElementById(id), link: l });
+});
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (s.el && s.el.getBoundingClientRect().top < 200) current = s.id; });
+  links.forEach(l => l.classList.remove('active'));
+  const active = document.querySelector(`.toc-sidebar a[href="#${current}"]`);
+  if (active) active.classList.add('active');
+});
+// Mobile: close sidebar on link click
+links.forEach(l => l.addEventListener('click', () => {
+  document.querySelector('.toc-sidebar').classList.remove('open');
+  document.querySelector('.menu-overlay').classList.remove('open');
+}));
+</script>
+</body>
+</html>
